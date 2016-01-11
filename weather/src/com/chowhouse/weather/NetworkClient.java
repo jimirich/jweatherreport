@@ -6,14 +6,18 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class NetworkClient implements VantagePro2Client {
 
 	private String hostName = "172.16.1.8";
+	private InputStream in = null;
+	private DataOutputStream out = null;
 	private int portNumber = 5000;
 	private Socket socket = null;
 
@@ -28,14 +32,10 @@ public class NetworkClient implements VantagePro2Client {
 	public void read()
 	throws UnknownHostException, IOException {
 		socket = new Socket(hostName, portNumber);
+		out = new DataOutputStream(socket.getOutputStream());
+		in = socket.getInputStream();
 
-		try (DataOutputStream out = new DataOutputStream(
-				socket.getOutputStream());
-				//DataInputStream in = new DataInputStream(
-						//socket.getInputStream());
-				InputStream in = socket.getInputStream();
-				BufferedReader stdIn = new BufferedReader(new InputStreamReader(
-						System.in))) {
+		try {
 			byte[] buffer = new byte[512];
 			int len;
 			/* Vantage Pro2 console wake up procedure:
@@ -53,41 +53,24 @@ public class NetworkClient implements VantagePro2Client {
 			TimerTask task = new WakeUpTask(out, 3);
 			timer.schedule(task, 0, 1200);
 			len = in.read(buffer, 0, 2);
+			//System.out.format("Read %d bytes\n", len);
 
 			if (len < 2) {
 				len = in.read(buffer, 1, 1);
+				//System.out.format("Read %d bytes\n", len);
 			}
 
-			System.out.format("received: %h%h\n", buffer[0], buffer[1]);
+			//System.out.format("received: %h%h\n", buffer[0], buffer[1]);
+			System.out.println("Awake");
 			timer.cancel();
 
-			/* All commands must be in upper case and must end with '\n'.
-			 * 
-			 */
-			out.writeBytes("TEST\n");
-			len = in.read(buffer, 0, 7);
-
-			if (len < 7) {
-				len = in.read(buffer, 1, 6);
-			}
-
-			System.out.format("received: %h%h%h%h%h%h%h\n", buffer[0], buffer[1],
-					buffer[2], buffer[3], buffer[4], buffer[5], buffer[6]);
-			System.out.format("received: %h\n", in.read());
-			System.out.format("received: %h\n", in.read());
-
-			//while (in.available() > 0) {
-				//System.out.println("received: " + in.readChar());
-			//}
-
-			out.writeBytes("NVER\n");
-			//System.out.format("received: %h\n", in.readChar());
-			System.out.format("received: %h\n", in.read());
-
-			//while (in.available() > 0) {
-				//System.out.println("received: " + in.readChar());
-			//}
+			/* All commands must be in upper case and must end with '\n'.*/
+			this.sendTest(in, out);
+			System.out.format("Firmware version %s\n",
+					this.getFirmwareVersion(in, out));
 		} finally {
+			in.close();
+			out.close();
 			socket.close();
 		}
 	}
@@ -189,12 +172,62 @@ public class NetworkClient implements VantagePro2Client {
 	}
 
 	@Override
-	public void close()
+	public void sendTest(InputStream in, OutputStream out)
 	throws IOException {
-		if (socket != null) {
-			socket.close();
+		byte[] buffer = new byte[512];
+		int len;
+
+		/* The TEST command response appears to be \n\rTEST\n\r and not just
+		 * TEST\n as stated in the documentation.
+		 */
+		out.write((new String("TEST\n")).getBytes());
+		len = in.read(buffer, 0, 8);
+		//System.out.format("Read %d bytes\n", len);
+
+		while (len < 8) {
+			len += in.read(buffer, len, 8 - len);
+			//System.out.format("Read %d bytes\n", len);
 		}
 
-		socket = null;
+		if ((buffer[2] == 'T') && (buffer[3] == 'E') &&(buffer[4] == 'S') &&
+				(buffer[5] == 'T')) {
+			System.out.println("Testing successful");
+		}
+	}
+
+	@Override
+	public String getFirmwareVersion(InputStream in, OutputStream out)
+	throws IOException {
+		byte[] buffer = new byte[512];
+		int len;
+		out.write((new String("NVER\n")).getBytes());
+		// get the first 6 bytes which should be \n\rOK\n\r
+		len = in.read(buffer, 0, 6);
+		//System.out.format("Read %d bytes\n", len);
+
+		while (len < 6) {
+			len += in.read(buffer, len, 6 - len);
+			//System.out.format("Read %d bytes\n", len);
+		}
+
+		if ((buffer[2] == 'O') && (buffer[3] == 'K')) {
+			System.out.println("Retrieving firmware version...");
+		} else {
+			return "unavailable";
+		}
+
+		len = 0;
+
+		for (int i = 0; i < 512; i++) {
+			len += in.read(buffer, i, 1);
+
+			if (buffer[i] == '\n') {
+				break;
+			}
+		}
+
+		// retrieve the trailing \r
+		in.read();
+		return new String(buffer, 0, len - 1);
 	}
 }
