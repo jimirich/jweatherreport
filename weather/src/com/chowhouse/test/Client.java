@@ -122,9 +122,94 @@ public class Client {
 
 		System.out.println("Day high dew point " +
 				highlow.getDayHighDewPoint());
+		System.out.println("Day high dew point time " +
+				highlow.getTimeOfDayHighDewPoint().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
 		System.out.println("Day low dew point " +
 				highlow.getDayLowDewPoint());
+		System.out.println("Day low dew point time " +
+				highlow.getTimeOfDayLowDewPoint().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
+		System.out.println("Month high dew point " +
+				highlow.getMonthHighDewPoint());
+		System.out.println("Month low dew point " +
+				highlow.getMonthLowDewPoint());
+		System.out.println("Year high dew point " +
+				highlow.getYearHighDewPoint());
+		System.out.println("Year low dew point " +
+				highlow.getYearLowDewPoint());
 
+		System.out.println("Day low wind chill " +
+				highlow.getDayLowWindChill());
+		System.out.println("Day low wind chill time " +
+				highlow.getTimeOfDayLowWindChill().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
+		System.out.println("Month low wind chill " +
+				highlow.getMonthLowWindChill());
+		System.out.println("Year low wind chill " +
+				highlow.getYearLowWindChill());
+
+		System.out.println("Day high heat index " +
+				highlow.getDayHighHeatIndex());
+		System.out.println("Day high heat index time " +
+				highlow.getTimeOfDayHighHeatIndex().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
+		System.out.println("Month high heat index " +
+				highlow.getMonthHighHeatIndex());
+		System.out.println("Year high heat index " +
+				highlow.getYearHighHeatIndex());
+
+		if (highlow.getTimeOfDayHighTHSWIndex() != null) {
+			System.out.println("Day high THSW index " +
+					highlow.getDayHighTHSWIndex());
+			System.out.println("Day high THSW index time " +
+					highlow.getTimeOfDayHighTHSWIndex().format(
+							DateTimeFormatter.ofPattern("hh:mm")));
+			System.out.println("Month high THSW index " +
+					highlow.getMonthHighTHSWIndex());
+			System.out.println("Year high THSW index " +
+					highlow.getYearHighTHSWIndex());
+		}
+
+		if (highlow.getTimeOfDayHighSolarRadiation() != null) {
+			System.out.println("Day high solar radiation " +
+					highlow.getDayHighSolarRadiation());
+			System.out.println("Day high solar radiation time " +
+					highlow.getTimeOfDayHighSolarRadiation().format(
+							DateTimeFormatter.ofPattern("hh:mm")));
+			System.out.println("Month high solar radiation " +
+					highlow.getMonthHighSolarRadiation());
+			System.out.println("Year high solar radiation " +
+					highlow.getYearHighSolarRadiation());
+		}
+
+		if (highlow.getTimeOfDayHighUltraViolet() != null) {
+			System.out.println("Day high UV " +
+					highlow.getDayHighUltraViolet());
+			System.out.println("Day high UV time " +
+					highlow.getTimeOfDayHighUltraViolet().format(
+							DateTimeFormatter.ofPattern("hh:mm")));
+			System.out.println("Month high UV " +
+					highlow.getMonthHighUltraViolet());
+			System.out.println("Year high UV " +
+					highlow.getYearHighUltraViolet());
+		}
+
+		System.out.println("Day high rain rate " +
+				highlow.getDayHighRainRate());
+
+		if (highlow.getTimeOfDayHighRainRate() != null) {
+			System.out.println("Day high rain rate time " +
+					highlow.getTimeOfDayHighRainRate().format(
+							DateTimeFormatter.ofPattern("hh:mm")));
+		}
+
+		System.out.println("Month high rain rate " +
+				highlow.getMonthHighRainRate());
+		System.out.println("Year high rain rate " +
+				highlow.getYearHighRainRate());
+
+		System.out.println(client.getLoop(1));
 		client.close();
 	}
 }

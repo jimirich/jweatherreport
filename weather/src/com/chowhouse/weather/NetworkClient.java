@@ -21,10 +21,10 @@ package com.chowhouse.weather;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Timer;
@@ -216,7 +216,7 @@ public class NetworkClient implements VantagePro2Client {
 		//System.out.format("Read %d bytes\n", len);
 
 		if ((buffer[0] == 0x06)) {
-			System.out.println("Retrieving highs/lows...");
+			//System.out.println("Retrieving highs/lows...");
 		} else {
 			throw new IOException("Command invalid");
 		}
@@ -285,8 +285,98 @@ public class NetworkClient implements VantagePro2Client {
 
 		highlow.setDayLowDewPoint(buffer[63], buffer[64]);
 		highlow.setDayHighDewPoint(buffer[65], buffer[66]);
+		highlow.setTimeOfDayLowDewPoint(buffer[67], buffer[68]);
+		highlow.setTimeOfDayHighDewPoint(buffer[69], buffer[70]);
+		highlow.setMonthHighDewPoint(buffer[71], buffer[72]);
+		highlow.setMonthLowDewPoint(buffer[73], buffer[74]);
+		highlow.setYearHighDewPoint(buffer[75], buffer[76]);
+		highlow.setYearLowDewPoint(buffer[77], buffer[78]);
+
+		highlow.setDayLowWindChill(buffer[79], buffer[80]);
+		highlow.setTimeOfDayLowWindChill(buffer[81], buffer[82]);
+		highlow.setMonthLowWindChill(buffer[83], buffer[84]);
+		highlow.setYearLowWindChill(buffer[85], buffer[86]);
+
+		highlow.setDayHighHeatIndex(buffer[87], buffer[88]);
+		highlow.setTimeOfDayHighHeatIndex(buffer[89], buffer[90]);
+		highlow.setMonthHighHeatIndex(buffer[91], buffer[92]);
+		highlow.setYearHighHeatIndex(buffer[93], buffer[94]);
+
+		try {
+			highlow.setTimeOfDayHighTHSWIndex(buffer[97], buffer[98]);
+			highlow.setDayHighTHSWIndex(buffer[95], buffer[96]);
+			highlow.setMonthHighTHSWIndex(buffer[99], buffer[100]);
+			highlow.setYearHighTHSWIndex(buffer[101], buffer[102]);
+		} catch (DateTimeException e) {
+			// do nothing
+		}
+
+		try {
+			highlow.setTimeOfDayHighSolarRadiation(buffer[105], buffer[106]);
+			highlow.setDayHighSolarRadiation(buffer[103], buffer[104]);
+			highlow.setMonthHighSolarRadiation(buffer[107], buffer[108]);
+			highlow.setYearHighSolarRadiation(buffer[109], buffer[110]);
+		} catch (DateTimeException e) {
+			// do nothing
+		}
+
+		try {
+			highlow.setTimeOfDayHighUltraViolet(buffer[112], buffer[113]);
+			highlow.setDayHighUltraViolet((new BigInteger(Arrays.copyOfRange(
+					buffer, 111, 112))).intValue());
+			highlow.setMonthHighUltraViolet((new BigInteger(Arrays.copyOfRange(
+					buffer, 114, 115))).intValue());
+			highlow.setYearHighUltraViolet((new BigInteger(Arrays.copyOfRange(
+					buffer, 115, 116))).intValue());
+		} catch (DateTimeException e) {
+			// do nothing
+		}
+
+		highlow.setDayHighRainRate(buffer[116], buffer[117]);
+
+		try {
+			highlow.setTimeOfDayHighRainRate(buffer[118], buffer[119]);
+		} catch (DateTimeException e) {
+			// do nothing
+		}
+
+		highlow.setMonthHighRainRate(buffer[122], buffer[123]);
+		highlow.setYearHighRainRate(buffer[124], buffer[125]);
 
 		return highlow;
+	}
+
+	@Override
+	public String getLoop(int packets)
+	throws IOException {
+		byte[] buffer = new byte[512];
+		int len;
+		StringBuilder sb = new StringBuilder("LOOP ");
+		sb.append(String.valueOf(packets));
+		sb.append('\n');
+		out.write((new String(sb.toString())).getBytes());
+		// get the first byte which should be ACK (0x06)
+		len = in.read(buffer, 0, 1);
+		//System.out.format("Read %d bytes\n", len);
+
+		if ((buffer[0] == 0x06)) {
+			System.out.println("Retrieving LOOP data...");
+		} else {
+			throw new IOException("Command invalid");
+		}
+
+		len = 0;
+
+		for (int i = 0; i < 99; i++) {
+			len += in.read(buffer, i, 1);
+			//System.out.format("Read %d bytes\n", len);
+		}
+
+		if (CRC.checkCRC(99, buffer) != 0) {
+			throw new IOException("Incorrect CRC checksum");
+		}
+
+		return "unimplemented";
 	}
 
 	@Override

@@ -29,10 +29,10 @@ public class HighLow {
 	private int dayHighInsideHumidity;
 	private BigDecimal dayHighInsideTemperature;
 	private BigDecimal dayHighOutsideTemperature;
-	private BigDecimal dayHighRainRate;
-	private BigDecimal dayHighSolarRadiation;
-	private BigDecimal dayHighTHSWIndex;
-	private int dayHighUltraViolet;
+	private BigDecimal dayHighRainRate = null;
+	private BigDecimal dayHighSolarRadiation = null;
+	private BigDecimal dayHighTHSWIndex = null;
+	private Integer dayHighUltraViolet = null;
 	private int dayHighWindSpeed;
 	private BigDecimal dayLowBarometer;
 	private BigDecimal dayLowDewPoint;
@@ -47,10 +47,10 @@ public class HighLow {
 	private int monthHighInsideHumidity;
 	private BigDecimal monthHighInsideTemperature;
 	private BigDecimal monthHighOutsideTemperature;
-	private BigDecimal monthHighRainRate;
-	private BigDecimal monthHighSolarRadiation;
-	private BigDecimal monthHighTHSWIndex;
-	private int monthHighUltraViolet;
+	private BigDecimal monthHighRainRate = null;
+	private BigDecimal monthHighSolarRadiation = null;
+	private BigDecimal monthHighTHSWIndex = null;
+	private Integer monthHighUltraViolet = null;
 	private int monthHighWindSpeed;
 	private BigDecimal monthLowBarometer;
 	private BigDecimal monthLowDewPoint;
@@ -59,18 +59,18 @@ public class HighLow {
 	private BigDecimal monthLowOutsideTemperature;
 	private BigDecimal monthLowWindChill;
 	private LocalTime timeOfDayHighBarometer;
-	private LocalTime timeOfDayHighDewPoLocalTime;
+	private LocalTime timeOfDayHighDewPoint;
 	private LocalTime timeOfDayHighHeatIndex;
 	private LocalTime timeOfDayHighInsideHumidity;
 	private LocalTime timeOfDayHighInsideTemperature;
 	private LocalTime timeOfDayHighOutsideTemperature;
-	private LocalTime timeOfDayHighRainRate;
-	private LocalTime timeOfDayHighSolarRadiation;
-	private LocalTime timeOfDayHighTHSWIndex;
-	private LocalTime timeOfDayHighUltraViolet;
+	private LocalTime timeOfDayHighRainRate = null;
+	private LocalTime timeOfDayHighSolarRadiation = null;
+	private LocalTime timeOfDayHighTHSWIndex = null;
+	private LocalTime timeOfDayHighUltraViolet = null;
 	private LocalTime timeOfDayHighWindSpeed;
 	private LocalTime timeOfDayLowBarometer;
-	private LocalTime timeOfDayLowDewPoLocalTime;
+	private LocalTime timeOfDayLowDewPoint;
 	private LocalTime timeOfDayLowInsideHumidity;
 	private LocalTime timeOfDayLowInsideTemperature;
 	private LocalTime timeOfDayLowOutsideTemperature;
@@ -81,10 +81,10 @@ public class HighLow {
 	private int yearHighInsideHumidity;
 	private BigDecimal yearHighInsideTemperature;
 	private BigDecimal yearHighOutsideTemperature;
-	private BigDecimal yearHighRainRate;
-	private BigDecimal yearHighSolarRadiation;
-	private BigDecimal yearHighTHSWIndex;
-	private int yearHighUltraViolet;
+	private BigDecimal yearHighRainRate = null;
+	private BigDecimal yearHighSolarRadiation = null;
+	private BigDecimal yearHighTHSWIndex = null;
+	private Integer yearHighUltraViolet = null;
 	private int yearHighWindSpeed;
 	private BigDecimal yearLowBarometer;
 	private BigDecimal yearLowDewPoint;
@@ -126,6 +126,11 @@ public class HighLow {
 
 	protected void setDayHighHeatIndex(BigDecimal dayHighHeatIndex) {
 		this.dayHighHeatIndex = dayHighHeatIndex;
+	}
+
+	protected void setDayHighHeatIndex(byte one, byte two) {
+		int temp = setInteger(one, two);
+		dayHighHeatIndex = new BigDecimal(temp);
 	}
 
 	public int getDayHighInsideHumidity() {
@@ -172,6 +177,12 @@ public class HighLow {
 		this.dayHighRainRate = dayHighRainRate;
 	}
 
+	protected void setDayHighRainRate(byte one, byte two) {
+		int temp = setInteger(one, two);
+		dayHighRainRate = new BigDecimal(temp);
+		dayHighRainRate = dayHighRainRate.movePointLeft(2);
+	}
+
 	public BigDecimal getDayHighSolarRadiation() {
 		return dayHighSolarRadiation;
 	}
@@ -180,12 +191,24 @@ public class HighLow {
 		this.dayHighSolarRadiation = dayHighSolarRadiation;
 	}
 
+	protected void setDayHighSolarRadiation(byte one, byte two) {
+		int temp = setInteger(one, two);
+		dayHighSolarRadiation = new BigDecimal(temp);
+		dayHighSolarRadiation = dayHighSolarRadiation.movePointLeft(1);
+	}
+
 	public BigDecimal getDayHighTHSWIndex() {
 		return dayHighTHSWIndex;
 	}
 
 	protected void setDayHighTHSWIndex(BigDecimal dayHighTHSWIndex) {
 		this.dayHighTHSWIndex = dayHighTHSWIndex;
+	}
+
+	protected void setDayHighTHSWIndex(byte one, byte two) {
+		int temp = setInteger(one, two);
+		dayHighTHSWIndex = new BigDecimal(temp);
+		dayHighTHSWIndex = dayHighTHSWIndex.movePointLeft(1);
 	}
 
 	public int getDayHighUltraViolet() {
@@ -275,6 +298,11 @@ public class HighLow {
 		this.dayLowWindChill = dayLowWindChill;
 	}
 
+	protected void setDayLowWindChill(byte one, byte two) {
+		int temp = setInteger(one, two);
+		dayLowWindChill = new BigDecimal(temp);
+	}
+
 	public BigDecimal getHourHighRainRate() {
 		return hourHighRainRate;
 	}
@@ -305,12 +333,22 @@ public class HighLow {
 		this.monthHighDewPoint = monthHighDewPoint;
 	}
 
+	protected void setMonthHighDewPoint(byte one, byte two) {
+		int temp = setInteger(one, two);
+		monthHighDewPoint = new BigDecimal(temp);
+	}
+
 	public BigDecimal getMonthHighHeatIndex() {
 		return monthHighHeatIndex;
 	}
 
 	protected void setMonthHighHeatIndex(BigDecimal monthHighHeatIndex) {
 		this.monthHighHeatIndex = monthHighHeatIndex;
+	}
+
+	protected void setMonthHighHeatIndex(byte one, byte two) {
+		int temp = setInteger(one, two);
+		monthHighHeatIndex = new BigDecimal(temp);
 	}
 
 	public int getMonthHighInsideHumidity() {
@@ -359,6 +397,12 @@ public class HighLow {
 		this.monthHighRainRate = monthHighRainRate;
 	}
 
+	protected void setMonthHighRainRate(byte one, byte two) {
+		int temp = setInteger(one, two);
+		monthHighRainRate = new BigDecimal(temp);
+		monthHighRainRate = monthHighRainRate.movePointLeft(2);
+	}
+
 	public BigDecimal getMonthHighSolarRadiation() {
 		return monthHighSolarRadiation;
 	}
@@ -367,12 +411,24 @@ public class HighLow {
 		this.monthHighSolarRadiation = monthHighSolarRadiation;
 	}
 
+	protected void setMonthHighSolarRadiation(byte one, byte two) {
+		int temp = setInteger(one, two);
+		monthHighSolarRadiation = new BigDecimal(temp);
+		monthHighSolarRadiation = monthHighSolarRadiation.movePointLeft(1);
+	}
+
 	public BigDecimal getMonthHighTHSWIndex() {
 		return monthHighTHSWIndex;
 	}
 
 	protected void setMonthHighTHSWIndex(BigDecimal monthHighTHSWIndex) {
 		this.monthHighTHSWIndex = monthHighTHSWIndex;
+	}
+
+	protected void setMonthHighTHSWIndex(byte one, byte two) {
+		int temp = setInteger(one, two);
+		monthHighTHSWIndex = new BigDecimal(temp);
+		monthHighTHSWIndex = monthHighTHSWIndex.movePointLeft(1);
 	}
 
 	public int getMonthHighUltraViolet() {
@@ -411,6 +467,11 @@ public class HighLow {
 
 	protected void setMonthLowDewPoint(BigDecimal monthLowDewPoint) {
 		this.monthLowDewPoint = monthLowDewPoint;
+	}
+
+	protected void setMonthLowDewPoint(byte one, byte two) {
+		int temp = setInteger(one, two);
+		monthLowDewPoint = new BigDecimal(temp);
 	}
 
 	public int getMonthLowInsideHumidity() {
@@ -458,6 +519,11 @@ public class HighLow {
 		this.monthLowWindChill = monthLowWindChill;
 	}
 
+	protected void setMonthLowWindChill(byte one, byte two) {
+		int temp = setInteger(one, two);
+		monthLowWindChill = new BigDecimal(temp);
+	}
+
 	public LocalTime getTimeOfDayHighBarometer() {
 		return timeOfDayHighBarometer;
 	}
@@ -470,17 +536,17 @@ public class HighLow {
 		timeOfDayHighBarometer = setTime(one, two);
 	}
 
-	public LocalTime getTimeOfDayHighDewPoLocalTime() {
-		return timeOfDayHighDewPoLocalTime;
+	public LocalTime getTimeOfDayHighDewPoint() {
+		return timeOfDayHighDewPoint;
 	}
 
-	protected void setTimeOfDayHighDewPoLocalTime(
-			LocalTime timeOfDayHighDewPoLocalTime) {
-		this.timeOfDayHighDewPoLocalTime = timeOfDayHighDewPoLocalTime;
+	protected void setTimeOfDayHighDewPoint(
+			LocalTime timeOfDayHighDewPoint) {
+		this.timeOfDayHighDewPoint = timeOfDayHighDewPoint;
 	}
 
-	protected void setTimeOfDayHighDewPoLocalTime(byte one, byte two) {
-		timeOfDayHighDewPoLocalTime = setTime(one, two);
+	protected void setTimeOfDayHighDewPoint(byte one, byte two) {
+		timeOfDayHighDewPoint = setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayHighHeatIndex() {
@@ -607,17 +673,17 @@ public class HighLow {
 		timeOfDayLowBarometer = setTime(one, two);
 	}
 
-	public LocalTime getTimeOfDayLowDewPoLocalTime() {
-		return timeOfDayLowDewPoLocalTime;
+	public LocalTime getTimeOfDayLowDewPoint() {
+		return timeOfDayLowDewPoint;
 	}
 
-	protected void setTimeOfDayLowDewPoLocalTime(
-			LocalTime timeOfDayLowDewPoLocalTime) {
-		this.timeOfDayLowDewPoLocalTime = timeOfDayLowDewPoLocalTime;
+	protected void setTimeOfDayLowDewPoint(
+			LocalTime timeOfDayLowDewPoint) {
+		this.timeOfDayLowDewPoint = timeOfDayLowDewPoint;
 	}
 
-	protected void setTimeOfDayLowDewPoLocalTime(byte one, byte two) {
-		timeOfDayLowDewPoLocalTime = setTime(one, two);
+	protected void setTimeOfDayLowDewPoint(byte one, byte two) {
+		timeOfDayLowDewPoint = setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayLowInsideHumidity() {
@@ -693,12 +759,22 @@ public class HighLow {
 		this.yearHighDewPoint = yearHighDewPoint;
 	}
 
+	protected void setYearHighDewPoint(byte one, byte two) {
+		int temp = setInteger(one, two);
+		yearHighDewPoint = new BigDecimal(temp);
+	}
+
 	public BigDecimal getYearHighHeatIndex() {
 		return yearHighHeatIndex;
 	}
 
 	protected void setYearHighHeatIndex(BigDecimal yearHighHeatIndex) {
 		this.yearHighHeatIndex = yearHighHeatIndex;
+	}
+
+	protected void setYearHighHeatIndex(byte one, byte two) {
+		int temp = setInteger(one, two);
+		yearHighHeatIndex = new BigDecimal(temp);
 	}
 
 	public int getYearHighInsideHumidity() {
@@ -746,6 +822,12 @@ public class HighLow {
 		this.yearHighRainRate = yearHighRainRate;
 	}
 
+	protected void setYearHighRainRate(byte one, byte two) {
+		int temp = setInteger(one, two);
+		yearHighRainRate = new BigDecimal(temp);
+		yearHighRainRate = yearHighRainRate.movePointLeft(2);
+	}
+
 	public BigDecimal getYearHighSolarRadiation() {
 		return yearHighSolarRadiation;
 	}
@@ -754,12 +836,24 @@ public class HighLow {
 		this.yearHighSolarRadiation = yearHighSolarRadiation;
 	}
 
+	protected void setYearHighSolarRadiation(byte one, byte two) {
+		int temp = setInteger(one, two);
+		yearHighSolarRadiation = new BigDecimal(temp);
+		yearHighSolarRadiation = yearHighSolarRadiation.movePointLeft(1);
+	}
+
 	public BigDecimal getYearHighTHSWIndex() {
 		return yearHighTHSWIndex;
 	}
 
 	protected void setYearHighTHSWIndex(BigDecimal yearHighTHSWIndex) {
 		this.yearHighTHSWIndex = yearHighTHSWIndex;
+	}
+
+	protected void setYearHighTHSWIndex(byte one, byte two) {
+		int temp = setInteger(one, two);
+		yearHighTHSWIndex = new BigDecimal(temp);
+		yearHighTHSWIndex = yearHighTHSWIndex.movePointLeft(1);
 	}
 
 	public int getYearHighUltraViolet() {
@@ -798,6 +892,11 @@ public class HighLow {
 
 	protected void setYearLowDewPoint(BigDecimal yearLowDewPoint) {
 		this.yearLowDewPoint = yearLowDewPoint;
+	}
+
+	protected void setYearLowDewPoint(byte one, byte two) {
+		int temp = setInteger(one, two);
+		yearLowDewPoint = new BigDecimal(temp);
 	}
 
 	public int getYearLowInsideHumidity() {
@@ -842,6 +941,11 @@ public class HighLow {
 
 	protected void setYearLowWindChill(BigDecimal yearLowWindChill) {
 		this.yearLowWindChill = yearLowWindChill;
+	}
+
+	protected void setYearLowWindChill(byte one, byte two) {
+		int temp = setInteger(one, two);
+		yearLowWindChill = new BigDecimal(temp);
 	}
 
 	public static int setInteger(byte one, byte two) {
