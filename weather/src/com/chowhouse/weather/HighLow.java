@@ -115,6 +115,11 @@ public class HighLow {
 		this.dayHighDewPoint = dayHighDewPoint;
 	}
 
+	protected void setDayHighDewPoint(byte one, byte two) {
+		int temp = setInteger(one, two);
+		dayHighDewPoint = new BigDecimal(temp);
+	}
+
 	public BigDecimal getDayHighHeatIndex() {
 		return dayHighHeatIndex;
 	}
@@ -219,6 +224,11 @@ public class HighLow {
 
 	protected void setDayLowDewPoint(BigDecimal dayLowDewPoint) {
 		this.dayLowDewPoint = dayLowDewPoint;
+	}
+
+	protected void setDayLowDewPoint(byte one, byte two) {
+		int temp = setInteger(one, two);
+		dayLowDewPoint = new BigDecimal(temp);
 	}
 
 	public int getDayLowInsideHumidity() {

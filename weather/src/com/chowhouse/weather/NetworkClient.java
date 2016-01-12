@@ -283,6 +283,9 @@ public class NetworkClient implements VantagePro2Client {
 		highlow.setYearHighOutsideTemperature(buffer[59], buffer[60]);
 		highlow.setYearLowOutsideTemperature(buffer[61], buffer[62]);
 
+		highlow.setDayLowDewPoint(buffer[63], buffer[64]);
+		highlow.setDayHighDewPoint(buffer[65], buffer[66]);
+
 		return highlow;
 	}
 

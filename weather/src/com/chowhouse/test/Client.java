@@ -65,11 +65,11 @@ public class Client {
 
 		System.out.println("Day high inside temperature " +
 				highlow.getDayHighInsideTemperature());
-		System.out.println("Day low inside temperature " +
-				highlow.getDayLowInsideTemperature());
 		System.out.println("Day high inside temperature time " +
 				highlow.getTimeOfDayHighInsideTemperature().format(
 						DateTimeFormatter.ofPattern("hh:mm")));
+		System.out.println("Day low inside temperature " +
+				highlow.getDayLowInsideTemperature());
 		System.out.println("Day low inside temperature time " +
 				highlow.getTimeOfDayLowInsideTemperature().format(
 						DateTimeFormatter.ofPattern("hh:mm")));
@@ -84,11 +84,11 @@ public class Client {
 
 		System.out.println("Day high outside temperature " +
 				highlow.getDayHighOutsideTemperature());
-		System.out.println("Day low outside temperature " +
-				highlow.getDayLowOutsideTemperature());
 		System.out.println("Day high outside temperature time " +
 				highlow.getTimeOfDayHighOutsideTemperature().format(
 						DateTimeFormatter.ofPattern("hh:mm")));
+		System.out.println("Day low outside temperature " +
+				highlow.getDayLowOutsideTemperature());
 		System.out.println("Day low outside temperature time " +
 				highlow.getTimeOfDayLowOutsideTemperature().format(
 						DateTimeFormatter.ofPattern("hh:mm")));
@@ -103,8 +103,14 @@ public class Client {
 
 		System.out.println("Day high inside humidity " +
 				highlow.getDayHighInsideHumidity());
+		System.out.println("Day high inside humidity time " +
+				highlow.getTimeOfDayHighInsideHumidity().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
 		System.out.println("Day low inside humidity " +
 				highlow.getDayLowInsideHumidity());
+		System.out.println("Day low inside humidity time " +
+				highlow.getTimeOfDayLowInsideHumidity().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
 		System.out.println("Month high inside humidity " +
 				highlow.getMonthHighInsideHumidity());
 		System.out.println("Month low inside humidity " +
@@ -113,6 +119,12 @@ public class Client {
 				highlow.getYearHighInsideHumidity());
 		System.out.println("Year low inside humidty " +
 				highlow.getYearLowInsideHumidity());
+
+		System.out.println("Day high dew point " +
+				highlow.getDayHighDewPoint());
+		System.out.println("Day low dew point " +
+				highlow.getDayLowDewPoint());
+
 		client.close();
 	}
 }
