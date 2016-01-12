@@ -347,7 +347,7 @@ public class NetworkClient implements VantagePro2Client {
 	}
 
 	@Override
-	public String getLoop(int packets)
+	public Loop getLoop(int packets)
 	throws IOException {
 		byte[] buffer = new byte[512];
 		int len;
@@ -360,7 +360,7 @@ public class NetworkClient implements VantagePro2Client {
 		//System.out.format("Read %d bytes\n", len);
 
 		if ((buffer[0] == 0x06)) {
-			System.out.println("Retrieving LOOP data...");
+			//System.out.println("Retrieving LOOP data...");
 		} else {
 			throw new IOException("Command invalid");
 		}
@@ -376,7 +376,17 @@ public class NetworkClient implements VantagePro2Client {
 			throw new IOException("Incorrect CRC checksum");
 		}
 
-		return "unimplemented";
+		Loop loop = new Loop();
+		loop.setBarometricPressure(buffer[7], buffer[8]);
+		loop.setInsideTemperature(buffer[9], buffer[10]);
+		loop.setInsideHumidity((new BigInteger(Arrays.copyOfRange(
+				buffer, 11, 12))).intValue());
+		loop.setOutsideTemperature(buffer[12], buffer[13]);
+		loop.setWindSpeed((new BigInteger(Arrays.copyOfRange(
+				buffer, 14, 15))).intValue());
+		loop.setOutsideHumidity((new BigInteger(Arrays.copyOfRange(
+				buffer, 33, 34))).intValue());
+		return loop;
 	}
 
 	@Override

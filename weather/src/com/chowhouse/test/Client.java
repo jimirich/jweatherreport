@@ -21,6 +21,7 @@ package com.chowhouse.test;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import com.chowhouse.weather.HighLow;
+import com.chowhouse.weather.Loop;
 import com.chowhouse.weather.VantagePro2Client;
 
 public class Client {
@@ -42,6 +43,7 @@ public class Client {
 		System.out.println("Firmware date " + client.getFirmwareDate());
 		System.out.println("Current time " + client.getTime().format(
 				DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
+
 		HighLow highlow = client.getHighsLows();
 		System.out.println("Day high bar " + highlow.getDayHighBarometer());
 		System.out.println("Day high bar time " +
@@ -209,7 +211,20 @@ public class Client {
 		System.out.println("Year high rain rate " +
 				highlow.getYearHighRainRate());
 
-		System.out.println(client.getLoop(1));
+		Loop loop = client.getLoop(1);
+		System.out.println("Current outside temperature " +
+				loop.getOutsideTemperature());
+		System.out.println("Current inside temperature " +
+				loop.getInsideTemperature());
+		System.out.println("Current outside humidity " +
+				loop.getOutsideHumidity());
+		System.out.println("Current inside humidity " +
+				loop.getInsideHumidity());
+		System.out.println("Current barometric pressure " +
+				loop.getBarometricPressure());
+		System.out.println("Current wind speed " +
+				loop.getWindSpeed());
+
 		client.close();
 	}
 }
