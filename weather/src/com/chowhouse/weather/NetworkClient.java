@@ -21,6 +21,7 @@ package com.chowhouse.weather;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -232,30 +233,56 @@ public class NetworkClient implements VantagePro2Client {
 		}
 
 		HighLow highlow = new HighLow();
-		highlow.setDayLowBarometer((new BigInteger(Arrays.copyOfRange(buffer,
-				0, 2))).intValue());
-		highlow.setDayHighBarometer((new BigInteger(Arrays.copyOfRange(buffer,
-				2, 4))).intValue());
-		highlow.setMonthLowBarometer((new BigInteger(Arrays.copyOfRange(buffer,
-				4, 6))).intValue());
-		highlow.setMonthHighBarometer((new BigInteger(Arrays.copyOfRange(buffer,
-				6, 8))).intValue());
-		highlow.setYearLowBarometer((new BigInteger(Arrays.copyOfRange(buffer,
-				8, 10))).intValue());
-		highlow.setYearHighBarometer((new BigInteger(Arrays.copyOfRange(buffer,
-				10, 12))).intValue());
-		highlow.setTimeOfDayLowBarometer((new BigInteger(Arrays.copyOfRange(
-				buffer, 12, 14))).intValue());
-		highlow.setTimeOfDayHighBarometer((new BigInteger(Arrays.copyOfRange(
-				buffer, 14, 16))).intValue());
+		highlow.setDayLowBarometer(buffer[0], buffer[1]);
+		highlow.setDayHighBarometer(buffer[2], buffer[3]);
+		highlow.setMonthLowBarometer(buffer[4], buffer[5]);
+		highlow.setMonthHighBarometer(buffer[6], buffer[7]);
+		highlow.setYearLowBarometer(buffer[8], buffer[9]);
+		highlow.setYearHighBarometer(buffer[10], buffer[11]);
+		highlow.setTimeOfDayLowBarometer(buffer[12], buffer[13]);
+		highlow.setTimeOfDayHighBarometer(buffer[14], buffer[15]);
+
 		highlow.setDayHighWindSpeed((new BigInteger(Arrays.copyOfRange(
 				buffer, 16, 17))).intValue());
-		highlow.setTimeOfDayHighWindSpeed((new BigInteger(Arrays.copyOfRange(
-				buffer, 17, 19))).intValue());
+		highlow.setTimeOfDayHighWindSpeed(buffer[17], buffer[18]);
 		highlow.setMonthHighWindSpeed((new BigInteger(Arrays.copyOfRange(
 				buffer, 19, 20))).intValue());
 		highlow.setYearHighWindSpeed((new BigInteger(Arrays.copyOfRange(
 				buffer, 20, 21))).intValue());
+
+		highlow.setDayHighInsideTemperature(buffer[21], buffer[22]);
+		highlow.setDayLowInsideTemperature(buffer[23], buffer[24]);
+		highlow.setTimeOfDayHighInsideTemperature(buffer[25], buffer[26]);
+		highlow.setTimeOfDayLowInsideTemperature(buffer[27], buffer[28]);
+		highlow.setMonthLowInsideTemperature(buffer[29], buffer[30]);
+		highlow.setMonthHighInsideTemperature(buffer[31], buffer[32]);
+		highlow.setYearLowInsideTemperature(buffer[33], buffer[34]);
+		highlow.setYearHighInsideTemperature(buffer[35], buffer[36]);
+
+		highlow.setDayHighInsideHumidity((new BigInteger(Arrays.copyOfRange(
+				buffer, 37, 38))).intValue());
+		highlow.setDayLowInsideHumidity((new BigInteger(Arrays.copyOfRange(
+				buffer, 38, 39))).intValue());
+		highlow.setTimeOfDayHighInsideHumidity(buffer[39], buffer[40]);
+		highlow.setTimeOfDayLowInsideHumidity(buffer[41], buffer[42]);
+		highlow.setMonthHighInsideHumidity((new BigInteger(Arrays.copyOfRange(
+				buffer, 43, 44))).intValue());
+		highlow.setMonthLowInsideHumidity((new BigInteger(Arrays.copyOfRange(
+				buffer, 44, 45))).intValue());
+		highlow.setYearHighInsideHumidity((new BigInteger(Arrays.copyOfRange(
+				buffer, 45, 46))).intValue());
+		highlow.setYearLowInsideHumidity((new BigInteger(Arrays.copyOfRange(
+				buffer, 46, 47))).intValue());
+
+		highlow.setDayLowOutsideTemperature(buffer[47], buffer[48]);
+		highlow.setDayHighOutsideTemperature(buffer[49], buffer[50]);
+		highlow.setTimeOfDayLowOutsideTemperature(buffer[51], buffer[52]);
+		highlow.setTimeOfDayHighOutsideTemperature(buffer[53], buffer[54]);
+		highlow.setMonthHighOutsideTemperature(buffer[55], buffer[56]);
+		highlow.setMonthLowOutsideTemperature(buffer[57], buffer[58]);
+		highlow.setYearHighOutsideTemperature(buffer[59], buffer[60]);
+		highlow.setYearLowOutsideTemperature(buffer[61], buffer[62]);
+
 		return highlow;
 	}
 

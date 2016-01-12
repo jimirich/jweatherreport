@@ -44,14 +44,75 @@ public class Client {
 				DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
 		HighLow highlow = client.getHighsLows();
 		System.out.println("Day high bar " + highlow.getDayHighBarometer());
+		System.out.println("Day high bar time " +
+				highlow.getTimeOfDayHighBarometer().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
 		System.out.println("Day low bar " + highlow.getDayLowBarometer());
+		System.out.println("Day low bar time " +
+				highlow.getTimeOfDayLowBarometer().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
 		System.out.println("Month high bar " + highlow.getMonthHighBarometer());
 		System.out.println("Month low bar " + highlow.getMonthLowBarometer());
 		System.out.println("Year high bar " + highlow.getYearHighBarometer());
 		System.out.println("Year low bar " + highlow.getYearLowBarometer());
+
 		System.out.println("Day high wind " + highlow.getDayHighWindSpeed());
+		System.out.println("Day high wind time " +
+				highlow.getTimeOfDayHighWindSpeed().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
 		System.out.println("Month high wind " + highlow.getMonthHighWindSpeed());
 		System.out.println("Year high wind " + highlow.getYearHighWindSpeed());
+
+		System.out.println("Day high inside temperature " +
+				highlow.getDayHighInsideTemperature());
+		System.out.println("Day low inside temperature " +
+				highlow.getDayLowInsideTemperature());
+		System.out.println("Day high inside temperature time " +
+				highlow.getTimeOfDayHighInsideTemperature().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
+		System.out.println("Day low inside temperature time " +
+				highlow.getTimeOfDayLowInsideTemperature().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
+		System.out.println("Month high inside temperature " +
+				highlow.getMonthHighInsideTemperature());
+		System.out.println("Month low inside temperature " +
+				highlow.getMonthLowInsideTemperature());
+		System.out.println("Year high inside temperature " +
+				highlow.getYearHighInsideTemperature());
+		System.out.println("Year low inside temperature " +
+				highlow.getYearLowInsideTemperature());
+
+		System.out.println("Day high outside temperature " +
+				highlow.getDayHighOutsideTemperature());
+		System.out.println("Day low outside temperature " +
+				highlow.getDayLowOutsideTemperature());
+		System.out.println("Day high outside temperature time " +
+				highlow.getTimeOfDayHighOutsideTemperature().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
+		System.out.println("Day low outside temperature time " +
+				highlow.getTimeOfDayLowOutsideTemperature().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
+		System.out.println("Month high outside temperature " +
+				highlow.getMonthHighOutsideTemperature());
+		System.out.println("Month low outside temperature " +
+				highlow.getMonthLowOutsideTemperature());
+		System.out.println("Year high outside temperature " +
+				highlow.getYearHighOutsideTemperature());
+		System.out.println("Year low outside temperature " +
+				highlow.getYearLowOutsideTemperature());
+
+		System.out.println("Day high inside humidity " +
+				highlow.getDayHighInsideHumidity());
+		System.out.println("Day low inside humidity " +
+				highlow.getDayLowInsideHumidity());
+		System.out.println("Month high inside humidity " +
+				highlow.getMonthHighInsideHumidity());
+		System.out.println("Month low inside humidity " +
+				highlow.getMonthLowInsideHumidity());
+		System.out.println("Year high inside humidty " +
+				highlow.getYearHighInsideHumidity());
+		System.out.println("Year low inside humidty " +
+				highlow.getYearLowInsideHumidity());
 		client.close();
 	}
 }
