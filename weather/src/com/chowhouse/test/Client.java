@@ -20,6 +20,7 @@ public class Client {
 
 		System.out.println("Firmware version " + client.getFirmwareVersion());
 		System.out.println("Firmware date " + client.getFirmwareDate());
+		System.out.println("Current time " + client.getTime());
 		client.close();
 	}
 }

@@ -7,6 +7,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.zip.CRC32;
+import java.util.zip.Checksum;
 
 public class NetworkClient implements VantagePro2Client {
 
@@ -24,6 +26,14 @@ public class NetworkClient implements VantagePro2Client {
 	public NetworkClient(final InetAddress address, final int portNumber) {
 		this.hostName = address.getHostAddress();
 		this.portNumber = portNumber;
+	}
+
+	@Override
+	public void close()
+	throws IOException {
+		in.close();
+		out.close();
+		socket.close();
 	}
 
 	@Override
@@ -60,35 +70,6 @@ public class NetworkClient implements VantagePro2Client {
 		//System.out.format("received: %h%h\n", buffer[0], buffer[1]);
 		//System.out.println("Awake");
 		timer.cancel();
-	}
-
-	/**
-	 * Class to implement the wake timer task.
-	 */
-	public class WakeUpTask extends TimerTask {
-
-		private int attempt = 1;
-		private DataOutputStream out;
-		private int tries = 1;
-
-		public WakeUpTask(DataOutputStream out, int tries) {
-			this.out = out;
-			this.tries = tries;
-		}
-
-		public void run() {
-			if (attempt > tries) {
-				throw new RuntimeException("Connection failed");
-			}
-
-			try {
-				out.writeInt(10); // send line feed in decimal
-				System.out.println("sent wake up signal...");
-				attempt++;
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
 	}
 
 	@Override
@@ -205,10 +186,77 @@ public class NetworkClient implements VantagePro2Client {
 	}
 
 	@Override
-	public void close()
+	public String getTime()
 	throws IOException {
-		in.close();
-		out.close();
-		socket.close();
+		byte[] buffer = new byte[512];
+		int len;
+		out.write((new String("GETTIME\n")).getBytes());
+		// get the first byte which should be ACK (0x06)
+		len = in.read(buffer, 0, 1);
+		//System.out.format("Read %d bytes\n", len);
+
+		if ((buffer[0] == 0x06)) {
+			System.out.println("Retrieving time...");
+		} else {
+			return "unavailable";
+		}
+
+		len = 0;
+		Checksum checksum = new CRC32();
+
+		for (int i = 0; i < 512; i++) {
+			len += in.read(buffer, i, 1);
+			System.out.format("Read %d bytes\n", len);
+			/*
+			checksum.update(buffer, 0, len);
+			long checksumValue = checksum.getValue();
+			System.out.format("Checksum:  %d\n", checksumValue);
+
+			if (checksumValue == 0) {
+				break;
+			}
+			*/
+
+			int crc = 0;
+			crc = crc_table[(crc >> 8) ^ buffer[i]] ^ (crc << 8);
+			System.out.format("CRC: %d\n", crc);
+
+			if (crc == 0) {
+				break;
+			}
+		}
+
+		// retrieve the trailing \r
+		in.read();
+		return new String(buffer, 0, len - 1);
+	}
+
+	/**
+	 * Class to implement the wake timer task.
+	 */
+	public class WakeUpTask extends TimerTask {
+
+		private int attempt = 1;
+		private DataOutputStream out;
+		private int tries = 1;
+
+		public WakeUpTask(DataOutputStream out, int tries) {
+			this.out = out;
+			this.tries = tries;
+		}
+
+		public void run() {
+			if (attempt > tries) {
+				throw new RuntimeException("Connection failed");
+			}
+
+			try {
+				out.writeInt(10); // send line feed in decimal
+				System.out.println("sent wake up signal...");
+				attempt++;
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 }
