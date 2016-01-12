@@ -7,8 +7,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.zip.CRC32;
-import java.util.zip.Checksum;
 
 public class NetworkClient implements VantagePro2Client {
 
@@ -202,33 +200,21 @@ public class NetworkClient implements VantagePro2Client {
 		}
 
 		len = 0;
-		Checksum checksum = new CRC32();
 
-		for (int i = 0; i < 512; i++) {
+		for (int i = 0; i < 8; i++) {
 			len += in.read(buffer, i, 1);
 			System.out.format("Read %d bytes\n", len);
-			/*
-			checksum.update(buffer, 0, len);
-			long checksumValue = checksum.getValue();
-			System.out.format("Checksum:  %d\n", checksumValue);
-
-			if (checksumValue == 0) {
-				break;
-			}
-			*/
-
-			int crc = 0;
-			crc = crc_table[(crc >> 8) ^ buffer[i]] ^ (crc << 8);
-			System.out.format("CRC: %d\n", crc);
-
-			if (crc == 0) {
-				break;
-			}
 		}
 
-		// retrieve the trailing \r
-		in.read();
-		return new String(buffer, 0, len - 1);
+		int crc = 0;
+
+		for (int i = 0; i < 8; i++) {
+			crc = crc_table[((crc >> 8) ^ buffer[i]) & 0xFF] ^ (crc << 8);
+			System.out.format("CRC: %d\n", crc);
+		}
+
+		//return new String(buffer, 0, len - 1);
+		return "unimplemented";
 	}
 
 	/**
