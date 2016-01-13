@@ -19,32 +19,92 @@
 
 package com.chowhouse.jweatherreport.runner;
 
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-
 import com.chowhouse.jweatherreport.station.Loop2;
+import com.chowhouse.jweatherreport.station.NetworkClient;
 import com.chowhouse.jweatherreport.station.VantagePro2Client;
 import com.chowhouse.jweatherreport.wunderground.Uploader;
 
-public class Client {
+import java.io.Closeable;
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
+public class Client implements Runnable, Closeable {
+	private static final AtomicBoolean ERROR = new AtomicBoolean(false);
+	private final VantagePro2Client client;
+
+	public Client(final String hostname, final int port) {
+		client = new NetworkClient(hostname, port);
+	}
 
 	public static void main(String[] args)
-	throws IOException {
-		final VantagePro2Client client = VantagePro2Client.of(args[0],
-				Integer.parseInt(args[1]));
-		client.connect();
+			throws Exception {
 
-		if (client.testConnection()) {
-			System.out.println("Testing successful");
-		} else {
-			System.out.println("Test failed");
+		// Process the arguments
+		if (args == null || args.length < 2) {
+			printUsage();
+			System.exit(1);
 		}
 
-		System.out.println("Firmware version " + client.getFirmwareVersion());
-		System.out.println("Firmware date " + client.getFirmwareDate());
-		System.out.println("Current time " + client.getTime().format(
-				DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
+		final String hostname = args[0];
+		int port = 0;
+		int period = 1;
+		try {
+			port = Integer.parseInt(args[1]);
+		} catch (NumberFormatException ignore) {
+			System.err.printf("Invalid port %s%n", args[1]);
+			printUsage();
+			System.exit(1);
+		}
+		if (args.length > 2) {
+			try {
+				period = Integer.parseInt(args[2]);
+			} catch (NumberFormatException ignore) {
+				System.err.printf("Invalid period %s%n", args[2]);
+				printUsage();
+				System.exit(1);
+			}
+		}
+
+		// Setup a scheduled task
+		final ScheduledExecutorService service = configureExecutor();
+
+		try (final Client client = new Client(hostname, port)) {
+			service.scheduleAtFixedRate(client, 0, period, TimeUnit.MINUTES);
+			while (!ERROR.get()) {
+				TimeUnit.MILLISECONDS.sleep(20L);
+			}
+		} finally {
+			service.shutdown();
+			try {
+				service.awaitTermination(5, TimeUnit.SECONDS);
+			} catch (InterruptedException ignore) {
+				service.shutdownNow();
+			}
+		}
+
+	}
+
+	@Override
+	public void run() {
+		try {
+			client.connect();
+
+			if (client.testConnection()) {
+				System.out.println("Testing successful");
+			} else {
+				System.out.println("Test failed");
+			}
+
+			System.out.println("Firmware version " + client.getFirmwareVersion());
+			System.out.println("Firmware date " + client.getFirmwareDate());
+			System.out.println("Current time " + client.getTime().format(
+					DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
 
 		/*
 		HighLow highlow = client.getHighsLows();
@@ -239,28 +299,55 @@ public class Client {
 				loop.getYearRain());
 				*/
 
-		Loop2 loop2 = client.getLoop2(1);
-		//System.out.println("Dew point " + loop2.getDewPoint());
+			Loop2 loop2 = client.getLoop2(1);
+			//System.out.println("Dew point " + loop2.getDewPoint());
 
-		Uploader uploader = new Uploader();
-		uploader.setBarometricPressure(
-				loop2.getBarometricPressure().toString());
-		uploader.setHourRain(loop2.getHourRain().toString());
-		uploader.setHumidity(String.valueOf(loop2.getOutsideHumidity()));
-		uploader.setDewPoint(String.valueOf(loop2.getDewPoint()));
-		uploader.setTemperature(loop2.getOutsideTemperature().toString());
-		uploader.setRainRate(loop2.getRainRate().toString());
-		uploader.setDayRain(loop2.getDayRain().toString());
-		uploader.setTenMinuteAverageWindSpeed(String.valueOf(
-				loop2.getTenMinuteAverageWindSpeed()));
-		uploader.setTenMinuteWindGust(loop2.getTenMinuteWindGust().toString());
-		uploader.setTenMinuteWindGustDirection(String.valueOf(
-				loop2.getTenMinuteWindGustDirection()));
-		uploader.setTwoMinuteAverageWindSpeed(
-				loop2.getTwoMinuteAverageWindSpeed().toString());
-		uploader.setWindDirection(String.valueOf(loop2.getWindDirection()));
-		uploader.setWindSpeed(String.valueOf(loop2.getWindSpeed()));
-		uploader.uploadData();
+			Uploader uploader = new Uploader();
+			uploader.setBarometricPressure(
+					loop2.getBarometricPressure().toString());
+			uploader.setHourRain(loop2.getHourRain().toString());
+			uploader.setHumidity(String.valueOf(loop2.getOutsideHumidity()));
+			uploader.setDewPoint(String.valueOf(loop2.getDewPoint()));
+			uploader.setTemperature(loop2.getOutsideTemperature().toString());
+			uploader.setRainRate(loop2.getRainRate().toString());
+			uploader.setDayRain(loop2.getDayRain().toString());
+			uploader.setTenMinuteAverageWindSpeed(String.valueOf(
+					loop2.getTenMinuteAverageWindSpeed()));
+			uploader.setTenMinuteWindGust(loop2.getTenMinuteWindGust().toString());
+			uploader.setTenMinuteWindGustDirection(String.valueOf(
+					loop2.getTenMinuteWindGustDirection()));
+			uploader.setTwoMinuteAverageWindSpeed(
+					loop2.getTwoMinuteAverageWindSpeed().toString());
+			uploader.setWindDirection(String.valueOf(loop2.getWindDirection()));
+			uploader.setWindSpeed(String.valueOf(loop2.getWindSpeed()));
+			uploader.uploadData();
+		} catch (IOException e) {
+			ERROR.set(true);
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void close() throws IOException {
 		client.close();
+	}
+
+	private static ScheduledExecutorService configureExecutor() {
+		final int cores = Runtime.getRuntime().availableProcessors() * 2;
+		return Executors.newScheduledThreadPool(cores, new ThreadFactory() {
+			final AtomicInteger counter = new AtomicInteger();
+
+			@Override
+			public Thread newThread(Runnable r) {
+				final Thread t = new Thread(r, "JWeatherReport Client - " + counter.incrementAndGet());
+				t.setDaemon(true);
+				return t;
+			}
+		});
+	}
+
+	private static void printUsage() {
+		System.out.println("The first argument must be the hostname and the second argument must be a valid port. " +
+				"An optional third argument is the number of minutes to wait between uploading the data.");
 	}
 }
