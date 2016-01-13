@@ -20,11 +20,10 @@ package com.chowhouse;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-import com.chowhouse.weather.HighLow;
-import com.chowhouse.weather.Loop;
-import com.chowhouse.weather.Loop2;
-import com.chowhouse.weather.VantagePro2Client;
-import com.chowhouse.wunderground.Uploader;
+
+import com.chowhouse.jweatherreport.station.Loop2;
+import com.chowhouse.jweatherreport.station.VantagePro2Client;
+import com.chowhouse.jweatherreport.wunderground.Uploader;
 
 public class Client {
 
