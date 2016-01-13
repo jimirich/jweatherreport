@@ -56,7 +56,7 @@ public class Uploader {
 		String url = "http://weatherstation.wunderground.com/weatherstation/" +
 				"updateweatherstation.php";
 		String charset = java.nio.charset.StandardCharsets.UTF_8.name();
-		String id = "happyacrefarm";
+		String id = "KUTBRIGH11";
 		String password = "MwsiaDIVP2";
 		String action = "updateraw";
 
@@ -67,6 +67,7 @@ public class Uploader {
 				URLEncoder.encode(humidity, charset),
 				URLEncoder.encode(temperature, charset),
 				URLEncoder.encode(barometricPressure, charset));
+        System.out.println(query.toString());
 
 		URLConnection connection = new URL(url + "?" + query).openConnection();
 		connection.setRequestProperty("Accept-Charset", charset);
