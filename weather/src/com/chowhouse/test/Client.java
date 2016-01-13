@@ -230,6 +230,10 @@ public class Client {
 		uploader.setBarometricPressure(loop.getBarometricPressure().toString());
 		uploader.setHumidity(String.valueOf(loop.getOutsideHumidity()));
 		uploader.setTemperature(loop.getOutsideTemperature().toString());
+		uploader.setRainRate(loop.getRainRate().toString());
+		uploader.setTenMinuteAverageWindSpeed(String.valueOf(
+				loop.getTenMinuteAverageWindSpeed()));
+		uploader.setWindDirection(String.valueOf(loop.getWindDirection()));
 		uploader.setWindSpeed(String.valueOf(loop.getWindSpeed()));
 		uploader.uploadData();
 		client.close();

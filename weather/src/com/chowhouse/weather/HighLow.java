@@ -102,7 +102,7 @@ public class HighLow {
 	}
 
 	protected void setDayHighBarometer(byte one, byte two) {
-		int bar = setInteger(one, two);
+		int bar = Utils.setInteger(one, two);
 		dayHighBarometer = new BigDecimal(bar);
 		dayHighBarometer = dayHighBarometer.movePointLeft(3);
 	}
@@ -116,7 +116,7 @@ public class HighLow {
 	}
 
 	protected void setDayHighDewPoint(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		dayHighDewPoint = new BigDecimal(temp);
 	}
 
@@ -129,7 +129,7 @@ public class HighLow {
 	}
 
 	protected void setDayHighHeatIndex(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		dayHighHeatIndex = new BigDecimal(temp);
 	}
 
@@ -145,12 +145,13 @@ public class HighLow {
 		return dayHighInsideTemperature;
 	}
 
-	protected void setDayHighInsideTemperature(BigDecimal dayHighInsideTemperature) {
+	protected void setDayHighInsideTemperature(
+			BigDecimal dayHighInsideTemperature) {
 		this.dayHighInsideTemperature = dayHighInsideTemperature;
 	}
 
 	protected void setDayHighInsideTemperature(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		dayHighInsideTemperature = new BigDecimal(temp);
 		dayHighInsideTemperature = dayHighInsideTemperature.movePointLeft(1);
 	}
@@ -159,12 +160,13 @@ public class HighLow {
 		return dayHighOutsideTemperature;
 	}
 
-	protected void setDayHighOutsideTemperature(BigDecimal dayHighOutsideTemperature) {
+	protected void setDayHighOutsideTemperature(
+			BigDecimal dayHighOutsideTemperature) {
 		this.dayHighOutsideTemperature = dayHighOutsideTemperature;
 	}
 
 	protected void setDayHighOutsideTemperature(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		dayHighOutsideTemperature = new BigDecimal(temp);
 		dayHighOutsideTemperature = dayHighOutsideTemperature.movePointLeft(1);
 	}
@@ -178,7 +180,7 @@ public class HighLow {
 	}
 
 	protected void setDayHighRainRate(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		dayHighRainRate = new BigDecimal(temp);
 		dayHighRainRate = dayHighRainRate.movePointLeft(2);
 	}
@@ -192,7 +194,7 @@ public class HighLow {
 	}
 
 	protected void setDayHighSolarRadiation(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		dayHighSolarRadiation = new BigDecimal(temp);
 		dayHighSolarRadiation = dayHighSolarRadiation.movePointLeft(1);
 	}
@@ -206,7 +208,7 @@ public class HighLow {
 	}
 
 	protected void setDayHighTHSWIndex(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		dayHighTHSWIndex = new BigDecimal(temp);
 		dayHighTHSWIndex = dayHighTHSWIndex.movePointLeft(1);
 	}
@@ -236,7 +238,7 @@ public class HighLow {
 	}
 
 	protected void setDayLowBarometer(byte one, byte two) {
-		int bar = setInteger(one, two);
+		int bar = Utils.setInteger(one, two);
 		dayLowBarometer = new BigDecimal(bar);
 		dayLowBarometer = dayLowBarometer.movePointLeft(3);
 	}
@@ -250,7 +252,7 @@ public class HighLow {
 	}
 
 	protected void setDayLowDewPoint(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		dayLowDewPoint = new BigDecimal(temp);
 	}
 
@@ -266,12 +268,13 @@ public class HighLow {
 		return dayLowInsideTemperature;
 	}
 
-	protected void setDayLowInsideTemperature(BigDecimal dayLowInsideTemperature) {
+	protected void setDayLowInsideTemperature(
+			BigDecimal dayLowInsideTemperature) {
 		this.dayLowInsideTemperature = dayLowInsideTemperature;
 	}
 
 	protected void setDayLowInsideTemperature(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		dayLowInsideTemperature = new BigDecimal(temp);
 		dayLowInsideTemperature = dayLowInsideTemperature.movePointLeft(1);
 	}
@@ -280,12 +283,13 @@ public class HighLow {
 		return dayLowOutsideTemperature;
 	}
 
-	protected void setDayLowOutsideTemperature(BigDecimal dayLowOutsideTemperature) {
+	protected void setDayLowOutsideTemperature(
+			BigDecimal dayLowOutsideTemperature) {
 		this.dayLowOutsideTemperature = dayLowOutsideTemperature;
 	}
 
 	protected void setDayLowOutsideTemperature(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		dayLowOutsideTemperature = new BigDecimal(temp);
 		dayLowOutsideTemperature = dayLowOutsideTemperature.movePointLeft(1);
 	}
@@ -299,7 +303,7 @@ public class HighLow {
 	}
 
 	protected void setDayLowWindChill(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		dayLowWindChill = new BigDecimal(temp);
 	}
 
@@ -320,7 +324,7 @@ public class HighLow {
 	}
 
 	protected void setMonthHighBarometer(byte one, byte two) {
-		int bar = setInteger(one, two);
+		int bar = Utils.setInteger(one, two);
 		monthHighBarometer = new BigDecimal(bar);
 		monthHighBarometer = monthHighBarometer.movePointLeft(3);
 	}
@@ -334,7 +338,7 @@ public class HighLow {
 	}
 
 	protected void setMonthHighDewPoint(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		monthHighDewPoint = new BigDecimal(temp);
 	}
 
@@ -347,7 +351,7 @@ public class HighLow {
 	}
 
 	protected void setMonthHighHeatIndex(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		monthHighHeatIndex = new BigDecimal(temp);
 	}
 
@@ -369,9 +373,10 @@ public class HighLow {
 	}
 
 	protected void setMonthHighInsideTemperature(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		monthHighInsideTemperature = new BigDecimal(temp);
-		monthHighInsideTemperature = monthHighInsideTemperature.movePointLeft(1);
+		monthHighInsideTemperature =
+				monthHighInsideTemperature.movePointLeft(1);
 	}
 
 	public BigDecimal getMonthHighOutsideTemperature() {
@@ -384,9 +389,10 @@ public class HighLow {
 	}
 
 	protected void setMonthHighOutsideTemperature(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		monthHighOutsideTemperature = new BigDecimal(temp);
-		monthHighOutsideTemperature = monthHighOutsideTemperature.movePointLeft(1);
+		monthHighOutsideTemperature =
+				monthHighOutsideTemperature.movePointLeft(1);
 	}
 
 	public BigDecimal getMonthHighRainRate() {
@@ -398,7 +404,7 @@ public class HighLow {
 	}
 
 	protected void setMonthHighRainRate(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		monthHighRainRate = new BigDecimal(temp);
 		monthHighRainRate = monthHighRainRate.movePointLeft(2);
 	}
@@ -407,12 +413,13 @@ public class HighLow {
 		return monthHighSolarRadiation;
 	}
 
-	protected void setMonthHighSolarRadiation(BigDecimal monthHighSolarRadiation) {
+	protected void setMonthHighSolarRadiation(
+			BigDecimal monthHighSolarRadiation) {
 		this.monthHighSolarRadiation = monthHighSolarRadiation;
 	}
 
 	protected void setMonthHighSolarRadiation(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		monthHighSolarRadiation = new BigDecimal(temp);
 		monthHighSolarRadiation = monthHighSolarRadiation.movePointLeft(1);
 	}
@@ -426,7 +433,7 @@ public class HighLow {
 	}
 
 	protected void setMonthHighTHSWIndex(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		monthHighTHSWIndex = new BigDecimal(temp);
 		monthHighTHSWIndex = monthHighTHSWIndex.movePointLeft(1);
 	}
@@ -456,7 +463,7 @@ public class HighLow {
 	}
 
 	protected void setMonthLowBarometer(byte one, byte two) {
-		int bar = setInteger(one, two);
+		int bar = Utils.setInteger(one, two);
 		monthLowBarometer = new BigDecimal(bar);
 		monthLowBarometer = monthLowBarometer.movePointLeft(3);
 	}
@@ -470,7 +477,7 @@ public class HighLow {
 	}
 
 	protected void setMonthLowDewPoint(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		monthLowDewPoint = new BigDecimal(temp);
 	}
 
@@ -486,12 +493,13 @@ public class HighLow {
 		return monthLowInsideTemperature;
 	}
 
-	protected void setMonthLowInsideTemperature(BigDecimal monthLowInsideTemperature) {
+	protected void setMonthLowInsideTemperature(
+			BigDecimal monthLowInsideTemperature) {
 		this.monthLowInsideTemperature = monthLowInsideTemperature;
 	}
 
 	protected void setMonthLowInsideTemperature(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		monthLowInsideTemperature = new BigDecimal(temp);
 		monthLowInsideTemperature = monthLowInsideTemperature.movePointLeft(1);
 	}
@@ -506,9 +514,10 @@ public class HighLow {
 	}
 
 	protected void setMonthLowOutsideTemperature(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		monthLowOutsideTemperature = new BigDecimal(temp);
-		monthLowOutsideTemperature = monthLowOutsideTemperature.movePointLeft(1);
+		monthLowOutsideTemperature =
+				monthLowOutsideTemperature.movePointLeft(1);
 	}
 
 	public BigDecimal getMonthLowWindChill() {
@@ -520,7 +529,7 @@ public class HighLow {
 	}
 
 	protected void setMonthLowWindChill(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		monthLowWindChill = new BigDecimal(temp);
 	}
 
@@ -533,7 +542,7 @@ public class HighLow {
 	}
 
 	protected void setTimeOfDayHighBarometer(byte one, byte two) {
-		timeOfDayHighBarometer = setTime(one, two);
+		timeOfDayHighBarometer = Utils.setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayHighDewPoint() {
@@ -546,7 +555,7 @@ public class HighLow {
 	}
 
 	protected void setTimeOfDayHighDewPoint(byte one, byte two) {
-		timeOfDayHighDewPoint = setTime(one, two);
+		timeOfDayHighDewPoint = Utils.setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayHighHeatIndex() {
@@ -558,7 +567,7 @@ public class HighLow {
 	}
 
 	protected void setTimeOfDayHighHeatIndex(byte one, byte two) {
-		timeOfDayHighHeatIndex = setTime(one, two);
+		timeOfDayHighHeatIndex = Utils.setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayHighInsideHumidity() {
@@ -571,7 +580,7 @@ public class HighLow {
 	}
 
 	protected void setTimeOfDayHighInsideHumidity(byte one, byte two) {
-		timeOfDayHighInsideHumidity = setTime(one, two);
+		timeOfDayHighInsideHumidity = Utils.setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayHighInsideTemperature() {
@@ -584,7 +593,7 @@ public class HighLow {
 	}
 
 	protected void setTimeOfDayHighInsideTemperature(byte one, byte two) {
-		timeOfDayHighInsideTemperature = setTime(one, two);
+		timeOfDayHighInsideTemperature = Utils.setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayHighOutsideTemperature() {
@@ -597,7 +606,7 @@ public class HighLow {
 	}
 
 	protected void setTimeOfDayHighOutsideTemperature(byte one, byte two) {
-		timeOfDayHighOutsideTemperature = setTime(one, two);
+		timeOfDayHighOutsideTemperature = Utils.setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayHighRainRate() {
@@ -609,7 +618,7 @@ public class HighLow {
 	}
 
 	protected void setTimeOfDayHighRainRate(byte one, byte two) {
-		timeOfDayHighRainRate = setTime(one, two);
+		timeOfDayHighRainRate = Utils.setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayHighSolarRadiation() {
@@ -622,7 +631,7 @@ public class HighLow {
 	}
 
 	protected void setTimeOfDayHighSolarRadiation(byte one, byte two) {
-		timeOfDayHighSolarRadiation = setTime(one, two);
+		timeOfDayHighSolarRadiation = Utils.setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayHighTHSWIndex() {
@@ -634,19 +643,20 @@ public class HighLow {
 	}
 
 	protected void setTimeOfDayHighTHSWIndex(byte one, byte two) {
-		timeOfDayHighTHSWIndex = setTime(one, two);
+		timeOfDayHighTHSWIndex = Utils.setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayHighUltraViolet() {
 		return timeOfDayHighUltraViolet;
 	}
 
-	protected void setTimeOfDayHighUltraViolet(LocalTime timeOfDayHighUltraViolet) {
+	protected void setTimeOfDayHighUltraViolet(
+			LocalTime timeOfDayHighUltraViolet) {
 		this.timeOfDayHighUltraViolet = timeOfDayHighUltraViolet;
 	}
 
 	protected void setTimeOfDayHighUltraViolet(byte one, byte two) {
-		timeOfDayHighUltraViolet = setTime(one, two);
+		timeOfDayHighUltraViolet = Utils.setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayHighWindSpeed() {
@@ -658,7 +668,7 @@ public class HighLow {
 	}
 
 	protected void setTimeOfDayHighWindSpeed(byte one, byte two) {
-		timeOfDayHighWindSpeed = setTime(one, two);
+		timeOfDayHighWindSpeed = Utils.setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayLowBarometer() {
@@ -670,7 +680,7 @@ public class HighLow {
 	}
 
 	protected void setTimeOfDayLowBarometer(byte one, byte two) {
-		timeOfDayLowBarometer = setTime(one, two);
+		timeOfDayLowBarometer = Utils.setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayLowDewPoint() {
@@ -683,7 +693,7 @@ public class HighLow {
 	}
 
 	protected void setTimeOfDayLowDewPoint(byte one, byte two) {
-		timeOfDayLowDewPoint = setTime(one, two);
+		timeOfDayLowDewPoint = Utils.setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayLowInsideHumidity() {
@@ -696,7 +706,7 @@ public class HighLow {
 	}
 
 	protected void setTimeOfDayLowInsideHumidity(byte one, byte two) {
-		timeOfDayLowInsideHumidity = setTime(one, two);
+		timeOfDayLowInsideHumidity = Utils.setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayLowInsideTemperature() {
@@ -709,7 +719,7 @@ public class HighLow {
 	}
 
 	protected void setTimeOfDayLowInsideTemperature(byte one, byte two) {
-		timeOfDayLowInsideTemperature = setTime(one, two);
+		timeOfDayLowInsideTemperature = Utils.setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayLowOutsideTemperature() {
@@ -722,7 +732,7 @@ public class HighLow {
 	}
 
 	protected void setTimeOfDayLowOutsideTemperature(byte one, byte two) {
-		timeOfDayLowOutsideTemperature = setTime(one, two);
+		timeOfDayLowOutsideTemperature = Utils.setTime(one, two);
 	}
 
 	public LocalTime getTimeOfDayLowWindChill() {
@@ -734,7 +744,7 @@ public class HighLow {
 	}
 
 	protected void setTimeOfDayLowWindChill(byte one, byte two) {
-		timeOfDayLowWindChill = setTime(one, two);
+		timeOfDayLowWindChill = Utils.setTime(one, two);
 	}
 
 	public BigDecimal getYearHighBarometer() {
@@ -746,7 +756,7 @@ public class HighLow {
 	}
 
 	protected void setYearHighBarometer(byte one, byte two) {
-		int bar = setInteger(one, two);
+		int bar = Utils.setInteger(one, two);
 		yearHighBarometer = new BigDecimal(bar);
 		yearHighBarometer = yearHighBarometer.movePointLeft(3);
 	}
@@ -760,7 +770,7 @@ public class HighLow {
 	}
 
 	protected void setYearHighDewPoint(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		yearHighDewPoint = new BigDecimal(temp);
 	}
 
@@ -773,7 +783,7 @@ public class HighLow {
 	}
 
 	protected void setYearHighHeatIndex(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		yearHighHeatIndex = new BigDecimal(temp);
 	}
 
@@ -789,12 +799,13 @@ public class HighLow {
 		return yearHighInsideTemperature;
 	}
 
-	protected void setYearHighInsideTemperature(BigDecimal yearHighInsideTemperature) {
+	protected void setYearHighInsideTemperature(
+			BigDecimal yearHighInsideTemperature) {
 		this.yearHighInsideTemperature = yearHighInsideTemperature;
 	}
 
 	protected void setYearHighInsideTemperature(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		yearHighInsideTemperature = new BigDecimal(temp);
 		yearHighInsideTemperature = yearHighInsideTemperature.movePointLeft(1);
 	}
@@ -809,9 +820,10 @@ public class HighLow {
 	}
 
 	protected void setYearHighOutsideTemperature(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		yearHighOutsideTemperature = new BigDecimal(temp);
-		yearHighOutsideTemperature = yearHighOutsideTemperature.movePointLeft(1);
+		yearHighOutsideTemperature =
+				yearHighOutsideTemperature.movePointLeft(1);
 	}
 
 	public BigDecimal getYearHighRainRate() {
@@ -823,7 +835,7 @@ public class HighLow {
 	}
 
 	protected void setYearHighRainRate(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		yearHighRainRate = new BigDecimal(temp);
 		yearHighRainRate = yearHighRainRate.movePointLeft(2);
 	}
@@ -832,12 +844,13 @@ public class HighLow {
 		return yearHighSolarRadiation;
 	}
 
-	protected void setYearHighSolarRadiation(BigDecimal yearHighSolarRadiation) {
+	protected void setYearHighSolarRadiation(
+			BigDecimal yearHighSolarRadiation) {
 		this.yearHighSolarRadiation = yearHighSolarRadiation;
 	}
 
 	protected void setYearHighSolarRadiation(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		yearHighSolarRadiation = new BigDecimal(temp);
 		yearHighSolarRadiation = yearHighSolarRadiation.movePointLeft(1);
 	}
@@ -851,7 +864,7 @@ public class HighLow {
 	}
 
 	protected void setYearHighTHSWIndex(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		yearHighTHSWIndex = new BigDecimal(temp);
 		yearHighTHSWIndex = yearHighTHSWIndex.movePointLeft(1);
 	}
@@ -881,7 +894,7 @@ public class HighLow {
 	}
 
 	protected void setYearLowBarometer(byte one, byte two) {
-		int bar = setInteger(one, two);
+		int bar = Utils.setInteger(one, two);
 		yearLowBarometer = new BigDecimal(bar);
 		yearLowBarometer = yearLowBarometer.movePointLeft(3);
 	}
@@ -895,7 +908,7 @@ public class HighLow {
 	}
 
 	protected void setYearLowDewPoint(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		yearLowDewPoint = new BigDecimal(temp);
 	}
 
@@ -911,12 +924,13 @@ public class HighLow {
 		return yearLowInsideTemperature;
 	}
 
-	protected void setYearLowInsideTemperature(BigDecimal yearLowInsideTemperature) {
+	protected void setYearLowInsideTemperature(
+			BigDecimal yearLowInsideTemperature) {
 		this.yearLowInsideTemperature = yearLowInsideTemperature;
 	}
 
 	protected void setYearLowInsideTemperature(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		yearLowInsideTemperature = new BigDecimal(temp);
 		yearLowInsideTemperature = yearLowInsideTemperature.movePointLeft(1);
 	}
@@ -925,12 +939,13 @@ public class HighLow {
 		return yearLowOutsideTemperature;
 	}
 
-	protected void setYearLowOutsideTemperature(BigDecimal yearLowOutsideTemperature) {
+	protected void setYearLowOutsideTemperature(
+			BigDecimal yearLowOutsideTemperature) {
 		this.yearLowOutsideTemperature = yearLowOutsideTemperature;
 	}
 
 	protected void setYearLowOutsideTemperature(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		yearLowOutsideTemperature = new BigDecimal(temp);
 		yearLowOutsideTemperature = yearLowOutsideTemperature.movePointLeft(1);
 	}
@@ -944,23 +959,7 @@ public class HighLow {
 	}
 
 	protected void setYearLowWindChill(byte one, byte two) {
-		int temp = setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		yearLowWindChill = new BigDecimal(temp);
-	}
-
-	public static int setInteger(byte one, byte two) {
-		int integer = two & 0xFF;
-		integer = integer << 8;
-		integer = integer | (one & 0xFF);
-		return integer;
-	}
-
-	public static LocalTime setTime(byte one, byte two) {
-		int num = two & 0xFF;
-		num = num << 8;
-		num = num | (one & 0xFF);
-		String time = String.format("%04d", num);
-		return LocalTime.of(Integer.parseInt(
-				time.substring(0, 2)), Integer.parseInt(time.substring(2)));
 	}
 }

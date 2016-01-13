@@ -16,7 +16,10 @@ public class Uploader {
 
 	private String barometricPressure;
 	private String humidity;
+	private String rainRate;
 	private String temperature;
+	private String tenMinuteAverageWindSpeed;
+	private String windDirection;
 	private String windSpeed;
 
 	public String getBarometricPressure() {
@@ -35,12 +38,36 @@ public class Uploader {
 		this.humidity = humidity;
 	}
 
+	public String getRainRate() {
+		return rainRate;
+	}
+
+	public void setRainRate(String rainRate) {
+		this.rainRate = rainRate;
+	}
+
 	public String getTemperature() {
 		return temperature;
 	}
 
 	public void setTemperature(String temperature) {
 		this.temperature = temperature;
+	}
+
+	public String getTenMinuteAverageWindSpeed() {
+		return tenMinuteAverageWindSpeed;
+	}
+
+	public void setTenMinuteAverageWindSpeed(String tenMinuteAverageWindSpeed) {
+		this.tenMinuteAverageWindSpeed = tenMinuteAverageWindSpeed;
+	}
+
+	public String getWindDirection() {
+		return windDirection;
+	}
+
+	public void setWindDirection(String windDirection) {
+		this.windDirection = windDirection;
 	}
 
 	public String getWindSpeed() {
@@ -60,13 +87,15 @@ public class Uploader {
 		String password = "MwsiaDIVP2";
 		String action = "updateraw";
 
-		String query = String.format("ID=%s&PASSWORD=%s&action=%s&dateutc=now&humidity=%s&tempf=%s&baromin=%s", 
+		String query = String.format("ID=%s&PASSWORD=%s&action=%s&dateutc=now&humidity=%s&tempf=%s&baromin=%s&winddir=%s&windspeedmph=%s",
 				URLEncoder.encode(id, charset), 
 				URLEncoder.encode(password, charset),
 				URLEncoder.encode(action, charset),
 				URLEncoder.encode(humidity, charset),
 				URLEncoder.encode(temperature, charset),
-				URLEncoder.encode(barometricPressure, charset));
+				URLEncoder.encode(barometricPressure, charset),
+				URLEncoder.encode(windDirection, charset),
+				URLEncoder.encode(windSpeed, charset));
         System.out.println(query.toString());
 
 		URLConnection connection = new URL(url + "?" + query).openConnection();

@@ -27,6 +27,9 @@ public class Loop {
 	private BigDecimal insideTemperature;
 	private int outsideHumidity;
 	private BigDecimal outsideTemperature;
+	private BigDecimal rainRate;
+	private int tenMinuteAverageWindSpeed;
+	private int windDirection;
 	private int windSpeed;
 
 	public BigDecimal getBarometricPressure() {
@@ -38,7 +41,7 @@ public class Loop {
 	}
 
 	protected void setBarometricPressure(byte one, byte two) {
-		int bar = HighLow.setInteger(one, two);
+		int bar = Utils.setInteger(one, two);
 		barometricPressure = new BigDecimal(bar);
 		barometricPressure = barometricPressure.movePointLeft(3);
 	}
@@ -60,7 +63,7 @@ public class Loop {
 	}
 
 	protected void setInsideTemperature(byte one, byte two) {
-		int temp = HighLow.setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		insideTemperature = new BigDecimal(temp);
 		insideTemperature = insideTemperature.movePointLeft(1);
 	}
@@ -82,9 +85,43 @@ public class Loop {
 	}
 
 	protected void setOutsideTemperature(byte one, byte two) {
-		int temp = HighLow.setInteger(one, two);
+		int temp = Utils.setInteger(one, two);
 		outsideTemperature = new BigDecimal(temp);
 		outsideTemperature = outsideTemperature.movePointLeft(1);
+	}
+
+	public BigDecimal getRainRate() {
+		return rainRate;
+	}
+
+	protected void setRainRate(BigDecimal rainRate) {
+		this.rainRate = rainRate;
+	}
+
+	protected void setRainRate(byte one, byte two) {
+		int temp = Utils.setInteger(one, two);
+		rainRate = new BigDecimal(temp);
+		rainRate = rainRate.movePointLeft(2);
+	}
+
+	public int getTenMinuteAverageWindSpeed() {
+		return tenMinuteAverageWindSpeed;
+	}
+
+	protected void setTenMinuteAverageWindSpeed(int tenMinuteAverageWindSpeed) {
+		this.tenMinuteAverageWindSpeed = tenMinuteAverageWindSpeed;
+	}
+
+	public int getWindDirection() {
+		return windDirection;
+	}
+
+	protected void setWindDirection(int windDirection) {
+		this.windDirection = windDirection;
+	}
+
+	protected void setWindDirection(byte one, byte two) {
+		windDirection = Utils.setInteger(one, two);
 	}
 
 	public int getWindSpeed() {

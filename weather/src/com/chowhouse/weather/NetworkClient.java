@@ -384,8 +384,12 @@ public class NetworkClient implements VantagePro2Client {
 		loop.setOutsideTemperature(buffer[12], buffer[13]);
 		loop.setWindSpeed((new BigInteger(Arrays.copyOfRange(
 				buffer, 14, 15))).intValue());
+		loop.setTenMinuteAverageWindSpeed((new BigInteger(Arrays.copyOfRange(
+				buffer, 15, 16))).intValue());
+		loop.setWindDirection(buffer[16], buffer[17]);
 		loop.setOutsideHumidity((new BigInteger(Arrays.copyOfRange(
 				buffer, 33, 34))).intValue());
+		loop.setRainRate(buffer[41], buffer[42]);
 		return loop;
 	}
 
