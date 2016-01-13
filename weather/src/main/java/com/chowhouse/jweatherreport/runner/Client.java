@@ -53,7 +53,7 @@ public class Client implements Runnable, Closeable {
 
 		final String hostname = args[0];
 		int port = 0;
-		int period = 1;
+		int period = 30;
 		try {
 			port = Integer.parseInt(args[1]);
 		} catch (NumberFormatException ignore) {
@@ -75,7 +75,8 @@ public class Client implements Runnable, Closeable {
 		final ScheduledExecutorService service = configureExecutor();
 
 		try (final Client client = new Client(hostname, port)) {
-			service.scheduleAtFixedRate(client, 0, period, TimeUnit.MINUTES);
+			client.client.connect();
+			service.scheduleAtFixedRate(client, 0, period, TimeUnit.SECONDS);
 			while (!ERROR.get()) {
 				TimeUnit.MILLISECONDS.sleep(20L);
 			}
@@ -93,8 +94,6 @@ public class Client implements Runnable, Closeable {
 	@Override
 	public void run() {
 		try {
-			client.connect();
-
 			if (client.testConnection()) {
 				System.out.println("Testing successful");
 			} else {
