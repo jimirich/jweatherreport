@@ -15,6 +15,8 @@ import java.util.Map.Entry;
 public class Uploader {
 
 	private String barometricPressure;
+	private String dayRain;
+	private String dewPoint;
 	private String humidity;
 	private String rainRate;
 	private String temperature;
@@ -28,6 +30,22 @@ public class Uploader {
 
 	public void setBarometricPressure(String barometricPressure) {
 		this.barometricPressure = barometricPressure;
+	}
+
+	public String getDayRain() {
+		return dayRain;
+	}
+
+	public void setDayRain(String dayRain) {
+		this.dayRain = dayRain;
+	}
+
+	public String getDewPoint() {
+		return dewPoint;
+	}
+
+	public void setDewPoint(String dewPoint) {
+		this.dewPoint = dewPoint;
 	}
 
 	public String getHumidity() {
@@ -87,7 +105,7 @@ public class Uploader {
 		String password = "MwsiaDIVP2";
 		String action = "updateraw";
 
-		String query = String.format("ID=%s&PASSWORD=%s&action=%s&dateutc=now&humidity=%s&tempf=%s&baromin=%s&winddir=%s&windspeedmph=%s",
+		String query = String.format("ID=%s&PASSWORD=%s&action=%s&dateutc=now&humidity=%s&tempf=%s&baromin=%s&winddir=%s&windspeedmph=%s&dailyrainin=%s&dewptf=%s",
 				URLEncoder.encode(id, charset), 
 				URLEncoder.encode(password, charset),
 				URLEncoder.encode(action, charset),
@@ -95,7 +113,9 @@ public class Uploader {
 				URLEncoder.encode(temperature, charset),
 				URLEncoder.encode(barometricPressure, charset),
 				URLEncoder.encode(windDirection, charset),
-				URLEncoder.encode(windSpeed, charset));
+				URLEncoder.encode(windSpeed, charset),
+				URLEncoder.encode(dayRain, charset),
+				URLEncoder.encode(dewPoint, charset));
         System.out.println(query.toString());
 
 		URLConnection connection = new URL(url + "?" + query).openConnection();

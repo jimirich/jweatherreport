@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import com.chowhouse.weather.HighLow;
 import com.chowhouse.weather.Loop;
+import com.chowhouse.weather.Loop2;
 import com.chowhouse.weather.VantagePro2Client;
 import com.chowhouse.wunderground.Uploader;
 
@@ -45,6 +46,7 @@ public class Client {
 		System.out.println("Current time " + client.getTime().format(
 				DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
 
+		/*
 		HighLow highlow = client.getHighsLows();
 		System.out.println("Day high bar " + highlow.getDayHighBarometer());
 		System.out.println("Day high bar time " +
@@ -225,16 +227,33 @@ public class Client {
 				loop.getBarometricPressure());
 		System.out.println("Current wind speed " +
 				loop.getWindSpeed());
+		System.out.println("Current wind direction " +
+				loop.getWindDirection());
+		System.out.println("10 minute average wind speed " +
+				loop.getTenMinuteAverageWindSpeed());
+		System.out.println("Rain today " +
+				loop.getDayRain());
+		System.out.println("Rain this month " +
+				loop.getMonthRain());
+		System.out.println("Rain this year " +
+				loop.getYearRain());
+				*/
+
+		Loop2 loop2 = client.getLoop2(1);
+		System.out.println("Dew point " + loop2.getDewPoint());
 
 		Uploader uploader = new Uploader();
-		uploader.setBarometricPressure(loop.getBarometricPressure().toString());
-		uploader.setHumidity(String.valueOf(loop.getOutsideHumidity()));
-		uploader.setTemperature(loop.getOutsideTemperature().toString());
-		uploader.setRainRate(loop.getRainRate().toString());
+		uploader.setBarometricPressure(
+				loop2.getBarometricPressure().toString());
+		uploader.setHumidity(String.valueOf(loop2.getOutsideHumidity()));
+		uploader.setDewPoint(String.valueOf(loop2.getDewPoint()));
+		uploader.setTemperature(loop2.getOutsideTemperature().toString());
+		uploader.setRainRate(loop2.getRainRate().toString());
+		uploader.setDayRain(loop2.getDayRain().toString());
 		uploader.setTenMinuteAverageWindSpeed(String.valueOf(
-				loop.getTenMinuteAverageWindSpeed()));
-		uploader.setWindDirection(String.valueOf(loop.getWindDirection()));
-		uploader.setWindSpeed(String.valueOf(loop.getWindSpeed()));
+				loop2.getTenMinuteAverageWindSpeed()));
+		uploader.setWindDirection(String.valueOf(loop2.getWindDirection()));
+		uploader.setWindSpeed(String.valueOf(loop2.getWindSpeed()));
 		uploader.uploadData();
 		client.close();
 	}

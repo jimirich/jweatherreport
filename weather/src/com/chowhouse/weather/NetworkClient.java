@@ -390,6 +390,62 @@ public class NetworkClient implements VantagePro2Client {
 		loop.setOutsideHumidity((new BigInteger(Arrays.copyOfRange(
 				buffer, 33, 34))).intValue());
 		loop.setRainRate(buffer[41], buffer[42]);
+		loop.setDayRain(buffer[50], buffer[51]);
+		loop.setMonthRain(buffer[52], buffer[53]);
+		loop.setYearRain(buffer[54], buffer[55]);
+		return loop;
+	}
+
+	@Override
+	public Loop2 getLoop2(int packets)
+	throws IOException {
+		byte[] buffer = new byte[512];
+		int len;
+		StringBuilder sb = new StringBuilder("LPS 2 ");
+		sb.append(String.valueOf(packets));
+		sb.append('\n');
+		out.write((new String(sb.toString())).getBytes());
+		// get the first byte which should be ACK (0x06)
+		len = in.read(buffer, 0, 1);
+		//System.out.format("Read %d bytes\n", len);
+
+		if ((buffer[0] == 0x06)) {
+			//System.out.println("Retrieving LOOP data...");
+		} else {
+			throw new IOException("Command invalid");
+		}
+
+		len = 0;
+
+		for (int i = 0; i < 99; i++) {
+			len += in.read(buffer, i, 1);
+			//System.out.format("Read %d bytes\n", len);
+		}
+
+		if (CRC.checkCRC(99, buffer) != 0) {
+			throw new IOException("Incorrect CRC checksum");
+		}
+
+		Loop2 loop = new Loop2();
+		loop.setBarometricPressure(buffer[7], buffer[8]);
+		loop.setInsideTemperature(buffer[9], buffer[10]);
+		loop.setInsideHumidity((new BigInteger(Arrays.copyOfRange(
+				buffer, 11, 12))).intValue());
+		loop.setOutsideTemperature(buffer[12], buffer[13]);
+		loop.setWindSpeed((new BigInteger(Arrays.copyOfRange(
+				buffer, 14, 15))).intValue());
+		loop.setWindDirection(buffer[16], buffer[17]);
+		loop.setTenMinuteAverageWindSpeed(buffer[18], buffer[19]);
+		loop.setTwoMinuteAverageWindSpeed(buffer[20], buffer[21]);
+		loop.setTenMinuteWindGust(buffer[22], buffer[23]);
+		loop.setTenMinuteWindGustDirection(buffer[24], buffer[25]);
+		loop.setDewPoint(buffer[30], buffer[31]);
+		loop.setOutsideHumidity((new BigInteger(Arrays.copyOfRange(
+				buffer, 33, 34))).intValue());
+		loop.setRainRate(buffer[41], buffer[42]);
+		loop.setDayRain(buffer[50], buffer[51]);
+		loop.setFifteenMinuteRain(buffer[52], buffer[53]);
+		loop.setHourRain(buffer[54], buffer[55]);
 		return loop;
 	}
 

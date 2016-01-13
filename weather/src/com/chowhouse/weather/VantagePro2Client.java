@@ -31,6 +31,7 @@ public interface VantagePro2Client extends Closeable {
 	String getFirmwareVersion() throws IOException;
 	HighLow getHighsLows() throws IOException;
 	Loop getLoop(int packets) throws IOException;
+	Loop2 getLoop2(int packets) throws IOException;
 	LocalDateTime getTime() throws IOException;
 	byte[] sendCommand(String command);
 
