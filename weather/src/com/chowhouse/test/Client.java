@@ -240,11 +240,12 @@ public class Client {
 				*/
 
 		Loop2 loop2 = client.getLoop2(1);
-		System.out.println("Dew point " + loop2.getDewPoint());
+		//System.out.println("Dew point " + loop2.getDewPoint());
 
 		Uploader uploader = new Uploader();
 		uploader.setBarometricPressure(
 				loop2.getBarometricPressure().toString());
+		uploader.setHourRain(loop2.getHourRain().toString());
 		uploader.setHumidity(String.valueOf(loop2.getOutsideHumidity()));
 		uploader.setDewPoint(String.valueOf(loop2.getDewPoint()));
 		uploader.setTemperature(loop2.getOutsideTemperature().toString());
@@ -252,6 +253,11 @@ public class Client {
 		uploader.setDayRain(loop2.getDayRain().toString());
 		uploader.setTenMinuteAverageWindSpeed(String.valueOf(
 				loop2.getTenMinuteAverageWindSpeed()));
+		uploader.setTenMinuteWindGust(loop2.getTenMinuteWindGust().toString());
+		uploader.setTenMinuteWindGustDirection(String.valueOf(
+				loop2.getTenMinuteWindGustDirection()));
+		uploader.setTwoMinuteAverageWindSpeed(
+				loop2.getTwoMinuteAverageWindSpeed().toString());
 		uploader.setWindDirection(String.valueOf(loop2.getWindDirection()));
 		uploader.setWindSpeed(String.valueOf(loop2.getWindSpeed()));
 		uploader.uploadData();

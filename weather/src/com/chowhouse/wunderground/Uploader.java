@@ -17,10 +17,14 @@ public class Uploader {
 	private String barometricPressure;
 	private String dayRain;
 	private String dewPoint;
+	private String hourRain;
 	private String humidity;
 	private String rainRate;
 	private String temperature;
 	private String tenMinuteAverageWindSpeed;
+	private String tenMinuteWindGust;
+	private String tenMinuteWindGustDirection;
+	private String twoMinuteAverageWindSpeed;
 	private String windDirection;
 	private String windSpeed;
 
@@ -46,6 +50,14 @@ public class Uploader {
 
 	public void setDewPoint(String dewPoint) {
 		this.dewPoint = dewPoint;
+	}
+
+	public String getHourRain() {
+		return hourRain;
+	}
+
+	public void setHourRain(String hourRain) {
+		this.hourRain = hourRain;
 	}
 
 	public String getHumidity() {
@@ -80,6 +92,31 @@ public class Uploader {
 		this.tenMinuteAverageWindSpeed = tenMinuteAverageWindSpeed;
 	}
 
+	public String getTenMinuteWindGust() {
+		return tenMinuteWindGust;
+	}
+
+	public void setTenMinuteWindGust(String tenMinuteWindGust) {
+		this.tenMinuteWindGust = tenMinuteWindGust;
+	}
+
+	public String getTenMinuteWindGustDirection() {
+		return tenMinuteWindGustDirection;
+	}
+
+	public void setTenMinuteWindGustDirection(
+			String tenMinuteWindGustDirection) {
+		this.tenMinuteWindGustDirection = tenMinuteWindGustDirection;
+	}
+
+	public String getTwoMinuteAverageWindSpeed() {
+		return twoMinuteAverageWindSpeed;
+	}
+
+	public void setTwoMinuteAverageWindSpeed(String twoMinuteAverageWindSpeed) {
+		this.twoMinuteAverageWindSpeed = twoMinuteAverageWindSpeed;
+	}
+
 	public String getWindDirection() {
 		return windDirection;
 	}
@@ -105,7 +142,7 @@ public class Uploader {
 		String password = "MwsiaDIVP2";
 		String action = "updateraw";
 
-		String query = String.format("ID=%s&PASSWORD=%s&action=%s&dateutc=now&humidity=%s&tempf=%s&baromin=%s&winddir=%s&windspeedmph=%s&dailyrainin=%s&dewptf=%s",
+		String query = String.format("ID=%s&PASSWORD=%s&action=%s&dateutc=now&humidity=%s&tempf=%s&baromin=%s&winddir=%s&windspeedmph=%s&windspdmph_avg2m=%s&windgustmph_10m=%s&windgustdir_10m=%s&rainin=%s&dailyrainin=%s&dewptf=%s&softwaretype=jweatherreport",
 				URLEncoder.encode(id, charset), 
 				URLEncoder.encode(password, charset),
 				URLEncoder.encode(action, charset),
@@ -114,6 +151,10 @@ public class Uploader {
 				URLEncoder.encode(barometricPressure, charset),
 				URLEncoder.encode(windDirection, charset),
 				URLEncoder.encode(windSpeed, charset),
+				URLEncoder.encode(twoMinuteAverageWindSpeed, charset),
+				URLEncoder.encode(tenMinuteWindGust, charset),
+				URLEncoder.encode(tenMinuteWindGustDirection, charset),
+				URLEncoder.encode(hourRain, charset),
 				URLEncoder.encode(dayRain, charset),
 				URLEncoder.encode(dewPoint, charset));
         System.out.println(query.toString());
