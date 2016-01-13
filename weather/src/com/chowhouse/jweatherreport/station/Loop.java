@@ -16,28 +16,24 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package jweatherreport.station;
+package com.chowhouse.jweatherreport.station;
 
 import java.math.BigDecimal;
 
-public class Loop2 {
+public class Loop {
 
 	private BigDecimal barometricPressure;
 	private BigDecimal dayRain;
-	private int dewPoint;
-	private BigDecimal fifteenMinuteRain;
-	private BigDecimal hourRain;
 	private int insideHumidity;
 	private BigDecimal insideTemperature;
+	private BigDecimal monthRain;
 	private int outsideHumidity;
 	private BigDecimal outsideTemperature;
 	private BigDecimal rainRate;
-	private BigDecimal tenMinuteAverageWindSpeed;
-	private BigDecimal tenMinuteWindGust;
-	private int tenMinuteWindGustDirection;
-	private BigDecimal twoMinuteAverageWindSpeed;
+	private int tenMinuteAverageWindSpeed;
 	private int windDirection;
 	private int windSpeed;
+	private BigDecimal yearRain;
 
 	public BigDecimal getBarometricPressure() {
 		return barometricPressure;
@@ -67,46 +63,6 @@ public class Loop2 {
 		dayRain = dayRain.movePointLeft(3);
 	}
 
-	public int getDewPoint() {
-		return dewPoint;
-	}
-
-	protected void setDewPoint(int dewPoint) {
-		this.dewPoint = dewPoint;
-	}
-
-	protected void setDewPoint(byte one, byte two) {
-		dewPoint = Utils.setInteger(one, two);
-	}
-
-	public BigDecimal getFifteenMinuteRain() {
-		return fifteenMinuteRain;
-	}
-
-	protected void setFifteenMinuteRain(BigDecimal fifteenMinuteRain) {
-		this.fifteenMinuteRain = fifteenMinuteRain;
-	}
-
-	protected void setFifteenMinuteRain(byte one, byte two) {
-		int rain = Utils.setInteger(one, two);
-		fifteenMinuteRain = new BigDecimal(rain);
-		fifteenMinuteRain = fifteenMinuteRain.movePointLeft(3);
-	}
-
-	public BigDecimal getHourRain() {
-		return hourRain;
-	}
-
-	protected void setHourRain(BigDecimal hourRain) {
-		this.hourRain = hourRain;
-	}
-
-	protected void setHourRain(byte one, byte two) {
-		int rain = Utils.setInteger(one, two);
-		hourRain = new BigDecimal(rain);
-		hourRain = hourRain.movePointLeft(3);
-	}
-
 	public int getInsideHumidity() {
 		return insideHumidity;
 	}
@@ -127,6 +83,20 @@ public class Loop2 {
 		int temp = Utils.setInteger(one, two);
 		insideTemperature = new BigDecimal(temp);
 		insideTemperature = insideTemperature.movePointLeft(1);
+	}
+
+	public BigDecimal getMonthRain() {
+		return monthRain;
+	}
+
+	protected void setMonthRain(BigDecimal monthRain) {
+		this.monthRain = monthRain;
+	}
+
+	protected void setMonthRain(byte one, byte two) {
+		int rain = Utils.setInteger(one, two);
+		monthRain = new BigDecimal(rain);
+		monthRain = monthRain.movePointLeft(3);
 	}
 
 	public int getOutsideHumidity() {
@@ -165,61 +135,12 @@ public class Loop2 {
 		rainRate = rainRate.movePointLeft(2);
 	}
 
-	public BigDecimal getTenMinuteAverageWindSpeed() {
+	public int getTenMinuteAverageWindSpeed() {
 		return tenMinuteAverageWindSpeed;
 	}
 
-	protected void setTenMinuteAverageWindSpeed(
-			BigDecimal tenMinuteAverageWindSpeed) {
+	protected void setTenMinuteAverageWindSpeed(int tenMinuteAverageWindSpeed) {
 		this.tenMinuteAverageWindSpeed = tenMinuteAverageWindSpeed;
-	}
-
-	protected void setTenMinuteAverageWindSpeed(byte one, byte two) {
-		int temp = Utils.setInteger(one, two);
-		tenMinuteAverageWindSpeed = new BigDecimal(temp);
-		tenMinuteAverageWindSpeed = tenMinuteAverageWindSpeed.movePointLeft(1);
-	}
-
-	public BigDecimal getTenMinuteWindGust() {
-		return tenMinuteWindGust;
-	}
-
-	protected void setTenMinuteWindGust(BigDecimal tenMinuteWindGust) {
-		this.tenMinuteWindGust = tenMinuteWindGust;
-	}
-
-	protected void setTenMinuteWindGust(byte one, byte two) {
-		int temp = Utils.setInteger(one, two);
-		tenMinuteWindGust = new BigDecimal(temp);
-		tenMinuteWindGust = tenMinuteWindGust.movePointLeft(1);
-	}
-
-	public int getTenMinuteWindGustDirection() {
-		return tenMinuteWindGustDirection;
-	}
-
-	protected void setTenMinuteWindGustDirection(
-			int tenMinuteWindGustDirection) {
-		this.tenMinuteWindGustDirection = tenMinuteWindGustDirection;
-	}
-
-	protected void setTenMinuteWindGustDirection(byte one, byte two) {
-		tenMinuteWindGustDirection = Utils.setInteger(one, two);
-	}
-
-	public BigDecimal getTwoMinuteAverageWindSpeed() {
-		return twoMinuteAverageWindSpeed;
-	}
-
-	protected void setTwoMinuteAverageWindSpeed(
-			BigDecimal twoMinuteAverageWindSpeed) {
-		this.twoMinuteAverageWindSpeed = twoMinuteAverageWindSpeed;
-	}
-
-	protected void setTwoMinuteAverageWindSpeed(byte one, byte two) {
-		int temp = Utils.setInteger(one, two);
-		twoMinuteAverageWindSpeed = new BigDecimal(temp);
-		twoMinuteAverageWindSpeed = twoMinuteAverageWindSpeed.movePointLeft(1);
 	}
 
 	public int getWindDirection() {
@@ -240,5 +161,19 @@ public class Loop2 {
 
 	protected void setWindSpeed(int windSpeed) {
 		this.windSpeed = windSpeed;
+	}
+
+	public BigDecimal getYearRain() {
+		return yearRain;
+	}
+
+	protected void setYearRain(BigDecimal yearRain) {
+		this.yearRain = yearRain;
+	}
+
+	protected void setYearRain(byte one, byte two) {
+		int rain = Utils.setInteger(one, two);
+		yearRain = new BigDecimal(rain);
+		yearRain = yearRain.movePointLeft(3);
 	}
 }
