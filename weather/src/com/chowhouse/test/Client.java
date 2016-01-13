@@ -23,6 +23,7 @@ import java.time.format.DateTimeFormatter;
 import com.chowhouse.weather.HighLow;
 import com.chowhouse.weather.Loop;
 import com.chowhouse.weather.VantagePro2Client;
+import com.chowhouse.wunderground.Uploader;
 
 public class Client {
 
@@ -225,6 +226,12 @@ public class Client {
 		System.out.println("Current wind speed " +
 				loop.getWindSpeed());
 
+		Uploader uploader = new Uploader();
+		uploader.setBarometricPressure(loop.getBarometricPressure().toString());
+		uploader.setHumidity(String.valueOf(loop.getOutsideHumidity()));
+		uploader.setTemperature(loop.getOutsideTemperature().toString());
+		uploader.setWindSpeed(String.valueOf(loop.getWindSpeed()));
+		uploader.uploadData();
 		client.close();
 	}
 }
