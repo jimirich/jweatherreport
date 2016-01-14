@@ -22,9 +22,9 @@ import com.chowhouse.jweatherreport.station.Loop2;
 import com.chowhouse.jweatherreport.station.NetworkClient;
 import com.chowhouse.jweatherreport.station.VantagePro2Client;
 import com.chowhouse.jweatherreport.wunderground.Uploader;
-
 import java.io.Closeable;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -318,7 +318,12 @@ public class Client implements Runnable, Closeable {
 					loop2.getTwoMinuteAverageWindSpeed().toString());
 			uploader.setWindDirection(String.valueOf(loop2.getWindDirection()));
 			uploader.setWindSpeed(String.valueOf(loop2.getWindSpeed()));
-			uploader.uploadData();
+
+			try {
+				uploader.uploadData();
+			} catch (ConnectException e) {
+				System.out.println("Connection to wunderground failed");
+			}
 		} catch (IOException e) {
 			ERROR.set(true);
 			e.printStackTrace();
