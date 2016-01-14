@@ -20,6 +20,7 @@ package com.chowhouse.jweatherreport.station;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -68,7 +69,7 @@ public abstract class AbstractCommand<T> implements Command<T> {
 	}
 
 	static String readResponse(final InputStream in, final String expected) throws IOException {
-		return readResponse(in, expected.getBytes());
+		return readResponse(in, expected.getBytes(StandardCharsets.UTF_8));
 	}
 
 	static String readResponse(final InputStream in, final byte[] expected) throws IOException {
@@ -79,13 +80,15 @@ public abstract class AbstractCommand<T> implements Command<T> {
 	}
 
 	static boolean expectedResponse(final InputStream in, final String expected) throws IOException {
-		return expectedResponse(in, expected.getBytes());
+		return expectedResponse(in, expected.getBytes(StandardCharsets.UTF_8));
 	}
 
 	static boolean expectedResponse(final InputStream in, final byte[] expected) throws IOException {
 		final byte[] buffer = new byte[expected.length];
-		final int len = in.read(buffer);
-		return len == expected.length && Arrays.equals(expected, buffer);
+		for (int i = 0; i < expected.length; i++) {
+			buffer[i] = (byte) in.read();
+		}
+		return Arrays.equals(expected, buffer);
 	}
 
 	static String readString(final InputStream in) throws IOException {
@@ -112,9 +115,8 @@ public abstract class AbstractCommand<T> implements Command<T> {
 			throw new IOException("Command invalid");
 		}
 		final byte[] buffer = new byte[len];
-		final int readLen = in.read(buffer);
-		if (readLen != buffer.length) {
-			throw new IOException("Could not parse the response: " + Arrays.toString(Arrays.copyOfRange(buffer, 0, readLen)));
+		for (int i = 0; i < len; i++) {
+			buffer[i] = (byte) in.read();
 		}
 
 		if (validateCrc && CRC.checkCRC(buffer.length, buffer) != 0) {

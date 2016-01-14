@@ -189,7 +189,7 @@ public class StandardCommands {
 			/* The TEST command response appears to be \n\rTEST\n\r and not just
 			 * TEST\n as stated in the documentation.
 			 */
-			return expectedResponse(in, "TEST\n");
+			return expectedResponse(in, "\n\rTEST\n\r");
 		}
 	};
 
