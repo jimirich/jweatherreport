@@ -64,7 +64,7 @@ public class Loop2 {
 	protected void setDayRain(byte one, byte two) {
 		int rain = Utils.setInteger(one, two);
 		dayRain = new BigDecimal(rain);
-		dayRain = dayRain.movePointLeft(3);
+		dayRain = dayRain.movePointLeft(2);
 	}
 
 	public int getDewPoint() {
@@ -90,7 +90,7 @@ public class Loop2 {
 	protected void setFifteenMinuteRain(byte one, byte two) {
 		int rain = Utils.setInteger(one, two);
 		fifteenMinuteRain = new BigDecimal(rain);
-		fifteenMinuteRain = fifteenMinuteRain.movePointLeft(3);
+		fifteenMinuteRain = fifteenMinuteRain.movePointLeft(2);
 	}
 
 	public BigDecimal getHourRain() {
@@ -104,7 +104,7 @@ public class Loop2 {
 	protected void setHourRain(byte one, byte two) {
 		int rain = Utils.setInteger(one, two);
 		hourRain = new BigDecimal(rain);
-		hourRain = hourRain.movePointLeft(3);
+		hourRain = hourRain.movePointLeft(2);
 	}
 
 	public int getInsideHumidity() {

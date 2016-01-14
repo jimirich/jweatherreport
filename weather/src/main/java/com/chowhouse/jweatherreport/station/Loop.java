@@ -60,7 +60,7 @@ public class Loop {
 	protected void setDayRain(byte one, byte two) {
 		int rain = Utils.setInteger(one, two);
 		dayRain = new BigDecimal(rain);
-		dayRain = dayRain.movePointLeft(3);
+		dayRain = dayRain.movePointLeft(2);
 	}
 
 	public int getInsideHumidity() {
@@ -96,7 +96,7 @@ public class Loop {
 	protected void setMonthRain(byte one, byte two) {
 		int rain = Utils.setInteger(one, two);
 		monthRain = new BigDecimal(rain);
-		monthRain = monthRain.movePointLeft(3);
+		monthRain = monthRain.movePointLeft(2);
 	}
 
 	public int getOutsideHumidity() {
@@ -174,6 +174,6 @@ public class Loop {
 	protected void setYearRain(byte one, byte two) {
 		int rain = Utils.setInteger(one, two);
 		yearRain = new BigDecimal(rain);
-		yearRain = yearRain.movePointLeft(3);
+		yearRain = yearRain.movePointLeft(2);
 	}
 }
