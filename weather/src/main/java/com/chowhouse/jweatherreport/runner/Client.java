@@ -20,6 +20,7 @@ package com.chowhouse.jweatherreport.runner;
 
 import com.chowhouse.jweatherreport.station.Loop2;
 import com.chowhouse.jweatherreport.station.NetworkClient;
+import com.chowhouse.jweatherreport.station.StandardCommands;
 import com.chowhouse.jweatherreport.station.VantagePro2Client;
 import com.chowhouse.jweatherreport.wunderground.Uploader;
 import java.io.Closeable;
@@ -99,13 +100,13 @@ public class Client implements Runnable, Closeable {
 				System.out.println("Test failed");
 			}
 
-			System.out.println("Firmware version " + client.getFirmwareVersion());
-			System.out.println("Firmware date " + client.getFirmwareDate());
-			System.out.println("Current time " + client.getTime().format(
+			System.out.println("Firmware version " + client.execute(StandardCommands.FIRMWARE_VERSION));
+			System.out.println("Firmware date " + client.execute(StandardCommands.FIRMWARE_DATE));
+			System.out.println("Current time " + client.execute(StandardCommands.TIME).format(
 					DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
 
 		/*
-		HighLow highlow = client.getHighsLows();
+		HighLow highlow = client.execute(StandardCommands.HIGH_LOW);
 		System.out.println("Day high bar " + highlow.getDayHighBarometer());
 		System.out.println("Day high bar time " +
 				highlow.getTimeOfDayHighBarometer().format(
@@ -297,7 +298,7 @@ public class Client implements Runnable, Closeable {
 				loop.getYearRain());
 				*/
 
-			Loop2 loop2 = client.getLoop2(1);
+			Loop2 loop2 = client.execute(StandardCommands.createLoop2(1));
 			//System.out.println("Dew point " + loop2.getDewPoint());
 
 			Uploader uploader = new Uploader();

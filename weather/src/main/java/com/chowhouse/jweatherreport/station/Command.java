@@ -10,7 +10,6 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with jweatherreport; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -18,25 +17,38 @@
 
 package com.chowhouse.jweatherreport.station;
 
-import java.io.Closeable;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.time.LocalDateTime;
+import java.io.InputStream;
 
-public interface VantagePro2Client extends Closeable {
-	void connect() throws IOException;
-	boolean isConnected();
-	boolean testConnection() throws IOException;
+/**
+ * Represents a command to be executed. The response from the command will be available to be read from the input.
+ *
+ * @author <a href="mailto:jperkins@redhat.com">James R. Perkins</a>
+ */
+public interface Command<T> {
 
-	<T> T execute(Command<T> command) throws IOException;
+	/**
+	 * Executes the command and returns the response.
+	 *
+	 * @param in the stream used to read the response from
+	 *
+	 * @return the response to the command
+	 *
+	 * @throws IOException if an error occurs reading the response
+	 */
+	T execute(InputStream in) throws IOException;
 
-	static VantagePro2Client of(final String host,
-			final int port) {
-		return new NetworkClient(host, port);
-	}
+	/**
+	 * The command to execute.
+	 *
+	 * @return the command
+	 */
+	String getCommand();
 
-	static VantagePro2Client of(final InetAddress address,
-			final int port) {
-		return new NetworkClient(address, port);
-	}
+	/**
+	 * A friendly description for the command.
+	 *
+	 * @return the commands description
+	 */
+	String getDescription();
 }

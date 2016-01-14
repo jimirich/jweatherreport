@@ -10,7 +10,6 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with jweatherreport; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -18,25 +17,32 @@
 
 package com.chowhouse.jweatherreport.station;
 
-import java.io.Closeable;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.time.LocalDateTime;
+import java.io.InputStream;
+import java.util.Arrays;
 
-public interface VantagePro2Client extends Closeable {
-	void connect() throws IOException;
-	boolean isConnected();
-	boolean testConnection() throws IOException;
+/**
+ * @author <a href="mailto:jperkins@redhat.com">James R. Perkins</a>
+ */
+public class SimpleCommand extends AbstractCommand<String> {
 
-	<T> T execute(Command<T> command) throws IOException;
+	private final byte[] expected;
 
-	static VantagePro2Client of(final String host,
-			final int port) {
-		return new NetworkClient(host, port);
+	public SimpleCommand(final String command, final String description) {
+		this(command, description, OK);
 	}
 
-	static VantagePro2Client of(final InetAddress address,
-			final int port) {
-		return new NetworkClient(address, port);
+	public SimpleCommand(final String command, final String description, final String expectedResponse) {
+		this(command, description, expectedResponse.getBytes());
+	}
+
+	public SimpleCommand(final String command, final String description, final byte[] expectedResponse) {
+		super(command, description);
+		this.expected = Arrays.copyOf(expectedResponse, expectedResponse.length);
+	}
+
+	@Override
+	public String execute(final InputStream in) throws IOException {
+		return readResponse(in, expected);
 	}
 }
