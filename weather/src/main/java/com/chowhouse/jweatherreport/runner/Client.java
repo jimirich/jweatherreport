@@ -25,7 +25,7 @@ import com.chowhouse.jweatherreport.station.VantagePro2Client;
 import com.chowhouse.jweatherreport.wunderground.Uploader;
 import java.io.Closeable;
 import java.io.IOException;
-import java.net.ConnectException;
+import java.net.SocketException;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -322,7 +322,7 @@ public class Client implements Runnable, Closeable {
 
 			try {
 				uploader.uploadData();
-			} catch (ConnectException e) {
+			} catch (SocketException e) {
 				System.out.println("Connection to wunderground failed");
 			}
 		} catch (IOException e) {
