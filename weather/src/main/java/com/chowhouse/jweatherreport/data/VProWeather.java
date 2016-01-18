@@ -70,67 +70,68 @@ public class VProWeather implements DataWriter {
 
 	public void createSummaryData()
 	throws IOException {
-		BufferedWriter writer = Files.newBufferedWriter(summaryDataFile,
-				StandardCharsets.US_ASCII);
-		writer.newLine();
-		writer.write("hlBaroHiDay = " + highlow.getDayHighBarometer());
-		writer.newLine();
-		writer.write("hlBaroHiTime = " +
-				highlow.getTimeOfDayHighBarometer().format(
-						DateTimeFormatter.ofPattern("hh:mm")));
-		writer.newLine();
-		writer.write("hlBaroLoDay = " + highlow.getDayLowBarometer());
-		writer.newLine();
-		writer.write("hlBaroLoTime = " +
-				highlow.getTimeOfDayLowBarometer().format(
-						DateTimeFormatter.ofPattern("hh:mm")));
-		writer.newLine();
-		writer.write("hlBaroHiMonth = " + highlow.getMonthHighBarometer());
-		writer.newLine();
-		writer.write("hlBaroLoMonth = " + highlow.getMonthLowBarometer());
-		writer.newLine();
-		writer.write("hlBaroHiYear = " + highlow.getYearHighBarometer());
-		writer.newLine();
-		writer.write("hlBaroLoYear = " + highlow.getYearLowBarometer());
-		writer.newLine();
+		try (BufferedWriter writer = Files.newBufferedWriter(summaryDataFile,
+				StandardCharsets.US_ASCII)) {
+			writer.newLine();
+			writer.write("hlBaroHiDay = " + highlow.getDayHighBarometer());
+			writer.newLine();
+			writer.write("hlBaroHiTime = " +
+					highlow.getTimeOfDayHighBarometer().format(
+							DateTimeFormatter.ofPattern("hh:mm")));
+			writer.newLine();
+			writer.write("hlBaroLoDay = " + highlow.getDayLowBarometer());
+			writer.newLine();
+			writer.write("hlBaroLoTime = " +
+					highlow.getTimeOfDayLowBarometer().format(
+							DateTimeFormatter.ofPattern("hh:mm")));
+			writer.newLine();
+			writer.write("hlBaroHiMonth = " + highlow.getMonthHighBarometer());
+			writer.newLine();
+			writer.write("hlBaroLoMonth = " + highlow.getMonthLowBarometer());
+			writer.newLine();
+			writer.write("hlBaroHiYear = " + highlow.getYearHighBarometer());
+			writer.newLine();
+			writer.write("hlBaroLoYear = " + highlow.getYearLowBarometer());
+			writer.newLine();
 
-		writer.write("hlWindHiDay = " + highlow.getDayHighWindSpeed());
-		writer.newLine();
-		writer.write("hlWindHiTime = " +
-				highlow.getTimeOfDayHighWindSpeed().format(
-						DateTimeFormatter.ofPattern("hh:mm")));
-		writer.newLine();
-		writer.write("hlWindHiMonth = " + highlow.getMonthHighWindSpeed());
-		writer.newLine();
-		writer.write("hlWindHiYear = " + highlow.getYearHighWindSpeed());
-		writer.newLine();
+			writer.write("hlWindHiDay = " + highlow.getDayHighWindSpeed());
+			writer.newLine();
+			writer.write("hlWindHiTime = " +
+					highlow.getTimeOfDayHighWindSpeed().format(
+							DateTimeFormatter.ofPattern("hh:mm")));
+			writer.newLine();
+			writer.write("hlWindHiMonth = " + highlow.getMonthHighWindSpeed());
+			writer.newLine();
+			writer.write("hlWindHiYear = " + highlow.getYearHighWindSpeed());
+			writer.newLine();
 
-		writer.write("hlInTempHiDay = " +
-				highlow.getDayHighInsideTemperature());
-		writer.newLine();
-		writer.write("hlInTempHiTime = " +
-				highlow.getTimeOfDayHighInsideTemperature().format(
-						DateTimeFormatter.ofPattern("hh:mm")));
-		writer.newLine();
-		writer.write("hlInTempLoDay = " +
-				highlow.getDayLowInsideTemperature());
-		writer.newLine();
-		writer.write("hlInTempLoTime = " +
-				highlow.getTimeOfDayLowInsideTemperature().format(
-						DateTimeFormatter.ofPattern("hh:mm")));
-		writer.newLine();
-		writer.write("hlInTempHiMonth = " +
-				highlow.getMonthHighInsideTemperature());
-		writer.newLine();
-		writer.write("hlInTempLoMonth = " +
-				highlow.getMonthLowInsideTemperature());
-		writer.newLine();
-		writer.write("hlInTempHiYear = " +
-				highlow.getYearHighInsideTemperature());
-		writer.newLine();
-		writer.write("hlInTempLoYear " +
-				highlow.getYearLowInsideTemperature());
-		writer.newLine();
+			writer.write("hlInTempHiDay = " +
+					highlow.getDayHighInsideTemperature());
+			writer.newLine();
+			writer.write("hlInTempHiTime = " +
+					highlow.getTimeOfDayHighInsideTemperature().format(
+							DateTimeFormatter.ofPattern("hh:mm")));
+			writer.newLine();
+			writer.write("hlInTempLoDay = " +
+					highlow.getDayLowInsideTemperature());
+			writer.newLine();
+			writer.write("hlInTempLoTime = " +
+					highlow.getTimeOfDayLowInsideTemperature().format(
+							DateTimeFormatter.ofPattern("hh:mm")));
+			writer.newLine();
+			writer.write("hlInTempHiMonth = " +
+					highlow.getMonthHighInsideTemperature());
+			writer.newLine();
+			writer.write("hlInTempLoMonth = " +
+					highlow.getMonthLowInsideTemperature());
+			writer.newLine();
+			writer.write("hlInTempHiYear = " +
+					highlow.getYearHighInsideTemperature());
+			writer.newLine();
+			writer.write("hlInTempLoYear " +
+					highlow.getYearLowInsideTemperature());
+			writer.newLine();
+		}
 	}
 
 	@Override
