@@ -18,7 +18,9 @@
 
 package com.chowhouse.jweatherreport.data;
 
+import java.io.IOException;
+
 public interface DataWriter {
 
-	public void write();
+	public void write() throws IOException;
 }

@@ -28,8 +28,15 @@ import com.chowhouse.jweatherreport.data.VProWeather;
 import com.chowhouse.jweatherreport.wunderground.Uploader;
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.SocketException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
+import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
@@ -61,6 +68,30 @@ public class Client implements Runnable, Closeable {
 
 	public void setPrintHighsLows(boolean printHighsLows) {
 		this.printHighsLows = printHighsLows;
+	}
+
+	private static Properties getProperties()
+	throws IOException {
+		final Properties properties = new Properties();
+		final Path path = Paths.get(System.getProperty("user.home"),
+				".jweatherreport", "jwr.properties");
+
+		if (Files.exists(path)) {
+			try (final InputStream fileIn = Files.newInputStream(path)) {
+				properties.load(fileIn);
+			}
+		}
+
+		try (final InputStream in = Client.class.getResourceAsStream(
+				"/jwr.properties")) {
+			if (in != null) {
+				properties.load(new InputStreamReader(in,
+						StandardCharsets.UTF_8));
+			}
+		}
+
+		properties.putAll(System.getProperties());
+		return properties;
 	}
 
 	public static void main(String[] args)
@@ -141,6 +172,8 @@ public class Client implements Runnable, Closeable {
 	@Override
 	public void run() {
 		try {
+			Properties props = getProperties();
+
 			if (client.testConnection()) {
 				System.out.println("Testing successful");
 			} else {
@@ -157,7 +190,9 @@ public class Client implements Runnable, Closeable {
 			HighLow highlow = client.execute(StandardCommands.HIGH_LOW);
 			Loop loop = client.execute(StandardCommands.createLoop(1));
 			Loop2 loop2 = client.execute(StandardCommands.createLoop2(1));
-			VProWeather vpro = new VProWeather(highlow, loop, loop2, "", "");
+			VProWeather vpro = new VProWeather(highlow, loop, loop2,
+					Paths.get(props.getProperty("realTimeDataFile")),
+					Paths.get(props.getProperty("summaryDataFile")));
 			vpro.write();
 
 			if (this.printHighsLows) {

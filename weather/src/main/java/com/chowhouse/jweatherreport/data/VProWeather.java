@@ -18,26 +18,31 @@
 
 package com.chowhouse.jweatherreport.data;
 
-import java.time.format.DateTimeFormatter;
 import com.chowhouse.jweatherreport.station.HighLow;
 import com.chowhouse.jweatherreport.station.Loop;
 import com.chowhouse.jweatherreport.station.Loop2;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.format.DateTimeFormatter;
 
 public class VProWeather implements DataWriter {
 
 	private final HighLow highlow;
 	private final Loop loop;
 	private final Loop2 loop2;
-	private final String realTimeDataFileName;
-	private final String summaryDataFileName;
+	private final Path realTimeDataFile;
+	private final Path summaryDataFile;
 
 	public VProWeather(HighLow highlow, Loop loop, Loop2 loop2,
-			String realTimeDataFileName, String summaryDataFileName) {
+			Path realTimeDataFile, Path summaryDataFile) {
 		this.highlow = highlow;
 		this.loop = loop;
 		this.loop2 = loop2;
-		this.realTimeDataFileName = realTimeDataFileName;
-		this.summaryDataFileName = summaryDataFileName;
+		this.realTimeDataFile = realTimeDataFile;
+		this.summaryDataFile = summaryDataFile;
 	}
 
 	public HighLow getHighLow() {
@@ -52,60 +57,85 @@ public class VProWeather implements DataWriter {
 		return loop2;
 	}
 
-	public String getRealTimeDataFileName() {
-		return realTimeDataFileName;
+	public Path getRealTimeDataFile() {
+		return realTimeDataFile;
 	}
 
-	public String getSummaryDataFileName() {
-		return summaryDataFileName;
+	public Path getSummaryDataFile() {
+		return summaryDataFile;
 	}
 
 	public void createRealTimeData() {
 	}
 
-	public void createSummaryData() {
-		System.out.println("hlBaroHiDay = " + highlow.getDayHighBarometer());
-		System.out.println("hlBaroHiTime = " +
+	public void createSummaryData()
+	throws IOException {
+		BufferedWriter writer = Files.newBufferedWriter(summaryDataFile,
+				StandardCharsets.US_ASCII);
+		writer.newLine();
+		writer.write("hlBaroHiDay = " + highlow.getDayHighBarometer());
+		writer.newLine();
+		writer.write("hlBaroHiTime = " +
 				highlow.getTimeOfDayHighBarometer().format(
 						DateTimeFormatter.ofPattern("hh:mm")));
-		System.out.println("hlBaroLoDay = " + highlow.getDayLowBarometer());
-		System.out.println("hlBaroLoTime = " +
+		writer.newLine();
+		writer.write("hlBaroLoDay = " + highlow.getDayLowBarometer());
+		writer.newLine();
+		writer.write("hlBaroLoTime = " +
 				highlow.getTimeOfDayLowBarometer().format(
 						DateTimeFormatter.ofPattern("hh:mm")));
-		System.out.println("hlBaroHiMonth = " + highlow.getMonthHighBarometer());
-		System.out.println("hlBaroLoMonth = " + highlow.getMonthLowBarometer());
-		System.out.println("hlBaroHiYear = " + highlow.getYearHighBarometer());
-		System.out.println("hlBaroLoYear = " + highlow.getYearLowBarometer());
+		writer.newLine();
+		writer.write("hlBaroHiMonth = " + highlow.getMonthHighBarometer());
+		writer.newLine();
+		writer.write("hlBaroLoMonth = " + highlow.getMonthLowBarometer());
+		writer.newLine();
+		writer.write("hlBaroHiYear = " + highlow.getYearHighBarometer());
+		writer.newLine();
+		writer.write("hlBaroLoYear = " + highlow.getYearLowBarometer());
+		writer.newLine();
 
-		System.out.println("hlWindHiDay = " + highlow.getDayHighWindSpeed());
-		System.out.println("hlWindHiTime = " +
+		writer.write("hlWindHiDay = " + highlow.getDayHighWindSpeed());
+		writer.newLine();
+		writer.write("hlWindHiTime = " +
 				highlow.getTimeOfDayHighWindSpeed().format(
 						DateTimeFormatter.ofPattern("hh:mm")));
-		System.out.println("hlWindHiMonth = " + highlow.getMonthHighWindSpeed());
-		System.out.println("hlWindHiYear = " + highlow.getYearHighWindSpeed());
+		writer.newLine();
+		writer.write("hlWindHiMonth = " + highlow.getMonthHighWindSpeed());
+		writer.newLine();
+		writer.write("hlWindHiYear = " + highlow.getYearHighWindSpeed());
+		writer.newLine();
 
-		System.out.println("hlInTempHiDay = " +
+		writer.write("hlInTempHiDay = " +
 				highlow.getDayHighInsideTemperature());
-		System.out.println("hlInTempHiTime = " +
+		writer.newLine();
+		writer.write("hlInTempHiTime = " +
 				highlow.getTimeOfDayHighInsideTemperature().format(
 						DateTimeFormatter.ofPattern("hh:mm")));
-		System.out.println("hlInTempLoDay = " +
+		writer.newLine();
+		writer.write("hlInTempLoDay = " +
 				highlow.getDayLowInsideTemperature());
-		System.out.println("hlInTempLoTime = " +
+		writer.newLine();
+		writer.write("hlInTempLoTime = " +
 				highlow.getTimeOfDayLowInsideTemperature().format(
 						DateTimeFormatter.ofPattern("hh:mm")));
-		System.out.println("hlInTempHiMonth = " +
+		writer.newLine();
+		writer.write("hlInTempHiMonth = " +
 				highlow.getMonthHighInsideTemperature());
-		System.out.println("hlInTempLoMonth = " +
+		writer.newLine();
+		writer.write("hlInTempLoMonth = " +
 				highlow.getMonthLowInsideTemperature());
-		System.out.println("hlInTempHiYear = " +
+		writer.newLine();
+		writer.write("hlInTempHiYear = " +
 				highlow.getYearHighInsideTemperature());
-		System.out.println("hlInTempLoYear " +
+		writer.newLine();
+		writer.write("hlInTempLoYear " +
 				highlow.getYearLowInsideTemperature());
+		writer.newLine();
 	}
 
 	@Override
-	public void write() {
+	public void write()
+	throws IOException {
 		createRealTimeData();
 		createSummaryData();
 	}
