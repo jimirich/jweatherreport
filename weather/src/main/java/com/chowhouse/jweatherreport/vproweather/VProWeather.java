@@ -18,6 +18,11 @@
 
 package com.chowhouse.jweatherreport.vproweather;
 
+import java.time.format.DateTimeFormatter;
+import com.chowhouse.jweatherreport.station.HighLow;
+import com.chowhouse.jweatherreport.station.Loop;
+import com.chowhouse.jweatherreport.station.Loop2;
+
 public class VProWeather {
 
 	private HighLow highlow;
@@ -26,11 +31,11 @@ public class VProWeather {
 	private String realTimeDataFileName;
 	private String summaryDataFileName;
 
-	public HighLow getHighlow() {
+	public HighLow getHighLow() {
 		return highlow;
 	}
 
-	public void setHighlow(HighLow highlow) {
+	public void setHighLow(HighLow highlow) {
 		this.highlow = highlow;
 	}
 
@@ -64,5 +69,49 @@ public class VProWeather {
 
 	public void setSummaryDataFileName(String summaryDataFileName) {
 		this.summaryDataFileName = summaryDataFileName;
+	}
+
+	public void createRealTimeData() {
+	}
+
+	public void createSummaryData() {
+		System.out.println("hlBaroHiDay = " + highlow.getDayHighBarometer());
+		System.out.println("hlBaroHiTime = " +
+				highlow.getTimeOfDayHighBarometer().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
+		System.out.println("hlBaroLoDay = " + highlow.getDayLowBarometer());
+		System.out.println("hlBaroLoTime = " +
+				highlow.getTimeOfDayLowBarometer().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
+		System.out.println("hlBaroHiMonth = " + highlow.getMonthHighBarometer());
+		System.out.println("hlBaroLoMonth = " + highlow.getMonthLowBarometer());
+		System.out.println("hlBaroHiYear = " + highlow.getYearHighBarometer());
+		System.out.println("hlBaroLoYear = " + highlow.getYearLowBarometer());
+
+		System.out.println("hlWindHiDay = " + highlow.getDayHighWindSpeed());
+		System.out.println("hlWindHiTime = " +
+				highlow.getTimeOfDayHighWindSpeed().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
+		System.out.println("hlWindHiMonth = " + highlow.getMonthHighWindSpeed());
+		System.out.println("hlWindHiYear = " + highlow.getYearHighWindSpeed());
+
+		System.out.println("hlInTempHiDay = " +
+				highlow.getDayHighInsideTemperature());
+		System.out.println("hlInTempHiTime = " +
+				highlow.getTimeOfDayHighInsideTemperature().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
+		System.out.println("hlInTempLoDay = " +
+				highlow.getDayLowInsideTemperature());
+		System.out.println("hlInTempLoTime = " +
+				highlow.getTimeOfDayLowInsideTemperature().format(
+						DateTimeFormatter.ofPattern("hh:mm")));
+		System.out.println("hlInTempHiMonth = " +
+				highlow.getMonthHighInsideTemperature());
+		System.out.println("hlInTempLoMonth = " +
+				highlow.getMonthLowInsideTemperature());
+		System.out.println("hlInTempHiYear = " +
+				highlow.getYearHighInsideTemperature());
+		System.out.println("hlInTempLoYear " +
+				highlow.getYearLowInsideTemperature());
 	}
 }

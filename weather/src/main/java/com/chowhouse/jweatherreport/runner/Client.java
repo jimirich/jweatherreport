@@ -24,6 +24,7 @@ import com.chowhouse.jweatherreport.station.Loop2;
 import com.chowhouse.jweatherreport.station.NetworkClient;
 import com.chowhouse.jweatherreport.station.StandardCommands;
 import com.chowhouse.jweatherreport.station.VantagePro2Client;
+import com.chowhouse.jweatherreport.vproweather.VProWeather;
 import com.chowhouse.jweatherreport.wunderground.Uploader;
 import java.io.Closeable;
 import java.io.IOException;
@@ -153,11 +154,13 @@ public class Client implements Runnable, Closeable {
 			System.out.println("Current time " +
 					client.execute(StandardCommands.TIME).format(
 							DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
+			VProWeather vpro = new VProWeather();
 
 			if (this.printHighsLows) {
 				HighLow highlow = client.execute(StandardCommands.HIGH_LOW);
+				vpro.setHighLow(highlow);
 				System.out.println("Day high bar " +
-				highlow.getDayHighBarometer());
+						highlow.getDayHighBarometer());
 				System.out.println("Day high bar time " +
 						highlow.getTimeOfDayHighBarometer().format(
 								DateTimeFormatter.ofPattern("hh:mm")));
@@ -334,6 +337,7 @@ public class Client implements Runnable, Closeable {
 
 			if (this.printCurrent) {
 				Loop loop = client.execute(StandardCommands.createLoop(1));
+				vpro.setLoop(loop);
 				System.out.println("Current outside temperature " +
 						loop.getOutsideTemperature());
 				System.out.println("Current inside temperature " +
@@ -359,6 +363,7 @@ public class Client implements Runnable, Closeable {
 			}
 
 			Loop2 loop2 = client.execute(StandardCommands.createLoop2(1));
+			vpro.setLoop2(loop2);
 
 			if (this.printCurrent) {
 				System.out.println("Dew point " + loop2.getDewPoint());
