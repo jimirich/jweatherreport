@@ -24,7 +24,7 @@ import com.chowhouse.jweatherreport.station.Loop2;
 import com.chowhouse.jweatherreport.station.NetworkClient;
 import com.chowhouse.jweatherreport.station.StandardCommands;
 import com.chowhouse.jweatherreport.station.VantagePro2Client;
-import com.chowhouse.jweatherreport.vproweather.VProWeather;
+import com.chowhouse.jweatherreport.data.VProWeather;
 import com.chowhouse.jweatherreport.wunderground.Uploader;
 import java.io.Closeable;
 import java.io.IOException;
@@ -154,11 +154,14 @@ public class Client implements Runnable, Closeable {
 			System.out.println("Current time " +
 					client.execute(StandardCommands.TIME).format(
 							DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
-			VProWeather vpro = new VProWeather();
+			HighLow highlow = client.execute(StandardCommands.HIGH_LOW);
+			Loop loop = client.execute(StandardCommands.createLoop(1));
+			Loop2 loop2 = client.execute(StandardCommands.createLoop2(1));
+			VProWeather vpro = new VProWeather(highlow, loop, loop2, "", "");
+			vpro.write();
 
 			if (this.printHighsLows) {
-				HighLow highlow = client.execute(StandardCommands.HIGH_LOW);
-				vpro.setHighLow(highlow);
+				//HighLow highlow = client.execute(StandardCommands.HIGH_LOW);
 				System.out.println("Day high bar " +
 						highlow.getDayHighBarometer());
 				System.out.println("Day high bar time " +
@@ -336,8 +339,7 @@ public class Client implements Runnable, Closeable {
 			}
 
 			if (this.printCurrent) {
-				Loop loop = client.execute(StandardCommands.createLoop(1));
-				vpro.setLoop(loop);
+				//Loop loop = client.execute(StandardCommands.createLoop(1));
 				System.out.println("Current outside temperature " +
 						loop.getOutsideTemperature());
 				System.out.println("Current inside temperature " +
@@ -361,9 +363,6 @@ public class Client implements Runnable, Closeable {
 				System.out.println("Rain this year " +
 						loop.getYearRain());
 			}
-
-			Loop2 loop2 = client.execute(StandardCommands.createLoop2(1));
-			vpro.setLoop2(loop2);
 
 			if (this.printCurrent) {
 				System.out.println("Dew point " + loop2.getDewPoint());

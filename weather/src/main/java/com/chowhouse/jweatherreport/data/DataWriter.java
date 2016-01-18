@@ -16,28 +16,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.chowhouse.jweatherreport.station;
+package com.chowhouse.jweatherreport.data;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.time.LocalDateTime;
+public interface DataWriter {
 
-public interface VantagePro2Client extends Closeable {
-
-	void connect() throws IOException;
-	boolean isConnected();
-	boolean testConnection() throws IOException;
-
-	<T> T execute(Command<T> command) throws IOException;
-
-	static VantagePro2Client of(final String host,
-			final int port) {
-		return new NetworkClient(host, port);
-	}
-
-	static VantagePro2Client of(final InetAddress address,
-			final int port) {
-		return new NetworkClient(address, port);
-	}
+	public void write();
 }
