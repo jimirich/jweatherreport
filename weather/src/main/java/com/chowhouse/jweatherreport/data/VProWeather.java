@@ -24,6 +24,7 @@ import com.chowhouse.jweatherreport.station.Loop;
 import com.chowhouse.jweatherreport.station.Loop2;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -124,13 +125,80 @@ public class VProWeather implements DataWriter {
 			writer.write("rtWindAvgSpeed = " +
 					loop.getTenMinuteAverageWindSpeed());
 			writer.newLine();
+			writer.write("rtWindDirRose = ");
 
+			if (loop.getWindDirection() >= 347 &&
+					loop.getWindDirection() < 12) {
+				writer.write("N");
+			} else if (loop.getWindDirection() >= 12 &&
+					loop.getWindDirection() < 34) {
+				writer.write("NNE");
+			} else if (loop.getWindDirection() >= 34 &&
+					loop.getWindDirection() < 57) {
+				writer.write("NE");
+			} else if (loop.getWindDirection() >= 57 &&
+					loop.getWindDirection() < 79) {
+				writer.write("ENE");
+			} else if (loop.getWindDirection() >= 79 &&
+					loop.getWindDirection() < 102) {
+				writer.write("E");
+			} else if (loop.getWindDirection() >= 102 &&
+					loop.getWindDirection() < 124) {
+				writer.write("ESE");
+			} else if (loop.getWindDirection() >= 124 &&
+					loop.getWindDirection() < 147) {
+				writer.write("SE");
+			} else if (loop.getWindDirection() >= 147 &&
+					loop.getWindDirection() < 170) {
+				writer.write("SSE");
+			} else if (loop.getWindDirection() >= 170 &&
+					loop.getWindDirection() < 192) {
+				writer.write("S");
+			} else if (loop.getWindDirection() >= 192 &&
+					loop.getWindDirection() < 214) {
+				writer.write("SSW");
+			} else if (loop.getWindDirection() >= 214 &&
+					loop.getWindDirection() < 237) {
+				writer.write("SW");
+			} else if (loop.getWindDirection() >= 237 &&
+					loop.getWindDirection() < 259) {
+				writer.write("WSW");
+			} else if (loop.getWindDirection() >= 280 &&
+					loop.getWindDirection() < 303) {
+				writer.write("WNW");
+			} else if (loop.getWindDirection() >= 303 &&
+					loop.getWindDirection() < 347) {
+				writer.write("NW");
+			} else {
+				writer.write("NNW");
+			}
+
+			writer.newLine();
+
+			writer.write("rtRainRate = " + loop.getRainRate());
+			writer.newLine();
+			writer.write("rtRainStorm = " + loop.getStormRain());
+			writer.newLine();
 			writer.write("rtDayRain = " + loop.getDayRain());
 			writer.newLine();
 			writer.write("rtMonthRain = " + loop.getMonthRain());
 			writer.newLine();
 			writer.write("rtYearRain = " + loop.getYearRain());
 			writer.newLine();
+
+			if (loop.getRainRate().compareTo(BigDecimal.ZERO) != 0) {
+				writer.write("rtIsRaining = yes");
+			} else {
+				writer.write("rtIsRaining = no");
+			}
+
+			writer.newLine();
+
+			writer.write("rtUVLevel = n/a");
+			writer.newLine();
+			writer.write("rtSolarRad = n/a");
+			writer.newLine();
+
 			writer.write("rtDewPoint = " + loop2.getDewPoint());
 			writer.newLine();
 		}

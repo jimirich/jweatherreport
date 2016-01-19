@@ -31,6 +31,7 @@ public class Loop {
 	private int outsideHumidity;
 	private BigDecimal outsideTemperature;
 	private BigDecimal rainRate;
+	private BigDecimal stormRain;
 	private int tenMinuteAverageWindSpeed;
 	private int windDirection;
 	private int windSpeed;
@@ -146,6 +147,20 @@ public class Loop {
 		int temp = Utils.setInteger(one, two);
 		rainRate = new BigDecimal(temp);
 		rainRate = rainRate.movePointLeft(2);
+	}
+
+	public BigDecimal getStormRain() {
+		return stormRain;
+	}
+
+	protected void setStormRain(BigDecimal stormRain) {
+		this.stormRain = stormRain;
+	}
+
+	protected void setStormRain(byte one, byte two) {
+		int temp = Utils.setInteger(one, two);
+		stormRain = new BigDecimal(temp);
+		stormRain = stormRain.movePointLeft(2);
 	}
 
 	public int getTenMinuteAverageWindSpeed() {

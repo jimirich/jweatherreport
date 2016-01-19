@@ -394,12 +394,11 @@ public class Client implements Runnable, Closeable {
 						loop.getWindDirection());
 				System.out.println("10 minute average wind speed " +
 						loop.getTenMinuteAverageWindSpeed());
-				System.out.println("Rain today " +
-						loop.getDayRain());
-				System.out.println("Rain this month " +
-						loop.getMonthRain());
-				System.out.println("Rain this year " +
-						loop.getYearRain());
+				System.out.println("Current rain rate " + loop.getRainRate());
+				System.out.println("Storm rain " + loop.getStormRain());
+				System.out.println("Rain today " + loop.getDayRain());
+				System.out.println("Rain this month " + loop.getMonthRain());
+				System.out.println("Rain this year " + loop.getYearRain());
 			}
 
 			if (this.printCurrent) {

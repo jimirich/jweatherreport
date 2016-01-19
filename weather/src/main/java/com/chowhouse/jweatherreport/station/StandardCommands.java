@@ -214,6 +214,7 @@ public class StandardCommands {
 				loop.setOutsideHumidity((new BigInteger(Arrays.copyOfRange(
 						buffer, 33, 34))).intValue());
 				loop.setRainRate(buffer[41], buffer[42]);
+				loop.setStormRain(buffer[46], buffer[47]);
 				loop.setDayRain(buffer[50], buffer[51]);
 				loop.setMonthRain(buffer[52], buffer[53]);
 				loop.setYearRain(buffer[54], buffer[55]);
@@ -246,6 +247,7 @@ public class StandardCommands {
 				loop.setOutsideHumidity((new BigInteger(Arrays.copyOfRange(
 						buffer, 33, 34))).intValue());
 				loop.setRainRate(buffer[41], buffer[42]);
+				loop.setStormRain(buffer[46], buffer[47]);
 				loop.setDayRain(buffer[50], buffer[51]);
 				loop.setFifteenMinuteRain(buffer[52], buffer[53]);
 				loop.setHourRain(buffer[54], buffer[55]);
