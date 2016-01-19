@@ -35,6 +35,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 import java.util.concurrent.Executors;
@@ -184,13 +185,13 @@ public class Client implements Runnable, Closeable {
 					client.execute(StandardCommands.FIRMWARE_VERSION));
 			System.out.println("Firmware date " +
 					client.execute(StandardCommands.FIRMWARE_DATE));
-			System.out.println("Current time " +
-					client.execute(StandardCommands.TIME).format(
-							DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
+			LocalDateTime time = client.execute(StandardCommands.TIME);
+			System.out.println("Current time " + time.format(
+					DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
 			HighLow highlow = client.execute(StandardCommands.HIGH_LOW);
 			Loop loop = client.execute(StandardCommands.createLoop(1));
 			Loop2 loop2 = client.execute(StandardCommands.createLoop2(1));
-			VProWeather vpro = new VProWeather(highlow, loop, loop2,
+			VProWeather vpro = new VProWeather(time, highlow, loop, loop2,
 					Paths.get(props.getProperty("realTimeDataFile")),
 					Paths.get(props.getProperty("summaryDataFile")));
 			vpro.write();

@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class VProWeather implements DataWriter {
@@ -35,9 +36,11 @@ public class VProWeather implements DataWriter {
 	private final Loop2 loop2;
 	private final Path realTimeDataFile;
 	private final Path summaryDataFile;
+	private final LocalDateTime time;
 
-	public VProWeather(HighLow highlow, Loop loop, Loop2 loop2,
-			Path realTimeDataFile, Path summaryDataFile) {
+	public VProWeather(LocalDateTime time, HighLow highlow, Loop loop,
+			Loop2 loop2, Path realTimeDataFile, Path summaryDataFile) {
+		this.time = time;
 		this.highlow = highlow;
 		this.loop = loop;
 		this.loop2 = loop2;
@@ -65,25 +68,61 @@ public class VProWeather implements DataWriter {
 		return summaryDataFile;
 	}
 
-	public void createRealTimeData() {
+	public void createRealTimeData()
+	throws IOException {
+		try (BufferedWriter writer = Files.newBufferedWriter(realTimeDataFile,
+				StandardCharsets.US_ASCII)) {
+			writer.write("DavisTime = " +
+				time.format(DateTimeFormatter.ofPattern(
+						"yyyy-MM-dd hh:mm:ss")));
+			writer.newLine();
+
+			writer.write("rtBaroCurr = " + loop.getBarometricPressure());
+			writer.newLine();
+
+			writer.write("rtInsideTemp = " + loop.getInsideTemperature());
+			writer.newLine();
+			writer.write("rtInsideHum = " + loop.getInsideHumidity());
+			writer.newLine();
+
+			writer.write("rtOutsideTemp = " + loop.getOutsideTemperature());
+			writer.newLine();
+			writer.write("rtOutsideHum = " + loop.getOutsideHumidity());
+			writer.newLine();
+
+			writer.write("rtWindSpeed = " + loop.getWindSpeed());
+			writer.newLine();
+			writer.write("rtWindDir = " + loop.getWindDirection());
+			writer.newLine();
+			writer.write("rtWindAvgSpeed = " +
+					loop.getTenMinuteAverageWindSpeed());
+			writer.newLine();
+
+			writer.write("rtDayRain = " + loop.getDayRain());
+			writer.newLine();
+			writer.write("rtMonthRain = " + loop.getMonthRain());
+			writer.newLine();
+			writer.write("rtYearRain = " + loop.getYearRain());
+			writer.newLine();
+			writer.write("rtDewPoint = " + loop2.getDewPoint());
+			writer.newLine();
+		}
 	}
 
 	public void createSummaryData()
 	throws IOException {
 		try (BufferedWriter writer = Files.newBufferedWriter(summaryDataFile,
 				StandardCharsets.US_ASCII)) {
-			writer.newLine();
+			DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("hh:mma");
 			writer.write("hlBaroHiDay = " + highlow.getDayHighBarometer());
 			writer.newLine();
 			writer.write("hlBaroHiTime = " +
-					highlow.getTimeOfDayHighBarometer().format(
-							DateTimeFormatter.ofPattern("hh:mm")));
+					highlow.getTimeOfDayHighBarometer().format(timeformat));
 			writer.newLine();
 			writer.write("hlBaroLoDay = " + highlow.getDayLowBarometer());
 			writer.newLine();
 			writer.write("hlBaroLoTime = " +
-					highlow.getTimeOfDayLowBarometer().format(
-							DateTimeFormatter.ofPattern("hh:mm")));
+					highlow.getTimeOfDayLowBarometer().format(timeformat));
 			writer.newLine();
 			writer.write("hlBaroHiMonth = " + highlow.getMonthHighBarometer());
 			writer.newLine();
@@ -97,8 +136,7 @@ public class VProWeather implements DataWriter {
 			writer.write("hlWindHiDay = " + highlow.getDayHighWindSpeed());
 			writer.newLine();
 			writer.write("hlWindHiTime = " +
-					highlow.getTimeOfDayHighWindSpeed().format(
-							DateTimeFormatter.ofPattern("hh:mm")));
+					highlow.getTimeOfDayHighWindSpeed().format(timeformat));
 			writer.newLine();
 			writer.write("hlWindHiMonth = " + highlow.getMonthHighWindSpeed());
 			writer.newLine();
@@ -110,14 +148,14 @@ public class VProWeather implements DataWriter {
 			writer.newLine();
 			writer.write("hlInTempHiTime = " +
 					highlow.getTimeOfDayHighInsideTemperature().format(
-							DateTimeFormatter.ofPattern("hh:mm")));
+							timeformat));
 			writer.newLine();
 			writer.write("hlInTempLoDay = " +
 					highlow.getDayLowInsideTemperature());
 			writer.newLine();
 			writer.write("hlInTempLoTime = " +
 					highlow.getTimeOfDayLowInsideTemperature().format(
-							DateTimeFormatter.ofPattern("hh:mm")));
+							timeformat));
 			writer.newLine();
 			writer.write("hlInTempHiMonth = " +
 					highlow.getMonthHighInsideTemperature());
@@ -130,6 +168,176 @@ public class VProWeather implements DataWriter {
 			writer.newLine();
 			writer.write("hlInTempLoYear " +
 					highlow.getYearLowInsideTemperature());
+			writer.newLine();
+
+			writer.write("hlOutTempHiDay = " +
+					highlow.getDayHighOutsideTemperature());
+			writer.newLine();
+			writer.write("hlOutTempHiTime = " +
+					highlow.getTimeOfDayHighOutsideTemperature().format(
+							timeformat));
+			writer.newLine();
+			writer.write("hlOutTempLoDay = " +
+					highlow.getDayLowOutsideTemperature());
+			writer.newLine();
+			writer.write("hlOutTempLoTime = " +
+					highlow.getTimeOfDayLowOutsideTemperature().format(
+							timeformat));
+			writer.newLine();
+			writer.write("hlOutTempHiMonth = " +
+					highlow.getMonthHighOutsideTemperature());
+			writer.newLine();
+			writer.write("hlOutTempLoMonth = " +
+					highlow.getMonthLowOutsideTemperature());
+			writer.newLine();
+			writer.write("hlOutTempHiYear = " +
+					highlow.getYearHighOutsideTemperature());
+			writer.newLine();
+			writer.write("hlOutTempLoYear = " +
+					highlow.getYearLowOutsideTemperature());
+			writer.newLine();
+
+			writer.write("hlInHumHiDay = " +
+					highlow.getDayHighInsideHumidity());
+			writer.newLine();
+			writer.write("hlInHumHiTime = " +
+					highlow.getTimeOfDayHighInsideHumidity().format(
+							timeformat));
+			writer.newLine();
+			writer.write("hlInHumLoDay = " +
+					highlow.getDayLowInsideHumidity());
+			writer.newLine();
+			writer.write("hlInHumLoTime = " +
+					highlow.getTimeOfDayLowInsideHumidity().format(timeformat));
+			writer.newLine();
+			writer.write("hlInHumHiMonth = " +
+					highlow.getMonthHighInsideHumidity());
+			writer.newLine();
+			writer.write("hlInHumLoMonth = " +
+					highlow.getMonthLowInsideHumidity());
+			writer.newLine();
+			writer.write("hlInHumHiYear = " +
+					highlow.getYearHighInsideHumidity());
+			writer.newLine();
+			writer.write("hlInHumLoYear = " +
+					highlow.getYearLowInsideHumidity());
+			writer.newLine();
+
+			writer.write("hlDewHiDay = " + highlow.getDayHighDewPoint());
+			writer.newLine();
+			writer.write("hlDewHiTime = " +
+					highlow.getTimeOfDayHighDewPoint().format(timeformat));
+			writer.newLine();
+			writer.write("hlDewHiDay = " + highlow.getDayLowDewPoint());
+			writer.newLine();
+			writer.write("hlDewLoTime = " +
+					highlow.getTimeOfDayLowDewPoint().format(timeformat));
+			writer.newLine();
+			writer.write("hlDewHiMonth = " + highlow.getMonthHighDewPoint());
+			writer.newLine();
+			writer.write("hlDewLoMonth = " + highlow.getMonthLowDewPoint());
+			writer.newLine();
+			writer.write("hlDewHiYear = " + highlow.getYearHighDewPoint());
+			writer.newLine();
+			writer.write("hlDewLoYear = " + highlow.getYearLowDewPoint());
+			writer.newLine();
+
+			writer.write("hlChillLoDay = " + highlow.getDayLowWindChill());
+			writer.newLine();
+			writer.write("hlChillLoTime = " +
+					highlow.getTimeOfDayLowWindChill().format(timeformat));
+			writer.newLine();
+			writer.write("hlChillLoMonth = " + highlow.getMonthLowWindChill());
+			writer.newLine();
+			writer.write("hlChillLoYear = " + highlow.getYearLowWindChill());
+			writer.newLine();
+
+			writer.write("hlHeatHiDay = " + highlow.getDayHighHeatIndex());
+			writer.newLine();
+			writer.write("hlHeatHiTime = " +
+					highlow.getTimeOfDayHighHeatIndex().format(timeformat));
+			writer.newLine();
+			writer.write("hlHeatHiMonth = " + highlow.getMonthHighHeatIndex());
+			writer.newLine();
+			writer.write("hlHeatHiYear = " + highlow.getYearHighHeatIndex());
+			writer.newLine();
+
+			if (highlow.getTimeOfDayHighTHSWIndex() != null) {
+				writer.write("Day high THSW index " +
+						highlow.getDayHighTHSWIndex());
+				writer.write("Day high THSW index time " +
+						highlow.getTimeOfDayHighTHSWIndex().format(timeformat));
+				writer.write("Month high THSW index " +
+						highlow.getMonthHighTHSWIndex());
+				writer.write("Year high THSW index " +
+						highlow.getYearHighTHSWIndex());
+			}
+
+			if (highlow.getTimeOfDayHighSolarRadiation() != null) {
+				writer.write("hlSolarHiDay = " +
+						highlow.getDayHighSolarRadiation());
+				writer.newLine();
+				writer.write("hlSolarHiTime = " +
+						highlow.getTimeOfDayHighSolarRadiation().format(
+								timeformat));
+				writer.newLine();
+				writer.write("hlSolarHiMonth = " +
+						highlow.getMonthHighSolarRadiation());
+				writer.newLine();
+				writer.write("hlSolarHiYear = " +
+						highlow.getYearHighSolarRadiation());
+				writer.newLine();
+			} else {
+				writer.write("hlSolarHiDay = 0.0");
+				writer.newLine();
+				writer.write("hlSolarHiTime = n/a");
+				writer.newLine();
+				writer.write("hlSolarHiMonth = 0.0");
+				writer.newLine();
+				writer.write("hlSolarHiYear = 0.0");
+				writer.newLine();
+			}
+
+			if (highlow.getTimeOfDayHighUltraViolet() != null) {
+				writer.write("hlUVHiDay = " + highlow.getDayHighUltraViolet());
+				writer.newLine();
+				writer.write("hlUVHiTime = " +
+						highlow.getTimeOfDayHighUltraViolet().format(
+								timeformat));
+				writer.newLine();
+				writer.write("hlUVHiMonth = " +
+						highlow.getMonthHighUltraViolet());
+				writer.newLine();
+				writer.write("hlUVHiYear = " +
+						highlow.getYearHighUltraViolet());
+				writer.newLine();
+			} else {
+				writer.write("hlUVHiDay = 0.0");
+				writer.newLine();
+				writer.write("hlUVHiTime = n/a");
+				writer.newLine();
+				writer.write("hlUVHiMonth = 0.0");
+				writer.newLine();
+				writer.write("hlUVHiYear = 0.0");
+				writer.newLine();
+			}
+
+			writer.write("hlRainRateHiDay = " + highlow.getDayHighRainRate());
+			writer.newLine();
+
+			if (highlow.getTimeOfDayHighRainRate() != null) {
+				writer.write("hlRainRateHiTime = " +
+						highlow.getTimeOfDayHighRainRate().format(timeformat));
+				writer.newLine();
+			} else {
+				writer.write("hlRainRateHiTime = n/a");
+				writer.newLine();
+			}
+
+			writer.write("hlRainRateHiMonth = " +
+					highlow.getMonthHighRainRate());
+			writer.newLine();
+			writer.write("hlRainRateHiYear = " + highlow.getYearHighRainRate());
 			writer.newLine();
 		}
 	}
