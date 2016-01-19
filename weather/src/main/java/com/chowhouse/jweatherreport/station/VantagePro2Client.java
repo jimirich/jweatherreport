@@ -21,7 +21,6 @@ package com.chowhouse.jweatherreport.station;
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.time.LocalDateTime;
 
 public interface VantagePro2Client extends Closeable {
 
@@ -31,13 +30,11 @@ public interface VantagePro2Client extends Closeable {
 
 	<T> T execute(Command<T> command) throws IOException;
 
-	static VantagePro2Client of(final String host,
-			final int port) {
+	static VantagePro2Client of(final String host, final int port) {
 		return new NetworkClient(host, port);
 	}
 
-	static VantagePro2Client of(final InetAddress address,
-			final int port) {
+	static VantagePro2Client of(final InetAddress address, final int port) {
 		return new NetworkClient(address, port);
 	}
 }

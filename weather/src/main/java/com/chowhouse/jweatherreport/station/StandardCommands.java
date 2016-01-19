@@ -32,17 +32,20 @@ public class StandardCommands {
 	/**
 	 * A command used to retrieve the firmware date.
 	 */
-	public static final Command<String> FIRMWARE_DATE = new SimpleCommand("VER", "Firmware Date");
+	public static final Command<String> FIRMWARE_DATE =
+			new SimpleCommand("VER", "Firmware Date");
 
 	/**
 	 * A command used to retrieve the firmware version.
 	 */
-	public static final Command<String> FIRMWARE_VERSION = new SimpleCommand("NVER", "Firmware Version");
+	public static final Command<String> FIRMWARE_VERSION =
+			new SimpleCommand("NVER", "Firmware Version");
 
 	/**
 	 * A command used to retrieve the current time.
 	 */
-	public static final Command<LocalDateTime> TIME = new AbstractCommand<LocalDateTime>("GETTIME", "Current TIme") {
+	public static final Command<LocalDateTime> TIME =
+			new AbstractCommand<LocalDateTime>("GETTIME", "Current TIme") {
 		@Override
 		public LocalDateTime execute(final InputStream in) throws IOException {
 			final byte[] buffer = readAck(in, 8, true);
@@ -60,7 +63,8 @@ public class StandardCommands {
 	/**
 	 * A command used to retrieve the high's and lows.
 	 */
-	public static final Command<HighLow> HIGH_LOW = new AbstractCommand<HighLow>("HILOWS", "Highs and Lows") {
+	public static final Command<HighLow> HIGH_LOW =
+			new AbstractCommand<HighLow>("HILOWS", "Highs and Lows") {
 		@Override
 		public HighLow execute(final InputStream in) throws IOException {
 			final byte[] buffer = readAck(in, 438, true);
@@ -98,12 +102,12 @@ public class StandardCommands {
 					buffer, 38, 39))).intValue());
 			highlow.setTimeOfDayHighInsideHumidity(buffer[39], buffer[40]);
 			highlow.setTimeOfDayLowInsideHumidity(buffer[41], buffer[42]);
-			highlow.setMonthHighInsideHumidity((new BigInteger(Arrays.copyOfRange(
-					buffer, 43, 44))).intValue());
-			highlow.setMonthLowInsideHumidity((new BigInteger(Arrays.copyOfRange(
-					buffer, 44, 45))).intValue());
-			highlow.setYearHighInsideHumidity((new BigInteger(Arrays.copyOfRange(
-					buffer, 45, 46))).intValue());
+			highlow.setMonthHighInsideHumidity((new BigInteger(
+					Arrays.copyOfRange(buffer, 43, 44))).intValue());
+			highlow.setMonthLowInsideHumidity((new BigInteger(
+					Arrays.copyOfRange(buffer, 44, 45))).intValue());
+			highlow.setYearHighInsideHumidity((new BigInteger(
+					Arrays.copyOfRange(buffer, 45, 46))).intValue());
 			highlow.setYearLowInsideHumidity((new BigInteger(Arrays.copyOfRange(
 					buffer, 46, 47))).intValue());
 
@@ -145,7 +149,8 @@ public class StandardCommands {
 			}
 
 			try {
-				highlow.setTimeOfDayHighSolarRadiation(buffer[105], buffer[106]);
+				highlow.setTimeOfDayHighSolarRadiation(buffer[105],
+						buffer[106]);
 				highlow.setDayHighSolarRadiation(buffer[103], buffer[104]);
 				highlow.setMonthHighSolarRadiation(buffer[107], buffer[108]);
 				highlow.setYearHighSolarRadiation(buffer[109], buffer[110]);
@@ -155,12 +160,12 @@ public class StandardCommands {
 
 			try {
 				highlow.setTimeOfDayHighUltraViolet(buffer[112], buffer[113]);
-				highlow.setDayHighUltraViolet((new BigInteger(Arrays.copyOfRange(
-						buffer, 111, 112))).intValue());
-				highlow.setMonthHighUltraViolet((new BigInteger(Arrays.copyOfRange(
-						buffer, 114, 115))).intValue());
-				highlow.setYearHighUltraViolet((new BigInteger(Arrays.copyOfRange(
-						buffer, 115, 116))).intValue());
+				highlow.setDayHighUltraViolet((new BigInteger(
+						Arrays.copyOfRange(buffer, 111, 112))).intValue());
+				highlow.setMonthHighUltraViolet((new BigInteger(
+						Arrays.copyOfRange(buffer, 114, 115))).intValue());
+				highlow.setYearHighUltraViolet((new BigInteger(
+						Arrays.copyOfRange(buffer, 115, 116))).intValue());
 			} catch (DateTimeException e) {
 				// do nothing
 			}
@@ -183,7 +188,8 @@ public class StandardCommands {
 	/**
 	 * A command used to test the connection.
 	 */
-	public static Command<Boolean> TEST_CONNECTION = new AbstractCommand<Boolean>("TEST", "Test Connection") {
+	public static Command<Boolean> TEST_CONNECTION = new
+			AbstractCommand<Boolean>("TEST", "Test Connection") {
 		@Override
 		public Boolean execute(InputStream in) throws IOException {
 			/* The TEST command response appears to be \n\rTEST\n\r and not just
@@ -208,8 +214,8 @@ public class StandardCommands {
 				loop.setOutsideTemperature(buffer[12], buffer[13]);
 				loop.setWindSpeed((new BigInteger(Arrays.copyOfRange(
 						buffer, 14, 15))).intValue());
-				loop.setTenMinuteAverageWindSpeed((new BigInteger(Arrays.copyOfRange(
-						buffer, 15, 16))).intValue());
+				loop.setTenMinuteAverageWindSpeed((new BigInteger(
+						Arrays.copyOfRange(buffer, 15, 16))).intValue());
 				loop.setWindDirection(buffer[16], buffer[17]);
 				loop.setOutsideHumidity((new BigInteger(Arrays.copyOfRange(
 						buffer, 33, 34))).intValue());

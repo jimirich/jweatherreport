@@ -21,7 +21,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Represents a command to be executed. The response from the command will be available to be read from the input.
+ * Represents a command to be executed.  The response from the command will be
+ * available to be read from the input.
  *
  * @author <a href="mailto:jperkins@redhat.com">James R. Perkins</a>
  */

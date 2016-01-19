@@ -208,7 +208,8 @@ public class VProWeather implements DataWriter {
 	throws IOException {
 		try (BufferedWriter writer = Files.newBufferedWriter(summaryDataFile,
 				StandardCharsets.US_ASCII)) {
-			DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("hh:mma");
+			DateTimeFormatter timeformat =
+					DateTimeFormatter.ofPattern("hh:mma");
 			writer.write("hlBaroHiDay = " + highlow.getDayHighBarometer());
 			writer.newLine();
 			writer.write("hlBaroHiTime = " +

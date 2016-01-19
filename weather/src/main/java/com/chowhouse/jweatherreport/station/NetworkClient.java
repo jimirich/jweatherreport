@@ -49,7 +49,7 @@ public class NetworkClient implements VantagePro2Client {
 
 	@Override
 	public void close()
-			throws IOException {
+	throws IOException {
 		connected.set(false);
 		synchronized (this) {
 			safeClose(in);
@@ -60,7 +60,7 @@ public class NetworkClient implements VantagePro2Client {
 
 	@Override
 	public void connect()
-			throws IOException {
+	throws IOException {
 		if (connected.compareAndSet(false, true)) {
 			final InputStream in;
 			final DataOutputStream out;
@@ -87,15 +87,11 @@ public class NetworkClient implements VantagePro2Client {
 			TimerTask task = new WakeUpTask(out, 3);
 			timer.schedule(task, 0, 1200);
 			len = in.read(buffer, 0, 2);
-			//System.out.format("Read %d bytes\n", len);
 
 			if (len < 2) {
 				len = in.read(buffer, 1, 1);
-				//System.out.format("Read %d bytes\n", len);
 			}
 
-			//System.out.format("received: %h%h\n", buffer[0], buffer[1]);
-			//System.out.println("Awake");
 			timer.cancel();
 		}
 	}
@@ -106,7 +102,8 @@ public class NetworkClient implements VantagePro2Client {
 	}
 
 	@Override
-	public synchronized <T> T execute(Command<T> command) throws IOException {
+	public synchronized <T> T execute(Command<T> command)
+	throws IOException {
 		out.writeBytes(command.getCommand());
 		out.writeChar('\n');
 		return command.execute(in);
@@ -114,7 +111,7 @@ public class NetworkClient implements VantagePro2Client {
 
 	@Override
 	public boolean testConnection()
-			throws IOException {
+	throws IOException {
 		return execute(StandardCommands.TEST_CONNECTION);
 	}
 

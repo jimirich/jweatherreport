@@ -32,17 +32,20 @@ public class SimpleCommand extends AbstractCommand<String> {
 		this(command, description, OK);
 	}
 
-	public SimpleCommand(final String command, final String description, final String expectedResponse) {
+	public SimpleCommand(final String command, final String description,
+			final String expectedResponse) {
 		this(command, description, expectedResponse.getBytes());
 	}
 
-	public SimpleCommand(final String command, final String description, final byte[] expectedResponse) {
+	public SimpleCommand(final String command, final String description,
+			final byte[] expectedResponse) {
 		super(command, description);
 		this.expected = Arrays.copyOf(expectedResponse, expectedResponse.length);
 	}
 
 	@Override
-	public String execute(final InputStream in) throws IOException {
+	public String execute(final InputStream in)
+	throws IOException {
 		return readResponse(in, expected);
 	}
 }

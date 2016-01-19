@@ -61,41 +61,53 @@ public abstract class AbstractCommand<T> implements Command<T> {
 		if (obj == this) {
 			return true;
 		}
+
 		if (!(obj instanceof AbstractCommand)) {
 			return false;
 		}
+
 		final AbstractCommand<?> other = (AbstractCommand<?>) obj;
 		return Objects.equals(command, other.command);
 	}
 
-	static String readResponse(final InputStream in, final String expected) throws IOException {
+	static String readResponse(final InputStream in, final String expected)
+	throws IOException {
 		return readResponse(in, expected.getBytes(StandardCharsets.UTF_8));
 	}
 
-	static String readResponse(final InputStream in, final byte[] expected) throws IOException {
+	static String readResponse(final InputStream in, final byte[] expected)
+	throws IOException {
 		if (expectedResponse(in, expected)) {
 			return readString(in);
 		}
+
 		return "unavailable";
 	}
 
-	static boolean expectedResponse(final InputStream in, final String expected) throws IOException {
+	static boolean expectedResponse(final InputStream in, final String expected)
+	throws IOException {
 		return expectedResponse(in, expected.getBytes(StandardCharsets.UTF_8));
 	}
 
-	static boolean expectedResponse(final InputStream in, final byte[] expected) throws IOException {
+	static boolean expectedResponse(final InputStream in, final byte[] expected)
+	throws IOException {
 		final byte[] buffer = new byte[expected.length];
+
 		for (int i = 0; i < expected.length; i++) {
 			buffer[i] = (byte) in.read();
 		}
+
 		return Arrays.equals(expected, buffer);
 	}
 
-	static String readString(final InputStream in) throws IOException {
+	static String readString(final InputStream in)
+	throws IOException {
 		final ByteArrayOutputStream out = new ByteArrayOutputStream(512);
 		boolean lfFound = false;
+
 		do {
 			final byte b = (byte) in.read();
+
 			if (b == LF) {
 				lfFound = true;
 			} else if (b == CR && lfFound) {
@@ -105,16 +117,21 @@ public abstract class AbstractCommand<T> implements Command<T> {
 				out.write(b);
 			}
 		} while (true);
+
 		return out.toString();
 	}
 
-	static byte[] readAck(final InputStream in, final int len, final boolean validateCrc) throws IOException {
+	static byte[] readAck(final InputStream in, final int len,
+			final boolean validateCrc)
+	throws IOException {
 
 		// get the first byte which should be ACK (0x06)
 		if (((byte) in.read() != ACK)) {
 			throw new IOException("Command invalid");
 		}
+
 		final byte[] buffer = new byte[len];
+
 		for (int i = 0; i < len; i++) {
 			buffer[i] = (byte) in.read();
 		}
@@ -122,6 +139,7 @@ public abstract class AbstractCommand<T> implements Command<T> {
 		if (validateCrc && CRC.checkCRC(buffer.length, buffer) != 0) {
 			throw new IOException("Incorrect CRC checksum");
 		}
+
 		return buffer;
 	}
 }

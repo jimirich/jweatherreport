@@ -183,8 +183,9 @@ public class Uploader {
 		HttpURLConnection httpConnection = (HttpURLConnection) connection;
 		int status = httpConnection.getResponseCode();
 
-		for (Entry<String, List<String>> header : connection.getHeaderFields().entrySet()) {
-		    System.out.println(header.getKey() + "=" + header.getValue());
+		for (Entry<String, List<String>> header :
+			connection.getHeaderFields().entrySet()) {
+			System.out.println(header.getKey() + "=" + header.getValue());
 		}
 
 		String contentType = connection.getHeaderField("Content-Type");
@@ -198,13 +199,13 @@ public class Uploader {
 		}
 
 		if (rcvcharset != null) {
-		    try (BufferedReader reader = new BufferedReader(new InputStreamReader(response, rcvcharset))) {
+		    try (BufferedReader reader = new BufferedReader(
+		    		new InputStreamReader(response, rcvcharset))) {
 		        for (String line; (line = reader.readLine()) != null;) {
 		            System.out.println(line);
 		        }
 		    }
-		}
-		else {
+		} else {
 		    // It's likely binary content, use InputStream/OutputStream.
 		}
 

@@ -46,6 +46,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Client implements Runnable, Closeable {
+
 	private static final AtomicBoolean ERROR = new AtomicBoolean(false);
 	private final VantagePro2Client client;
 	private boolean printCurrent = false;
@@ -416,7 +417,8 @@ public class Client implements Runnable, Closeable {
 			uploader.setDayRain(loop2.getDayRain().toString());
 			uploader.setTenMinuteAverageWindSpeed(String.valueOf(
 					loop2.getTenMinuteAverageWindSpeed()));
-			uploader.setTenMinuteWindGust(loop2.getTenMinuteWindGust().toString());
+			uploader.setTenMinuteWindGust(
+					loop2.getTenMinuteWindGust().toString());
 			uploader.setTenMinuteWindGustDirection(String.valueOf(
 					loop2.getTenMinuteWindGustDirection()));
 			uploader.setTwoMinuteAverageWindSpeed(
@@ -447,7 +449,8 @@ public class Client implements Runnable, Closeable {
 
 			@Override
 			public Thread newThread(Runnable r) {
-				final Thread t = new Thread(r, "JWeatherReport Client - " + counter.incrementAndGet());
+				final Thread t = new Thread(r, "JWeatherReport Client - " +
+						counter.incrementAndGet());
 				t.setDaemon(true);
 				return t;
 			}
