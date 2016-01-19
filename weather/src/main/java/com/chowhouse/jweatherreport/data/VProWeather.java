@@ -18,6 +18,7 @@
 
 package com.chowhouse.jweatherreport.data;
 
+import com.chowhouse.jweatherreport.station.BarometerTrend;
 import com.chowhouse.jweatherreport.station.HighLow;
 import com.chowhouse.jweatherreport.station.Loop;
 import com.chowhouse.jweatherreport.station.Loop2;
@@ -77,6 +78,32 @@ public class VProWeather implements DataWriter {
 						"yyyy-MM-dd hh:mm:ss")));
 			writer.newLine();
 
+			BarometerTrend trend = loop.getBarometerTrend();
+			writer.write("rtBaroTrend = " + trend.getDescription());
+			writer.newLine();
+
+			switch (trend.getCode()) {
+			case -60:
+				writer.write("rtBaroTrendImg = baro_fr");
+				break;
+			case -20:
+				writer.write("rtBaroTrendImg = baro_fs");
+				break;
+			case 0:
+				writer.write("rtBaroTrendImg = baro_s");
+				break;
+			case 20:
+				writer.write("rtBaroTrendImg = baro_rs");
+				break;
+			case 60:
+				writer.write("rtBaroTrendImg = baro_rr");
+				break;
+			default:
+				writer.write("rtBaroTrendImg = baro_none");
+				break;
+			}
+
+			writer.newLine();
 			writer.write("rtBaroCurr = " + loop.getBarometricPressure());
 			writer.newLine();
 
@@ -166,7 +193,7 @@ public class VProWeather implements DataWriter {
 			writer.write("hlInTempHiYear = " +
 					highlow.getYearHighInsideTemperature());
 			writer.newLine();
-			writer.write("hlInTempLoYear " +
+			writer.write("hlInTempLoYear = " +
 					highlow.getYearLowInsideTemperature());
 			writer.newLine();
 

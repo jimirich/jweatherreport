@@ -386,6 +386,8 @@ public class Client implements Runnable, Closeable {
 						loop.getInsideHumidity());
 				System.out.println("Current barometric pressure " +
 						loop.getBarometricPressure());
+				System.out.println("Barometer trend " +
+						loop.getBarometerTrend().getDescription());
 				System.out.println("Current wind speed " +
 						loop.getWindSpeed());
 				System.out.println("Current wind direction " +

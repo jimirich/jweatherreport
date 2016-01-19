@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 
 public class Loop2 {
 
+	private BarometerTrend barometerTrend;
 	private BigDecimal barometricPressure;
 	private BigDecimal dayRain;
 	private int dewPoint;
@@ -38,6 +39,18 @@ public class Loop2 {
 	private BigDecimal twoMinuteAverageWindSpeed;
 	private int windDirection;
 	private int windSpeed;
+
+	public BarometerTrend getBarometerTrend() {
+		return barometerTrend;
+	}
+
+	protected void setBarometerTrend(BarometerTrend barometerTrend) {
+		this.barometerTrend = barometerTrend;
+	}
+
+	protected void setBarometerTrend(int trend) {
+		barometerTrend = BarometerTrend.validateType(trend);
+	}
 
 	public BigDecimal getBarometricPressure() {
 		return barometricPressure;

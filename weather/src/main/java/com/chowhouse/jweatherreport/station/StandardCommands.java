@@ -199,6 +199,8 @@ public class StandardCommands {
 			public Loop execute(final InputStream in) throws IOException {
 				final byte[] buffer = readAck(in, 99, true);
 				final Loop loop = new Loop();
+				loop.setBarometerTrend((new BigInteger(Arrays.copyOfRange(
+						buffer, 3, 4))).intValue());
 				loop.setBarometricPressure(buffer[7], buffer[8]);
 				loop.setInsideTemperature(buffer[9], buffer[10]);
 				loop.setInsideHumidity((new BigInteger(Arrays.copyOfRange(
@@ -226,6 +228,8 @@ public class StandardCommands {
 			public Loop2 execute(final InputStream in) throws IOException {
 				final byte[] buffer = readAck(in, 99, true);
 				Loop2 loop = new Loop2();
+				loop.setBarometerTrend((new BigInteger(Arrays.copyOfRange(
+						buffer, 3, 4))).intValue());
 				loop.setBarometricPressure(buffer[7], buffer[8]);
 				loop.setInsideTemperature(buffer[9], buffer[10]);
 				loop.setInsideHumidity((new BigInteger(Arrays.copyOfRange(
