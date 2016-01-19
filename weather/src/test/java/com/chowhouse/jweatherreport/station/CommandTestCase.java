@@ -22,7 +22,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -32,12 +31,16 @@ import org.junit.Test;
 public class CommandTestCase {
 
 	@Test
-	public void testFirmwareVersion() throws Exception {
+	public void testFirmwareVersion()
+	throws Exception {
 		final String expectedResponse = "4.2";
-		Assert.assertEquals(expectedResponse, StandardCommands.FIRMWARE_VERSION.execute(createOkResponse(expectedResponse)));
+		Assert.assertEquals(expectedResponse,
+				StandardCommands.FIRMWARE_VERSION.execute(createOkResponse(
+						expectedResponse)));
 	}
 
-	private InputStream createOkResponse(final String value) throws IOException {
+	private InputStream createOkResponse(final String value)
+	throws IOException {
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		out.write(AbstractCommand.OK.getBytes(StandardCharsets.UTF_8));
 		out.write(value.getBytes(StandardCharsets.UTF_8));
