@@ -18,6 +18,8 @@
 
 package com.chowhouse.jweatherreport.station;
 
+import org.jboss.logging.Logger;
+
 public class CRC {
 
 	private static final int crc_table[] = {
@@ -54,22 +56,23 @@ public class CRC {
 		0xef1f,  0xff3e,  0xcf5d,  0xdf7c,  0xaf9b,  0xbfba,  0x8fd9,  0x9ff8,
 		0x6e17,  0x7e36,  0x4e55,  0x5e74,  0x2e93,  0x3eb2,  0xed1,   0x1ef0,
 	};
+	private static final Logger LOGGER = Logger.getLogger(CRC.class);
 
 	public static int checkCRC(int len, byte[] buffer) {
 		int crc = 0;
 
 		for (int i = 0; i < len; i++) {
 			int y = buffer[i] & 0xFF;
-			//System.out.format("y:  %d\n", y);
+			LOGGER.debugf("y:  %d\n", y);
 			int element = (crc >> 8);
-			//System.out.format("element:  %d\n", element);
+			LOGGER.debugf("element:  %d\n", element);
 			element = (crc >> 8) ^ y;
-			//System.out.format("element:  %d\n", element);
-			//System.out.format("table: %d\n", crc_table[element]);
+			LOGGER.debugf("element:  %d\n", element);
+			LOGGER.debugf("table: %d\n", crc_table[element]);
 			int z = ((crc & 0xFF) << 8);
-			//System.out.format("z:  %d\n", z);
+			LOGGER.debugf("z:  %d\n", z);
 			crc = crc_table[element] ^ z;
-			//System.out.format("CRC: %d\n", crc);
+			LOGGER.debugf("CRC: %d\n", crc);
 		}
 
 		return crc;
