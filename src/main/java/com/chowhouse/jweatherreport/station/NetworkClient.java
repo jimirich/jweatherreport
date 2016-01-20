@@ -27,6 +27,7 @@ import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.jboss.logging.Logger;
 
 public class NetworkClient implements VantagePro2Client {
 
@@ -36,6 +37,7 @@ public class NetworkClient implements VantagePro2Client {
 	private DataOutputStream out = null;
 	private final int portNumber;
 	private Socket socket = null;
+	private static final Logger LOGGER = Logger.getLogger(NetworkClient.class);
 
 	public NetworkClient(final String hostName, final int portNumber) {
 		this.hostName = hostName;
@@ -143,7 +145,7 @@ public class NetworkClient implements VantagePro2Client {
 
 			try {
 				out.writeInt(10); // send line feed in decimal
-				System.out.println("sent wake up signal...");
+				LOGGER.debug("sent wake up signal");
 				attempt++;
 			} catch (IOException e) {
 				throw new RuntimeException(e);
