@@ -407,6 +407,8 @@ public class Client implements Runnable, Closeable {
 			}
 
 			Uploader uploader = new Uploader();
+			uploader.setStationID(props.getProperty("stationid"));
+			uploader.setStationID(props.getProperty("password"));
 			uploader.setBarometricPressure(
 					loop2.getBarometricPressure().toString());
 			uploader.setHourRain(loop2.getHourRain().toString());
