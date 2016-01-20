@@ -1,0 +1,11 @@
+Data retrieval from a weather station with various store and upload options.
+
+JWeatherReport is a java data logger/uploader for weather stations.  Currently
+it has only been tested with a Davis Instruments Vantage Pro2 weather station.
+JWeatherReport can currently store data in a text file compatible with output
+from vproweather (http://www.joejaworski.com/weather/) and upload to
+wunderground.com.  Additional weather stations and storage options are planned.
+
+A properties file needs to be created in $HOME/.jweatherreport called
+jwr.properties with the station ID and password for the wunderground.com account
+to upload to.  A sample jwr.properties file is included in the source.

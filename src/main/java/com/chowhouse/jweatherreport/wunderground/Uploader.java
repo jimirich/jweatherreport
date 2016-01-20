@@ -37,7 +37,9 @@ public class Uploader {
 	private String dewPoint;
 	private String hourRain;
 	private String humidity;
+	private String password;
 	private String rainRate;
+	private String stationid;
 	private String temperature;
 	private String tenMinuteAverageWindSpeed;
 	private String tenMinuteWindGust;
@@ -86,12 +88,28 @@ public class Uploader {
 		this.humidity = humidity;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String getRainRate() {
 		return rainRate;
 	}
 
 	public void setRainRate(String rainRate) {
 		this.rainRate = rainRate;
+	}
+
+	public String getStationID() {
+		return stationid;
+	}
+
+	public void setStationID(String stationid) {
+		this.stationid = stationid;
 	}
 
 	public String getTemperature() {
@@ -156,12 +174,10 @@ public class Uploader {
 		String url = "http://weatherstation.wunderground.com/weatherstation/" +
 				"updateweatherstation.php";
 		String charset = java.nio.charset.StandardCharsets.UTF_8.name();
-		String id = "KUTBRIGH11";
-		String password = "MwsiaDIVP2";
 		String action = "updateraw";
 
 		String query = String.format("ID=%s&PASSWORD=%s&action=%s&dateutc=now&humidity=%s&tempf=%s&baromin=%s&winddir=%s&windspeedmph=%s&windspdmph_avg2m=%s&windgustmph_10m=%s&windgustdir_10m=%s&rainin=%s&dailyrainin=%s&dewptf=%s&softwaretype=jweatherreport",
-				URLEncoder.encode(id, charset), 
+				URLEncoder.encode(stationid, charset), 
 				URLEncoder.encode(password, charset),
 				URLEncoder.encode(action, charset),
 				URLEncoder.encode(humidity, charset),
