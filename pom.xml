@@ -34,6 +34,12 @@
 			<version>${version.org.junit}</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- Logging dependencies -->
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<version>3.3.0.Final</version>
+		</dependency>
 	</dependencies>
 
 	<build>

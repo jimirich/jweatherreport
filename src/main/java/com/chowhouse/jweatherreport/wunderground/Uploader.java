@@ -29,6 +29,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map.Entry;
+import org.jboss.logging.Logger;
 
 public class Uploader {
 
@@ -47,6 +48,7 @@ public class Uploader {
 	private String twoMinuteAverageWindSpeed;
 	private String windDirection;
 	private String windSpeed;
+	private static final Logger LOGGER = Logger.getLogger(Uploader.class);
 
 	public String getBarometricPressure() {
 		return barometricPressure;
@@ -191,7 +193,7 @@ public class Uploader {
 				URLEncoder.encode(hourRain, charset),
 				URLEncoder.encode(dayRain, charset),
 				URLEncoder.encode(dewPoint, charset));
-        System.out.println(query.toString());
+		LOGGER.info(query.toString());
 
 		URLConnection connection = new URL(url + "?" + query).openConnection();
 		connection.setRequestProperty("Accept-Charset", charset);
@@ -201,7 +203,7 @@ public class Uploader {
 
 		for (Entry<String, List<String>> header :
 			connection.getHeaderFields().entrySet()) {
-			System.out.println(header.getKey() + "=" + header.getValue());
+			LOGGER.debug(header.getKey() + "=" + header.getValue());
 		}
 
 		String contentType = connection.getHeaderField("Content-Type");
@@ -218,7 +220,7 @@ public class Uploader {
 		    try (BufferedReader reader = new BufferedReader(
 		    		new InputStreamReader(response, rcvcharset))) {
 		        for (String line; (line = reader.readLine()) != null;) {
-		            System.out.println(line);
+		        	LOGGER.info(line);
 		        }
 		    }
 		} else {
