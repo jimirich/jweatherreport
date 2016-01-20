@@ -203,7 +203,7 @@ public class Uploader {
 
 		for (Entry<String, List<String>> header :
 			connection.getHeaderFields().entrySet()) {
-			LOGGER.debug(header.getKey() + "=" + header.getValue());
+			LOGGER.debugf("%s=%s", header.getKey(), header.getValue());
 		}
 
 		String contentType = connection.getHeaderField("Content-Type");
