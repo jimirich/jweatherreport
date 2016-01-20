@@ -44,6 +44,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.jboss.logging.Logger;
 
 public class Client implements Runnable, Closeable {
 
@@ -51,6 +52,7 @@ public class Client implements Runnable, Closeable {
 	private final VantagePro2Client client;
 	private boolean printCurrent = false;
 	private boolean printHighsLows = false;
+	private static final Logger LOGGER = Logger.getLogger(Client.class);
 
 	public Client(final String hostname, final int port) {
 		client = new NetworkClient(hostname, port);
@@ -408,7 +410,7 @@ public class Client implements Runnable, Closeable {
 
 			Uploader uploader = new Uploader();
 			uploader.setStationID(props.getProperty("stationid"));
-			uploader.setStationID(props.getProperty("password"));
+			uploader.setPassword(props.getProperty("password"));
 			uploader.setBarometricPressure(
 					loop2.getBarometricPressure().toString());
 			uploader.setHourRain(loop2.getHourRain().toString());
@@ -429,9 +431,11 @@ public class Client implements Runnable, Closeable {
 			uploader.setWindSpeed(String.valueOf(loop2.getWindSpeed()));
 
 			try {
+				LOGGER.debug("uploading data to wunderground.com");
 				uploader.uploadData();
+				LOGGER.debug("upload complete");
 			} catch (SocketException e) {
-				System.out.println("Connection to wunderground failed");
+				LOGGER.error("Connection to wunderground failed");
 			}
 		} catch (IOException e) {
 			ERROR.set(true);
