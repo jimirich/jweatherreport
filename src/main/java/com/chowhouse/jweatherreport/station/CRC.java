@@ -63,16 +63,16 @@ public class CRC {
 
 		for (int i = 0; i < len; i++) {
 			int y = buffer[i] & 0xFF;
-			LOGGER.debugf("y:  %d\n", y);
+			LOGGER.debugf("y:  %d", y);
 			int element = (crc >> 8);
-			LOGGER.debugf("element:  %d\n", element);
+			LOGGER.debugf("element:  %d", element);
 			element = (crc >> 8) ^ y;
-			LOGGER.debugf("element:  %d\n", element);
-			LOGGER.debugf("table: %d\n", crc_table[element]);
+			LOGGER.debugf("element:  %d", element);
+			LOGGER.debugf("table: %d", crc_table[element]);
 			int z = ((crc & 0xFF) << 8);
-			LOGGER.debugf("z:  %d\n", z);
+			LOGGER.debugf("z:  %d", z);
 			crc = crc_table[element] ^ z;
-			LOGGER.debugf("CRC: %d\n", crc);
+			LOGGER.debugf("CRC: %d", crc);
 		}
 
 		return crc;
