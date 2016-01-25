@@ -1,0 +1,19 @@
+create table loop (
+	id					serial not null primary key,
+	reportdate			timestamp not null,
+	bartrend			int not null,
+	barometer			decimal(5,3) not null,
+	insidetemp			decimal(4,1) not null,
+	insidehum			int not null,
+	outsidetemp			decimal(4,1) not null,
+	outsidehum			int not null,
+	windspeed			int not null,
+	tenminavgwindspeed	int not null,
+	winddirection		int not null,
+	rainrate			decimal(5,2) not null,
+	stormrain			decimal(7,2) not null,
+	dayrain				decimal(7,2) not null,
+	monthrain			decimal(7,2) not null,
+	yearrain			decimal(7,2) not null,
+	CHECK (bartrend = -60 OR bartrend = -20 OR bartrend = 0 OR bartrend = 20 OR bartrend = 60 OR bartrend = 80)
+);

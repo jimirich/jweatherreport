@@ -24,6 +24,7 @@ import com.chowhouse.jweatherreport.station.Loop2;
 import com.chowhouse.jweatherreport.station.NetworkClient;
 import com.chowhouse.jweatherreport.station.StandardCommands;
 import com.chowhouse.jweatherreport.station.VantagePro2Client;
+import com.chowhouse.jweatherreport.data.DatabaseWriter;
 import com.chowhouse.jweatherreport.data.VProWeather;
 import com.chowhouse.jweatherreport.wunderground.Uploader;
 import java.io.Closeable;
@@ -198,6 +199,11 @@ public class Client implements Runnable, Closeable {
 					Paths.get(props.getProperty("realTimeDataFile")),
 					Paths.get(props.getProperty("summaryDataFile")));
 			vpro.write();
+			DatabaseWriter dbwriter = new DatabaseWriter(time, highlow, loop,
+					loop2);
+			dbwriter.setUser(props.getProperty("databaseUser"));
+			dbwriter.setPassword(props.getProperty("databasePassword"));
+			dbwriter.write();
 
 			if (this.printHighsLows) {
 				//HighLow highlow = client.execute(StandardCommands.HIGH_LOW);
