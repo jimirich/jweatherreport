@@ -193,7 +193,7 @@ public class Uploader {
 				URLEncoder.encode(hourRain, charset),
 				URLEncoder.encode(dayRain, charset),
 				URLEncoder.encode(dewPoint, charset));
-		LOGGER.info(query.toString());
+		LOGGER.debug(query.toString());
 
 		URLConnection connection = new URL(url + "?" + query).openConnection();
 		connection.setRequestProperty("Accept-Charset", charset);
@@ -203,7 +203,7 @@ public class Uploader {
 
 		for (Entry<String, List<String>> header :
 			connection.getHeaderFields().entrySet()) {
-			LOGGER.debugf("%s=%s", header.getKey(), header.getValue());
+			LOGGER.tracef("%s=%s", header.getKey(), header.getValue());
 		}
 
 		String contentType = connection.getHeaderField("Content-Type");
@@ -220,7 +220,7 @@ public class Uploader {
 		    try (BufferedReader reader = new BufferedReader(
 		    		new InputStreamReader(response, rcvcharset))) {
 		        for (String line; (line = reader.readLine()) != null;) {
-		        	LOGGER.info(line);
+		        	LOGGER.debug(line);
 		        }
 		    }
 		} else {

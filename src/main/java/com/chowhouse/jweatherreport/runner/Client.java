@@ -51,8 +51,10 @@ public class Client implements Runnable, Closeable {
 
 	private static final AtomicBoolean ERROR = new AtomicBoolean(false);
 	private final VantagePro2Client client;
+	private final AtomicInteger errorCount = new AtomicInteger();
 	private boolean printCurrent = false;
 	private boolean printHighsLows = false;
+	private int retries = 0;
 	private static final Logger LOGGER = Logger.getLogger(Client.class);
 
 	public Client(final String hostname, final int port) {
@@ -97,6 +99,14 @@ public class Client implements Runnable, Closeable {
 
 		properties.putAll(System.getProperties());
 		return properties;
+	}
+
+	public int getRetries() {
+		return retries;
+	}
+
+	public void setRetries(int retries) {
+		this.retries = retries;
 	}
 
 	public static void main(String[] args)
@@ -156,6 +166,7 @@ public class Client implements Runnable, Closeable {
 		try (final Client client = new Client(hostname, port)) {
 			client.setPrintCurrent(printCurrent);
 			client.setPrintHighsLows(printHighsLows);
+			client.setRetries(0); // this is always 0.  see TODO
 			client.client.connect();
 			service.scheduleAtFixedRate(client, 0, period, TimeUnit.SECONDS);
 
@@ -437,15 +448,25 @@ public class Client implements Runnable, Closeable {
 			uploader.setWindSpeed(String.valueOf(loop2.getWindSpeed()));
 
 			try {
-				LOGGER.debug("uploading data to wunderground.com");
+				LOGGER.info("uploading data to wunderground.com");
 				uploader.uploadData();
-				LOGGER.debug("upload complete");
+				LOGGER.info("upload complete");
 			} catch (SocketException e) {
 				LOGGER.error("Connection to wunderground failed");
 			}
 		} catch (IOException e) {
 			ERROR.set(true);
-			e.printStackTrace();
+			LOGGER.error(e.getMessage(), e);
+		} catch (Error e) {
+			ERROR.set(true);
+			LOGGER.error("Unknown error occurred", e);
+		} catch (Throwable t) {
+			if (errorCount.incrementAndGet() > retries) {
+				ERROR.set(true);
+				LOGGER.error(t.getMessage(), t);
+			} else {
+				// TODO reschedule the service.
+			}
 		}
 	}
 
