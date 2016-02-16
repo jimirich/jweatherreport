@@ -36,6 +36,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
@@ -203,256 +204,264 @@ public class Client implements Runnable, Closeable {
 			LocalDateTime time = client.execute(StandardCommands.TIME);
 			System.out.println("Current time " + time.format(
 					DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
-			HighLow highlow = client.execute(StandardCommands.HIGH_LOW);
-			Loop loop = client.execute(StandardCommands.createLoop(1));
-			Loop2 loop2 = client.execute(StandardCommands.createLoop2(1));
-			VProWeather vpro = new VProWeather(time, highlow, loop, loop2,
-					Paths.get(props.getProperty("realTimeDataFile")),
-					Paths.get(props.getProperty("summaryDataFile")));
-			vpro.write();
-			DatabaseWriter dbwriter = new DatabaseWriter(time, highlow, loop,
-					loop2);
-			dbwriter.setUser(props.getProperty("databaseUser"));
-			dbwriter.setPassword(props.getProperty("databasePassword"));
-			dbwriter.write();
-
-			if (this.printHighsLows) {
-				//HighLow highlow = client.execute(StandardCommands.HIGH_LOW);
-				System.out.println("Day high bar " +
-						highlow.getDayHighBarometer());
-				System.out.println("Day high bar time " +
-						highlow.getTimeOfDayHighBarometer().format(
-								DateTimeFormatter.ofPattern("hh:mm")));
-				System.out.println("Day low bar " +
-								highlow.getDayLowBarometer());
-				System.out.println("Day low bar time " +
-						highlow.getTimeOfDayLowBarometer().format(
-								DateTimeFormatter.ofPattern("hh:mm")));
-				System.out.println("Month high bar " +
-								highlow.getMonthHighBarometer());
-				System.out.println("Month low bar " +
-								highlow.getMonthLowBarometer());
-				System.out.println("Year high bar " +
-								highlow.getYearHighBarometer());
-				System.out.println("Year low bar " +
-								highlow.getYearLowBarometer());
-
-				System.out.println("Day high wind " +
-						highlow.getDayHighWindSpeed());
-				System.out.println("Day high wind time " +
-						highlow.getTimeOfDayHighWindSpeed().format(
-								DateTimeFormatter.ofPattern("hh:mm")));
-				System.out.println("Month high wind " +
-								highlow.getMonthHighWindSpeed());
-				System.out.println("Year high wind " +
-								highlow.getYearHighWindSpeed());
-
-				System.out.println("Day high inside temperature " +
-						highlow.getDayHighInsideTemperature());
-				System.out.println("Day high inside temperature time " +
-						highlow.getTimeOfDayHighInsideTemperature().format(
-								DateTimeFormatter.ofPattern("hh:mm")));
-				System.out.println("Day low inside temperature " +
-						highlow.getDayLowInsideTemperature());
-				System.out.println("Day low inside temperature time " +
-						highlow.getTimeOfDayLowInsideTemperature().format(
-								DateTimeFormatter.ofPattern("hh:mm")));
-				System.out.println("Month high inside temperature " +
-						highlow.getMonthHighInsideTemperature());
-				System.out.println("Month low inside temperature " +
-						highlow.getMonthLowInsideTemperature());
-				System.out.println("Year high inside temperature " +
-						highlow.getYearHighInsideTemperature());
-				System.out.println("Year low inside temperature " +
-						highlow.getYearLowInsideTemperature());
-
-				System.out.println("Day high outside temperature " +
-						highlow.getDayHighOutsideTemperature());
-				System.out.println("Day high outside temperature time " +
-						highlow.getTimeOfDayHighOutsideTemperature().format(
-								DateTimeFormatter.ofPattern("hh:mm")));
-				System.out.println("Day low outside temperature " +
-						highlow.getDayLowOutsideTemperature());
-				System.out.println("Day low outside temperature time " +
-						highlow.getTimeOfDayLowOutsideTemperature().format(
-								DateTimeFormatter.ofPattern("hh:mm")));
-				System.out.println("Month high outside temperature " +
-						highlow.getMonthHighOutsideTemperature());
-				System.out.println("Month low outside temperature " +
-						highlow.getMonthLowOutsideTemperature());
-				System.out.println("Year high outside temperature " +
-						highlow.getYearHighOutsideTemperature());
-				System.out.println("Year low outside temperature " +
-						highlow.getYearLowOutsideTemperature());
-
-				System.out.println("Day high inside humidity " +
-						highlow.getDayHighInsideHumidity());
-				System.out.println("Day high inside humidity time " +
-						highlow.getTimeOfDayHighInsideHumidity().format(
-								DateTimeFormatter.ofPattern("hh:mm")));
-				System.out.println("Day low inside humidity " +
-						highlow.getDayLowInsideHumidity());
-				System.out.println("Day low inside humidity time " +
-						highlow.getTimeOfDayLowInsideHumidity().format(
-								DateTimeFormatter.ofPattern("hh:mm")));
-				System.out.println("Month high inside humidity " +
-						highlow.getMonthHighInsideHumidity());
-				System.out.println("Month low inside humidity " +
-						highlow.getMonthLowInsideHumidity());
-				System.out.println("Year high inside humidty " +
-						highlow.getYearHighInsideHumidity());
-				System.out.println("Year low inside humidty " +
-						highlow.getYearLowInsideHumidity());
-
-				System.out.println("Day high dew point " +
-						highlow.getDayHighDewPoint());
-				System.out.println("Day high dew point time " +
-						highlow.getTimeOfDayHighDewPoint().format(
-								DateTimeFormatter.ofPattern("hh:mm")));
-				System.out.println("Day low dew point " +
-						highlow.getDayLowDewPoint());
-				System.out.println("Day low dew point time " +
-						highlow.getTimeOfDayLowDewPoint().format(
-								DateTimeFormatter.ofPattern("hh:mm")));
-				System.out.println("Month high dew point " +
-						highlow.getMonthHighDewPoint());
-				System.out.println("Month low dew point " +
-						highlow.getMonthLowDewPoint());
-				System.out.println("Year high dew point " +
-						highlow.getYearHighDewPoint());
-				System.out.println("Year low dew point " +
-						highlow.getYearLowDewPoint());
-
-				System.out.println("Day low wind chill " +
-						highlow.getDayLowWindChill());
-				System.out.println("Day low wind chill time " +
-						highlow.getTimeOfDayLowWindChill().format(
-								DateTimeFormatter.ofPattern("hh:mm")));
-				System.out.println("Month low wind chill " +
-						highlow.getMonthLowWindChill());
-				System.out.println("Year low wind chill " +
-						highlow.getYearLowWindChill());
-
-				System.out.println("Day high heat index " +
-						highlow.getDayHighHeatIndex());
-				System.out.println("Day high heat index time " +
-						highlow.getTimeOfDayHighHeatIndex().format(
-								DateTimeFormatter.ofPattern("hh:mm")));
-				System.out.println("Month high heat index " +
-						highlow.getMonthHighHeatIndex());
-				System.out.println("Year high heat index " +
-						highlow.getYearHighHeatIndex());
-
-				if (highlow.getTimeOfDayHighTHSWIndex() != null) {
-					System.out.println("Day high THSW index " +
-							highlow.getDayHighTHSWIndex());
-					System.out.println("Day high THSW index time " +
-							highlow.getTimeOfDayHighTHSWIndex().format(
-									DateTimeFormatter.ofPattern("hh:mm")));
-					System.out.println("Month high THSW index " +
-							highlow.getMonthHighTHSWIndex());
-					System.out.println("Year high THSW index " +
-							highlow.getYearHighTHSWIndex());
-				}
-
-				if (highlow.getTimeOfDayHighSolarRadiation() != null) {
-					System.out.println("Day high solar radiation " +
-							highlow.getDayHighSolarRadiation());
-					System.out.println("Day high solar radiation time " +
-							highlow.getTimeOfDayHighSolarRadiation().format(
-									DateTimeFormatter.ofPattern("hh:mm")));
-					System.out.println("Month high solar radiation " +
-							highlow.getMonthHighSolarRadiation());
-					System.out.println("Year high solar radiation " +
-							highlow.getYearHighSolarRadiation());
-				}
-
-				if (highlow.getTimeOfDayHighUltraViolet() != null) {
-					System.out.println("Day high UV " +
-							highlow.getDayHighUltraViolet());
-					System.out.println("Day high UV time " +
-							highlow.getTimeOfDayHighUltraViolet().format(
-									DateTimeFormatter.ofPattern("hh:mm")));
-					System.out.println("Month high UV " +
-							highlow.getMonthHighUltraViolet());
-					System.out.println("Year high UV " +
-							highlow.getYearHighUltraViolet());
-				}
-
-				System.out.println("Day high rain rate " +
-						highlow.getDayHighRainRate());
-
-				if (highlow.getTimeOfDayHighRainRate() != null) {
-					System.out.println("Day high rain rate time " +
-							highlow.getTimeOfDayHighRainRate().format(
-									DateTimeFormatter.ofPattern("hh:mm")));
-				}
-
-				System.out.println("Month high rain rate " +
-						highlow.getMonthHighRainRate());
-				System.out.println("Year high rain rate " +
-						highlow.getYearHighRainRate());
-			}
-
-			if (this.printCurrent) {
-				//Loop loop = client.execute(StandardCommands.createLoop(1));
-				System.out.println("Current outside temperature " +
-						loop.getOutsideTemperature());
-				System.out.println("Current inside temperature " +
-						loop.getInsideTemperature());
-				System.out.println("Current outside humidity " +
-						loop.getOutsideHumidity());
-				System.out.println("Current inside humidity " +
-						loop.getInsideHumidity());
-				System.out.println("Current barometric pressure " +
-						loop.getBarometricPressure());
-				System.out.println("Barometer trend " +
-						loop.getBarometerTrend().getDescription());
-				System.out.println("Current wind speed " +
-						loop.getWindSpeed());
-				System.out.println("Current wind direction " +
-						loop.getWindDirection());
-				System.out.println("10 minute average wind speed " +
-						loop.getTenMinuteAverageWindSpeed());
-				System.out.println("Current rain rate " + loop.getRainRate());
-				System.out.println("Storm rain " + loop.getStormRain());
-				System.out.println("Rain today " + loop.getDayRain());
-				System.out.println("Rain this month " + loop.getMonthRain());
-				System.out.println("Rain this year " + loop.getYearRain());
-			}
-
-			if (this.printCurrent) {
-				System.out.println("Dew point " + loop2.getDewPoint());
-			}
-
-			Uploader uploader = new Uploader();
-			uploader.setStationID(props.getProperty("stationid"));
-			uploader.setPassword(props.getProperty("password"));
-			uploader.setBarometricPressure(
-					loop2.getBarometricPressure().toString());
-			uploader.setHourRain(loop2.getHourRain().toString());
-			uploader.setHumidity(String.valueOf(loop2.getOutsideHumidity()));
-			uploader.setDewPoint(String.valueOf(loop2.getDewPoint()));
-			uploader.setTemperature(loop2.getOutsideTemperature().toString());
-			uploader.setRainRate(loop2.getRainRate().toString());
-			uploader.setDayRain(loop2.getDayRain().toString());
-			uploader.setTenMinuteAverageWindSpeed(String.valueOf(
-					loop2.getTenMinuteAverageWindSpeed()));
-			uploader.setTenMinuteWindGust(
-					loop2.getTenMinuteWindGust().toString());
-			uploader.setTenMinuteWindGustDirection(String.valueOf(
-					loop2.getTenMinuteWindGustDirection()));
-			uploader.setTwoMinuteAverageWindSpeed(
-					loop2.getTwoMinuteAverageWindSpeed().toString());
-			uploader.setWindDirection(String.valueOf(loop2.getWindDirection()));
-			uploader.setWindSpeed(String.valueOf(loop2.getWindSpeed()));
 
 			try {
-				LOGGER.info("uploading data to wunderground.com");
-				uploader.uploadData();
-				LOGGER.info("upload complete");
-			} catch (SocketException e) {
-				LOGGER.error("Connection to wunderground failed");
+				HighLow highlow = client.execute(StandardCommands.HIGH_LOW);
+				Loop loop = client.execute(StandardCommands.createLoop(1));
+				Loop2 loop2 = client.execute(StandardCommands.createLoop2(1));
+				VProWeather vpro = new VProWeather(time, highlow, loop, loop2,
+						Paths.get(props.getProperty("realTimeDataFile")),
+						Paths.get(props.getProperty("summaryDataFile")));
+				vpro.write();
+				DatabaseWriter dbwriter = new DatabaseWriter(time, highlow,
+						loop, loop2);
+				dbwriter.setUser(props.getProperty("databaseUser"));
+				dbwriter.setPassword(props.getProperty("databasePassword"));
+				dbwriter.write();
+
+				if (this.printHighsLows) {
+					System.out.println("Day high bar " +
+							highlow.getDayHighBarometer());
+					System.out.println("Day high bar time " +
+							highlow.getTimeOfDayHighBarometer().format(
+									DateTimeFormatter.ofPattern("hh:mm")));
+					System.out.println("Day low bar " +
+							highlow.getDayLowBarometer());
+					System.out.println("Day low bar time " +
+							highlow.getTimeOfDayLowBarometer().format(
+									DateTimeFormatter.ofPattern("hh:mm")));
+					System.out.println("Month high bar " +
+							highlow.getMonthHighBarometer());
+					System.out.println("Month low bar " +
+							highlow.getMonthLowBarometer());
+					System.out.println("Year high bar " +
+							highlow.getYearHighBarometer());
+					System.out.println("Year low bar " +
+							highlow.getYearLowBarometer());
+
+					System.out.println("Day high wind " +
+							highlow.getDayHighWindSpeed());
+					System.out.println("Day high wind time " +
+							highlow.getTimeOfDayHighWindSpeed().format(
+									DateTimeFormatter.ofPattern("hh:mm")));
+					System.out.println("Month high wind " +
+							highlow.getMonthHighWindSpeed());
+					System.out.println("Year high wind " +
+							highlow.getYearHighWindSpeed());
+
+					System.out.println("Day high inside temperature " +
+							highlow.getDayHighInsideTemperature());
+					System.out.println("Day high inside temperature time " +
+							highlow.getTimeOfDayHighInsideTemperature().format(
+									DateTimeFormatter.ofPattern("hh:mm")));
+					System.out.println("Day low inside temperature " +
+							highlow.getDayLowInsideTemperature());
+					System.out.println("Day low inside temperature time " +
+							highlow.getTimeOfDayLowInsideTemperature().format(
+									DateTimeFormatter.ofPattern("hh:mm")));
+					System.out.println("Month high inside temperature " +
+							highlow.getMonthHighInsideTemperature());
+					System.out.println("Month low inside temperature " +
+							highlow.getMonthLowInsideTemperature());
+					System.out.println("Year high inside temperature " +
+							highlow.getYearHighInsideTemperature());
+					System.out.println("Year low inside temperature " +
+							highlow.getYearLowInsideTemperature());
+
+					System.out.println("Day high outside temperature " +
+							highlow.getDayHighOutsideTemperature());
+					System.out.println("Day high outside temperature time " +
+							highlow.getTimeOfDayHighOutsideTemperature().format(
+									DateTimeFormatter.ofPattern("hh:mm")));
+					System.out.println("Day low outside temperature " +
+							highlow.getDayLowOutsideTemperature());
+					System.out.println("Day low outside temperature time " +
+							highlow.getTimeOfDayLowOutsideTemperature().format(
+									DateTimeFormatter.ofPattern("hh:mm")));
+					System.out.println("Month high outside temperature " +
+							highlow.getMonthHighOutsideTemperature());
+					System.out.println("Month low outside temperature " +
+							highlow.getMonthLowOutsideTemperature());
+					System.out.println("Year high outside temperature " +
+							highlow.getYearHighOutsideTemperature());
+					System.out.println("Year low outside temperature " +
+							highlow.getYearLowOutsideTemperature());
+
+					System.out.println("Day high inside humidity " +
+							highlow.getDayHighInsideHumidity());
+					System.out.println("Day high inside humidity time " +
+							highlow.getTimeOfDayHighInsideHumidity().format(
+									DateTimeFormatter.ofPattern("hh:mm")));
+					System.out.println("Day low inside humidity " +
+							highlow.getDayLowInsideHumidity());
+					System.out.println("Day low inside humidity time " +
+							highlow.getTimeOfDayLowInsideHumidity().format(
+									DateTimeFormatter.ofPattern("hh:mm")));
+					System.out.println("Month high inside humidity " +
+							highlow.getMonthHighInsideHumidity());
+					System.out.println("Month low inside humidity " +
+							highlow.getMonthLowInsideHumidity());
+					System.out.println("Year high inside humidty " +
+							highlow.getYearHighInsideHumidity());
+					System.out.println("Year low inside humidty " +
+							highlow.getYearLowInsideHumidity());
+
+					System.out.println("Day high dew point " +
+							highlow.getDayHighDewPoint());
+					System.out.println("Day high dew point time " +
+							highlow.getTimeOfDayHighDewPoint().format(
+									DateTimeFormatter.ofPattern("hh:mm")));
+					System.out.println("Day low dew point " +
+							highlow.getDayLowDewPoint());
+					System.out.println("Day low dew point time " +
+							highlow.getTimeOfDayLowDewPoint().format(
+									DateTimeFormatter.ofPattern("hh:mm")));
+					System.out.println("Month high dew point " +
+							highlow.getMonthHighDewPoint());
+					System.out.println("Month low dew point " +
+							highlow.getMonthLowDewPoint());
+					System.out.println("Year high dew point " +
+							highlow.getYearHighDewPoint());
+					System.out.println("Year low dew point " +
+							highlow.getYearLowDewPoint());
+
+					System.out.println("Day low wind chill " +
+							highlow.getDayLowWindChill());
+					System.out.println("Day low wind chill time " +
+							highlow.getTimeOfDayLowWindChill().format(
+									DateTimeFormatter.ofPattern("hh:mm")));
+					System.out.println("Month low wind chill " +
+							highlow.getMonthLowWindChill());
+					System.out.println("Year low wind chill " +
+							highlow.getYearLowWindChill());
+
+					System.out.println("Day high heat index " +
+							highlow.getDayHighHeatIndex());
+					System.out.println("Day high heat index time " +
+							highlow.getTimeOfDayHighHeatIndex().format(
+									DateTimeFormatter.ofPattern("hh:mm")));
+					System.out.println("Month high heat index " +
+							highlow.getMonthHighHeatIndex());
+					System.out.println("Year high heat index " +
+							highlow.getYearHighHeatIndex());
+
+					if (highlow.getTimeOfDayHighTHSWIndex() != null) {
+						System.out.println("Day high THSW index " +
+								highlow.getDayHighTHSWIndex());
+						System.out.println("Day high THSW index time " +
+								highlow.getTimeOfDayHighTHSWIndex().format(
+										DateTimeFormatter.ofPattern("hh:mm")));
+						System.out.println("Month high THSW index " +
+								highlow.getMonthHighTHSWIndex());
+						System.out.println("Year high THSW index " +
+								highlow.getYearHighTHSWIndex());
+					}
+
+					if (highlow.getTimeOfDayHighSolarRadiation() != null) {
+						System.out.println("Day high solar radiation " +
+								highlow.getDayHighSolarRadiation());
+						System.out.println("Day high solar radiation time " +
+								highlow.getTimeOfDayHighSolarRadiation().format(
+										DateTimeFormatter.ofPattern("hh:mm")));
+						System.out.println("Month high solar radiation " +
+								highlow.getMonthHighSolarRadiation());
+						System.out.println("Year high solar radiation " +
+								highlow.getYearHighSolarRadiation());
+					}
+
+					if (highlow.getTimeOfDayHighUltraViolet() != null) {
+						System.out.println("Day high UV " +
+								highlow.getDayHighUltraViolet());
+						System.out.println("Day high UV time " +
+								highlow.getTimeOfDayHighUltraViolet().format(
+										DateTimeFormatter.ofPattern("hh:mm")));
+						System.out.println("Month high UV " +
+								highlow.getMonthHighUltraViolet());
+						System.out.println("Year high UV " +
+								highlow.getYearHighUltraViolet());
+					}
+
+					System.out.println("Day high rain rate " +
+							highlow.getDayHighRainRate());
+
+					if (highlow.getTimeOfDayHighRainRate() != null) {
+						System.out.println("Day high rain rate time " +
+								highlow.getTimeOfDayHighRainRate().format(
+										DateTimeFormatter.ofPattern("hh:mm")));
+					}
+
+					System.out.println("Month high rain rate " +
+							highlow.getMonthHighRainRate());
+					System.out.println("Year high rain rate " +
+							highlow.getYearHighRainRate());
+				}
+
+				if (this.printCurrent) {
+					System.out.println("Current outside temperature " +
+							loop.getOutsideTemperature());
+					System.out.println("Current inside temperature " +
+							loop.getInsideTemperature());
+					System.out.println("Current outside humidity " +
+							loop.getOutsideHumidity());
+					System.out.println("Current inside humidity " +
+							loop.getInsideHumidity());
+					System.out.println("Current barometric pressure " +
+							loop.getBarometricPressure());
+					System.out.println("Barometer trend " +
+							loop.getBarometerTrend().getDescription());
+					System.out.println("Current wind speed " +
+							loop.getWindSpeed());
+					System.out.println("Current wind direction " +
+							loop.getWindDirection());
+					System.out.println("10 minute average wind speed " +
+							loop.getTenMinuteAverageWindSpeed());
+					System.out.println("Current rain rate " +
+							loop.getRainRate());
+					System.out.println("Storm rain " + loop.getStormRain());
+					System.out.println("Rain today " + loop.getDayRain());
+					System.out.println("Rain this month " +
+							loop.getMonthRain());
+					System.out.println("Rain this year " + loop.getYearRain());
+				}
+
+				if (this.printCurrent) {
+					System.out.println("Dew point " + loop2.getDewPoint());
+				}
+
+				Uploader uploader = new Uploader();
+				uploader.setStationID(props.getProperty("stationid"));
+				uploader.setPassword(props.getProperty("password"));
+				uploader.setBarometricPressure(
+						loop2.getBarometricPressure().toString());
+				uploader.setHourRain(loop2.getHourRain().toString());
+				uploader.setHumidity(String.valueOf(
+						loop2.getOutsideHumidity()));
+				uploader.setDewPoint(String.valueOf(loop2.getDewPoint()));
+				uploader.setTemperature(
+						loop2.getOutsideTemperature().toString());
+				uploader.setRainRate(loop2.getRainRate().toString());
+				uploader.setDayRain(loop2.getDayRain().toString());
+				uploader.setTenMinuteAverageWindSpeed(String.valueOf(
+						loop2.getTenMinuteAverageWindSpeed()));
+				uploader.setTenMinuteWindGust(
+						loop2.getTenMinuteWindGust().toString());
+				uploader.setTenMinuteWindGustDirection(String.valueOf(
+						loop2.getTenMinuteWindGustDirection()));
+				uploader.setTwoMinuteAverageWindSpeed(
+						loop2.getTwoMinuteAverageWindSpeed().toString());
+				uploader.setWindDirection(String.valueOf(
+						loop2.getWindDirection()));
+				uploader.setWindSpeed(String.valueOf(loop2.getWindSpeed()));
+
+				try {
+					LOGGER.info("uploading data to wunderground.com");
+					uploader.uploadData();
+					LOGGER.info("upload complete");
+				} catch (SocketException e) {
+					LOGGER.error("Connection to wunderground failed");
+				}
+			} catch (DateTimeException e) {
+				LOGGER.error(e.getMessage(), e);
 			}
 		} catch (IOException e) {
 			ERROR.set(true);
