@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -457,7 +458,7 @@ public class Client implements Runnable, Closeable {
 					LOGGER.info("uploading data to wunderground.com");
 					uploader.uploadData();
 					LOGGER.info("upload complete");
-				} catch (SocketException e) {
+				} catch (SocketException | UnknownHostException e) {
 					LOGGER.error("Connection to wunderground failed");
 				}
 			} catch (DateTimeException e) {
